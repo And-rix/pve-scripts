@@ -115,7 +115,7 @@ VM_NAME="vDSM.Arc"
 STORAGE=$STORAGE
 CORES=2
 MEMORY=4096
-Q35_VERSION="pc-q35-8.0"  
+Q35_VERSION="q35"  
 
 # Create the VM 
 qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"

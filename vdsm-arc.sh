@@ -82,7 +82,7 @@ DOWNLOAD_PATH="/var/lib/vz/template/tmp"
 mkdir -p "$DOWNLOAD_PATH"
 
 # Latest .img.zip from GitHub
-LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep "img.zip" | cut -d '"' -f 4)
 LATEST_FILENAME=$(basename "$LATEST_RELEASE_URL")
 
 if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then

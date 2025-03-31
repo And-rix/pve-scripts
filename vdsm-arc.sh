@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v3.1.2 - 28.03.2025
+# Version: v3.1.3 - 31.03.2025
 # Creation: 18.02.2025
 
 export LANG=en_US.UTF-8
@@ -82,7 +82,7 @@ DOWNLOAD_PATH="/var/lib/vz/template/tmp"
 mkdir -p "$DOWNLOAD_PATH"
 
 # Latest .img.zip from GitHub
-LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep "evo.img.zip" | cut -d '"' -f 4)
+LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
 LATEST_FILENAME=$(basename "$LATEST_RELEASE_URL")
 
 if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then

@@ -2,7 +2,7 @@
 
 **Just copy & paste into your PVE shell 😎**
 
-## 📟 **vdsm-arc.sh** 
+## 📟 **vdsm-arc.sh**
 
 An automated install script for **vDSM Arc Loader** from [AuxXxilium](https://github.com/AuxXxilium) on your PVE host.
 

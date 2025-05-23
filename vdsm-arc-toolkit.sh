@@ -23,9 +23,9 @@ echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
 echo ""
 echo -e "${DISK}${Y}Choose your option:${X}"
-echo -e "${C}1) CREATE new vDSM.Arc VM${X}"
-echo -e "${C}2) UPDATE existing vDSM.Arc VM${X}"
-echo -e "${C}3) ADD disks to a VM${X}"
+echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc VM${X}"
+echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc VM${X}"
+echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"
 echo -e "${R}x) EXIT${X}"
 read -n 1 option
 

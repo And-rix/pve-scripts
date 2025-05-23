@@ -22,7 +22,7 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/ref
 
 ## 📟 **vdsm-arc-update.sh**
 
-An automated update script for **vDSM Arc Loader** for an existing VM 
+An automated update script for **vDSM Arc Loader** on an existing VM 
   
 ```shell
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"

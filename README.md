@@ -2,6 +2,20 @@
 
 **Just copy & paste into your PVE shell 😎**
 
+## 📟 **vdsm-arc-toolkit.sh**
+
+All-in-1 toolkit script for **vDSM Arc Loader** from [AuxXxilium](https://github.com/AuxXxilium) on your PVE host.
+
+- **CREATE** new vDSM.Arc
+- **UPDATE** existing vDSM.Arc
+- **ADD** disks to a VM
+
+```shell
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-toolkit.sh)"
+```
+
+---
+
 ## 📟 **vdsm-arc.sh**
 
 An automated install script for **vDSM Arc Loader** from [AuxXxilium](https://github.com/AuxXxilium) on your PVE host.

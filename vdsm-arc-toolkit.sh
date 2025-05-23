@@ -40,7 +40,8 @@ read -n 1 option
             bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vm-disk-update.sh)"
 			;;
         x) #EXIT
-            echo -e "${OK}${C}Exiting the script.${X}"
+            echo ""
+            echo -e "${NOTOK}${C}Exiting the script.${X}"
             echo ""
             exit 0
 			;;

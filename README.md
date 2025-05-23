@@ -20,6 +20,19 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/ref
 
 ---
 
+## 📟 **vdsm-arc-update.sh**
+
+An automated update script for **vDSM Arc Loader** for an existing VM 
+
+- **Supported filesystem types**:  
+  `dir`, `btrfs`, `nfs`, `cifs`, `lvm`, `lvmthin`, `zfs`, `zfspool`   
+  
+```shell
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"
+```
+
+---
+
 ## 📟 vm-disk-update.sh
 
 Add more virtual or physical disks to an existing VM on your PVE host   

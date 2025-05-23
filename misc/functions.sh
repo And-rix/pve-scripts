@@ -36,3 +36,10 @@
 			fi
 		done
 	}
+
+# Function arc release
+	arc_release_url() {
+		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+	}
+
+	

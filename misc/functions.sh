@@ -24,7 +24,7 @@
 	}
 
 # Function wget check & install
-	wget_check_install() {
+	unzip_check_install() {
 		for pkg in unzip wget; do
 			if ! command -v "$pkg" &> /dev/null; then
 				echo -e "${Y}'$pkg' is not installed. Installing...${X}"
@@ -35,6 +35,14 @@
 				fi
 			fi
 		done
+	}
+
+# Function wget check & install
+	vm_status() {
+		if [ "$STATUS" != "stopped" ]; then
+			echo -e "${NOTOK}${R}VM $VM_ID is not shut down (Status: $STATUS). Please shut it down first.${X}"
+			exit 1
+		fi
 	}
 
 # Function arc release

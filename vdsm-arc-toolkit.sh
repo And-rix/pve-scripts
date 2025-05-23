@@ -21,15 +21,16 @@ echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo -e "${C}+++++++++++++++++++++${X} vDSM-Arc-Toolkit ${C}++++++++++++++++++${X}"
 echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
-echo ""
-echo -e "${DISK}${Y}Choose your option:${X}"
-echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"
-echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc${X}"
-echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"
-echo -e "${R}x) EXIT${X}"
-read -n 1 option
 
 while true; do
+    echo ""
+    echo -e "${DISK}${Y}Choose your option:${X}"
+    echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"
+    echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc${X}"
+    echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"
+    echo -e "${R}x) EXIT${X}"
+    read -n 1 option
+
     case "$option" in
         1) #CREATE new vDSM.Arc
             bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc.sh)"

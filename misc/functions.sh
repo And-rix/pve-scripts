@@ -22,3 +22,17 @@
 		done
 		echo -e "${R}No available SATA ports between SATA1 and SATA5${X}"
 	}
+
+# Function wget check & install
+	wget_check_install() {
+		for pkg in unzip wget; do
+			if ! command -v "$pkg" &> /dev/null; then
+				echo -e "${Y}'$pkg' is not installed. Installing...${X}"
+				apt-get update && apt-get install -y "$pkg"
+				if ! command -v "$pkg" &> /dev/null; then
+					echo -e "${NOTOK}${R}Error: '$pkg' could not be installed. Exiting.${X}"
+					exit 1
+				fi
+			fi
+		done
+	}

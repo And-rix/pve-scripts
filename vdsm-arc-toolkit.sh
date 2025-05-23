@@ -21,15 +21,13 @@ echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo -e "${C}+++++++++++++++++++++${X} vDSM-Arc-Toolkit ${C}++++++++++++++++++${X}"
 echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
-
-while true; do
-    echo ""
-    echo -e "${DISK}${Y}Choose your option:${X}"
-    echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"
-    echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc${X}"
-    echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"
-    echo -e "${R}x) EXIT${X}"
-    read -n 1 option
+echo ""
+echo -e "${DISK}${Y}Choose your option:${X}"
+echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"
+echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc${X}"
+echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"
+echo -e "${R}x) EXIT${X}"
+read -n 1 option
 
     case "$option" in
         1) #CREATE new vDSM.Arc
@@ -51,4 +49,3 @@ while true; do
             echo -e "${WARN}${R}Invalid input. Please choose '1' | '2' | '3' | 'x'.${X}"
 			;;
     esac
-done

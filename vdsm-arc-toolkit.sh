@@ -29,6 +29,7 @@ echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"
 echo -e "${R}x) EXIT${X}"
 read -n 1 option
 
+while true; do
     case "$option" in
         1) #CREATE new vDSM.Arc
             bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc.sh)"
@@ -49,3 +50,4 @@ read -n 1 option
             echo -e "${WARN}${R}Invalid input. Please choose '1' | '2' | '3' | 'x'.${X}"
 			;;
     esac
+done

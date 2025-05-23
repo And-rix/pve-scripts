@@ -64,16 +64,7 @@ select STORAGE in $STORAGES; do
 done
 
 # Check for 'unzip' and 'wget' > install if not
-for pkg in unzip wget; do
-    if ! command -v "$pkg" &> /dev/null; then
-        echo -e "${Y}'$pkg' is not installed. Installing...${X}"
-        apt-get update && apt-get install -y "$pkg"
-        if ! command -v "$pkg" &> /dev/null; then
-            echo -e "${NOTOK}${R}Error: '$pkg' could not be installed. Exiting.${X}"
-            exit 1
-        fi
-    fi
-done
+unzip_check_install
  
 # Target directories
 ISO_STORAGE_PATH="/var/lib/vz/template/iso"
@@ -82,7 +73,7 @@ DOWNLOAD_PATH="/var/lib/vz/template/tmp"
 mkdir -p "$DOWNLOAD_PATH"
 
 # Latest .img.zip from GitHub
-LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+arc_release_url
 LATEST_FILENAME=$(basename "$LATEST_RELEASE_URL")
 
 if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then

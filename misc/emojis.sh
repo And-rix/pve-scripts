@@ -6,6 +6,4 @@ OK="${TAB}✅${TAB}${X}"
 NOTOK="${TAB}❌${TAB}${X}"
 WARN="${TAB}⚠️${TAB}${X}"
 DISK="${TAB}💾${TAB}${X}"
-ROBOT="${TAB}🤖${TAB}${X}"
-
-
+CONSOLE="${TAB}📟${TAB}${X}"

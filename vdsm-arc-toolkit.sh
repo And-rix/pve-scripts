@@ -36,7 +36,7 @@ read -n 1 option
 		2) #UPDATE existing vDSM.Arc
             bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"
 			;;
-		3) #ADD existing vDSM.Arc
+		3) #ADD disks to existing VM
             bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vm-disk-update.sh)"
 			;;
         x) #EXIT

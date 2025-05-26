@@ -45,6 +45,16 @@
 		fi
 	}
 
+# Function to check if a VM exists
+	check_vm_exists() {
+		qm list | awk 'NR>1 {print $1}' | grep -q "^$1$"
+	}
+
+# Function to list all VMs
+	list_all_vms() {
+		qm list | awk 'NR>1 {print $2" - ID: "$1}'
+	}
+
 # Function arc release
 	arc_release_url() {
 		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)

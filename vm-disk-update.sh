@@ -207,7 +207,8 @@ while true; do
 				sleep 3
 			;;
         c) # Exit
-            echo -e "${OK}${C}Exiting the script.${X}"
+            echo ""
+			echo -e "${OK}${C}Exiting the script.${X}"
             echo ""
             exit 0
 			;;

@@ -28,17 +28,7 @@ echo -e "${R}'/etc/systemd/logind.conf'${X}"
 echo "-----"
 echo -e "to use a laptop as an PVE host"
 echo ""
-echo -e "${INFO}${Y}Run script now? (y/N)${X}"
-read run_script
-echo ""
-
-if [[ "$run_script" =~ ^[Yy]$ ]]; then
-		echo -e "${OK}${G}Running...${X}"
-  		echo ""
-    else
-		echo -e "${NOTOK}${R}Stopping...${X}"
-		exit 1
-fi
+continue_script
 
 # Ensure the script is run as root
 if [[ $EUID -ne 0 ]]; then

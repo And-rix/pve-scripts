@@ -29,19 +29,7 @@ echo -e "${C}vDSM.Arc will be mapped as SATA0${X}"
 echo -e "${R}> Do NOT change this! <${X}"
 echo "-----"
 echo ""
-echo -e "${START}${Y}Run script now? (y/Y)${X}"
-read run_script
-echo ""
-
-if [[ "$run_script" =~ ^[Yy]$ ]]; then
-    echo -e "${OK}${G}Running...${X}"
-    echo ""
-    echo ""
-else
-    echo -e "${NOTOK}${R}Stopping...${X}"
-    echo ""
-    exit 1
-fi
+continue_script
 
 while true; do
     # Display list of all VMs

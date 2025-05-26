@@ -32,19 +32,7 @@ echo -e "${DISK}${Y}Supported filesystem types:${X}"
 echo -e "${TAB}${TAB}${C} dir, btrfs, nfs, cifs, lvm, lvmthin, zfs, zfspool${X}"
 echo "-----"
 echo ""
-echo -e "${INFO}${Y}Run script now? (y/Y)${X}"
-read run_script
-echo ""
-
-if [[ "$run_script" =~ ^[Yy]$ ]]; then
-    echo -e "${OK}${G}Running...${X}"
-    echo ""
-    echo ""
-else
-    echo -e "${NOTOK}${R}Stopping...${X}"
-    echo ""
-    exit 1
-fi
+continue_script
 
 while true; do
     # Display list of all VMs

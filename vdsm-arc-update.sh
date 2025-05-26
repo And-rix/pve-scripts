@@ -133,12 +133,14 @@ if [ -z "$VOLUME_ID" ]; then
   exit 1
 fi
 
-echo -e "${G} Disk imported: $VOLUME_ID${X}"
+# echo -e "${G} Disk imported: $VOLUME_ID${X}"
 
 # Attach the imported disk to the VM at the specified bus (e.g., sata0)
 qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
-echo -e "${G} Disk attached to VM $VM_ID as sata0.${X}"
+# echo -e "${G} Disk attached to VM $VM_ID as sata0.${X}"
+
+clear
 
 # Delete temp file?
 echo ""
@@ -158,7 +160,8 @@ fi
 # Success message
 echo "------"
 echo -e "${OK}${G}VM ID: $VM_ID has been successfully updated!${X}"
-echo -e "${OK}${G}SATA0: Imported image (${NEW_IMG_FILE})${X}"
+echo -e "${OK}${G}Image: Imported image (${NEW_IMG_FILE})${X}"
+echo -e "${OK}${G}SATA0: Attached disk (${VOLUME_ID})${X}"
 echo "------"
 echo -e "${WARN}${Y}Info: Please delete unused disks of the VM by your own!${X}"
 echo ""

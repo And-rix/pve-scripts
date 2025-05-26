@@ -3,7 +3,7 @@
 # Function Header
 	create_header() {
 		local title="$1"
-		local total_width=60
+		local total_width=50
 		local title_length=${#title}
 
 		if (( title_length >= total_width - 4 )); then 
@@ -22,7 +22,7 @@
 		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
 
 		echo -e "${C}${plus_line_top_bottom}${X}"
-		echo -e "${C}${CONSOLE}${W} ${title} ${X}${CONSOLE}${C}${right_plus}${X}"
+		echo -e "${C}${left_plus} ${CONSOLE}${W} ${title} ${X}${CONSOLE}${C} ${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 

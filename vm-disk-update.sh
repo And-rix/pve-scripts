@@ -46,16 +46,6 @@ else
     exit 1
 fi
 
-# Function to check if a VM exists
-CHECK_VM_EXISTS() {
-    qm list | awk 'NR>1 {print $1}' | grep -q "^$1$"
-}
-
-# Function to list all VMs
-LIST_ALL_VMS() {
-    qm list | awk 'NR>1 {print $2" - ID: "$1}'
-}
-
 while true; do
     # Display list of all VMs
     echo ""

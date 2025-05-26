@@ -1,6 +1,23 @@
 #!/bin/bash
 
 # Function Pre-Check SATA Port
+	continue_script() {
+		echo -e "${START}${Y}Run script now? (y/Y)${X}"
+		read run_script
+		echo ""
+
+		if [[ "$run_script" =~ ^[Yy]$ ]]; then
+			echo -e "${OK}${G}Running...${X}"
+			echo ""
+			echo ""
+		else
+			echo -e "${NOTOK}${R}Stopping...${X}"
+			echo ""
+			exit 1
+		fi
+	}
+
+# Function Pre-Check SATA Port
 	precheck_sata_port() {
 		for PORT in {1..5}; do
 			if ! qm config $VM_ID | grep -q "sata$PORT"; then

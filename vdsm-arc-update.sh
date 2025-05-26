@@ -183,8 +183,8 @@ fi
 # Success message
 echo "------"
 echo -e "${OK}${G}VM ID: $VM_ID has been successfully updated!${X}"
-echo -e "${DISK}${G}SATA0: Imported image (${NEW_IMG_FILE})${X}"
+echo -e "${OK}${G}SATA0: Imported image (${NEW_IMG_FILE})${X}"
 echo "------"
 echo -e "${WARN}${Y}Info: Please delete unused disks of the VM by your own!${X}"
-
+echo ""
 exit 0

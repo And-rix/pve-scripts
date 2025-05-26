@@ -3,18 +3,27 @@
 # Function Header
 	create_header() {
 		local title="$1"
+		local total_width=78
 		local title_length=${#title}
-		local total_width=60 
-		local plus_count=$(( (total_width - title_length - 2) / 2 )) 
 
-		if [ "$title_length" -ge $((total_width - 2)) ]; then
-			plus_count=1 
+		if (( title_length >= total_width - 4 )); then 
+			echo -e "${C}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
+			echo -e "${C}+ ${title} +${X}"
+			echo -e "${C}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
+			return
 		fi
 
-		local plus_line=$(printf "+%.0s" $(seq 1 $plus_count))
+		local padding_needed=$(( total_width - title_length - 2 ))
+		local left_padding=$(( padding_needed / 2 ))
+		local right_padding=$(( padding_needed - left_padding ))
 
-		echo -e "${C}${plus_line} ${title} ${plus_line}${X}"
-		echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}" 
+		local plus_line_top_bottom=$(printf "+%.0s" $(seq 1 $total_width))
+		local left_plus=$(printf "+%.0s" $(seq 1 $left_padding))
+		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
+
+		echo -e "${C}${plus_line_top_bottom}${X}"
+		echo -e "${C}${left_plus} ${title} ${right_plus}${X}"
+		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 
 # Function Pre-Check SATA Port

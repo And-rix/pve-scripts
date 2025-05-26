@@ -16,9 +16,7 @@ source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/head
 clear
 
 # Post message
-echo ""
 create_header "vDSM-Arc-Installer"
-echo ""
 
 # Info
 echo -e "${CONSOLE}vDSM.Arc ${C}default settings${X}"

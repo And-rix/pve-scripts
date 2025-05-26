@@ -7,3 +7,6 @@ NOTOK="${TAB}❌${TAB}${X}"
 WARN="${TAB}⚠️${TAB}${X}"
 DISK="${TAB}💾${TAB}${X}"
 CONSOLE="${TAB}📟${TAB}${X}"
+ZERO="${TAB}0️⃣${TAB}${X}"
+ONE="${TAB}1️⃣${TAB}${X}"
+

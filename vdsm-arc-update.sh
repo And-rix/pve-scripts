@@ -84,7 +84,7 @@ vm_status
 
 # VM is turned off
 echo -e "${OK}${G}VM is shut down. Starting...${X}"
-
+echo "------"
 # Storage locations > support images
 STORAGES=$(pvesm status -content images | awk 'NR>1 {print $1}')
 
@@ -95,7 +95,7 @@ if [ -z "$STORAGES" ]; then
 fi
 
 # Storage Options
-echo -e "${DISK}${G}Please select target Storage for Arc install (SATA0):${X}"
+echo -e "${DISK}${C}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
     if [ -n "$STORAGE" ]; then
         echo -e "${G}You selected: $STORAGE${X}"

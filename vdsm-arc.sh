@@ -51,7 +51,7 @@ if [ -z "$STORAGES" ]; then
     echo -e "${NOTOK}${R}No storage locations found that support disk images.${X}"
     exit 1
 fi
-
+echo "------"
 # Storage Options
 echo -e "${DISK}${G}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do

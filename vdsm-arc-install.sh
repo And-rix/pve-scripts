@@ -20,13 +20,13 @@ create_header "vDSM-Arc-Installer"
 
 # Info
 echo -e "${CONSOLE}vDSM.Arc ${C}default settings${X}"
-echo "-----"
+echo "-------------------------"
 echo -e "${C}CPU: 2x | Mem: 4096MB | NIC: vmbr0 | Storage: selectable${X}"
 echo -e "${Y}> can be changed after creation <${X}"
-echo "-----"
+echo "-------------------------"
 echo -e "${C}vDSM.Arc will be mapped as SATA0${X}"
 echo -e "${R}> Do NOT change this! <${X}"
-echo "-----"
+echo "-------------------------"
 echo ""
 continue_script
 
@@ -38,7 +38,7 @@ if [ -z "$STORAGES" ]; then
     echo -e "${NOTOK}${R}No storage locations found that support disk images.${X}"
     exit 1
 fi
-echo "------"
+echo "-------------------------"
 # Storage Options
 echo -e "${DISK}${G}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
@@ -152,10 +152,10 @@ else
 fi
 
 # Success message
-echo "------"
+echo "-------------------------"
 echo -e "${OK}${G}VM $VM_NAME (ID: $VM_ID) has been successfully created!${X}"
 echo -e "${OK}${G}SATA0: Imported image (${NEW_IMG_FILE})${X}"
-echo "------"
+echo "-------------------------"
 
 # Selection menu / Precheck
 while true; do
@@ -278,9 +278,9 @@ while true; do
 			echo ""
 				echo -e "${Y}You have selected $SELECTED_DISK.${X}"
 				echo -e "${WARN}${Y}Copy & Paste this command into your PVE shell ${R}by your own risk!${X}"
-				echo "-----------"
+				echo "-------------------------"
 				echo -e "${TAB}${START}${C}qm set $VM_ID -$SATA_PORT /dev/disk/by-id/$SELECTED_DISK,backup=0${X}"
-				echo "-----------"
+				echo "-------------------------"
 				sleep 3
 			;;
         c) # Exit

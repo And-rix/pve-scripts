@@ -20,10 +20,10 @@ create_header "vDSM-Arc-Update"
 
 # Info
 echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
-echo "-----"
+echo "-------------------------"
 echo -e "${C}vDSM.Arc will be mapped as SATA0${X}"
 echo -e "${R}> Do NOT change this! <${X}"
-echo "-----"
+echo "-------------------------"
 echo ""
 continue_script
 
@@ -39,14 +39,12 @@ while true; do
     # Ask for VM ID
     echo -e "${C}Please enter the VM ID (example: 101): ${X}"
     read -r VM_ID
-    echo "------"
+    echo "-------------------------"
     # Check VM exists
     if CHECK_VM_EXISTS "$VM_ID"; then
-        echo ""
         echo -e "${OK}${G}The VM with ID $VM_ID exists. Starting precheck...${X}"
         break
     else
-        echo ""
         echo -e "${NOTOK}${R}The VM with ID $VM_ID does not exist. Please try again.${X}"
     fi
 done
@@ -59,7 +57,7 @@ vm_status
 
 # VM is turned off
 echo -e "${OK}${G}VM is shut down. Starting...${X}"
-echo "------"
+    echo "-------------------------"
 # Storage locations > support images
 STORAGES=$(pvesm status -content images | awk 'NR>1 {print $1}')
 
@@ -158,11 +156,11 @@ else
 fi
 
 # Success message
-echo "------"
+echo "-------------------------"
 echo -e "${OK}${G}VM ID: $VM_ID has been successfully updated!${X}"
 echo -e "${OK}${G}Image: Imported image (${NEW_IMG_FILE})${X}"
 echo -e "${OK}${G}SATA0: Attached disk (${VOLUME_ID})${X}"
-echo "------"
+echo "-------------------------"
 echo -e "${WARN}${Y}Info: Please delete unused disks of the VM by your own!${X}"
 echo ""
 exit 0

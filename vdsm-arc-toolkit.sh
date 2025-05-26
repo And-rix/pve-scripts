@@ -20,6 +20,7 @@ create_header "vDSM-Arc-Toolkit"
 
 # Menu
 echo -e "${CONSOLE}${C} -- Menu --${X}"
+echo "-------------------------"
 echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"
 echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc${X}"
 echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"

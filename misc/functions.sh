@@ -2,23 +2,20 @@
 
 # Function Header
 	create_header() {
-		local emoji="📟"
-		local tab="   "
 		local title="$1"
 		local total_width=50
 		local title_length=${#title}
-		local emoji_width=2
-		local console_element_width=$(( ${#TAB} + emoji_width + ${#TAB} ))
-		local content_length=$(( title_length + 2 + 2 * console_element_width ))
-		local padding_needed=$(( total_width - content_length ))
+
+		local padding_needed=$(( total_width - title_length - 2 ))
 		local left_padding=$(( padding_needed / 2 ))
 		local right_padding=$(( padding_needed - left_padding ))
-		local plus_line_top_bottom=$(printf "+%.0s" $(seq 1 "$total_width"))
-		local left_plus=$(printf "+%.0s" $(seq 1 "$left_padding"))
-		local right_plus=$(printf "+%.0s" $(seq 1 "$right_padding"))
 
-		echo -e "${R}${plus_line_top_bottom}${X}"
-		echo -e "${C}${left_plus}${tab}${emoji}${tab}${W}${title}${X}${tab}${emoji}${tab}${C}${right_plus}${X}"
+		local plus_line_top_bottom=$(printf "+%.0s" $(seq 1 $total_width))
+		local left_plus=$(printf "+%.0s" $(seq 1 $left_padding))
+		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
+
+		echo -e "${C}${plus_line_top_bottom}${X}"
+		echo -e "${C}${left_plus}${W} ${title} ${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 

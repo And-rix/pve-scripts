@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Colors
+BK='\033[0;30m'  # Black
 R='\033[0;31m'  # Red
 G='\033[0;32m'  # Green
 Y='\033[0;33m'  # Yellow

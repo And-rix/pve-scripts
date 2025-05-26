@@ -57,7 +57,7 @@ vm_status
 
 # VM is turned off
 echo -e "${OK}${G}VM is shut down. Starting...${X}"
-    echo "-------------------------"
+echo "-------------------------"
 # Storage locations > support images
 STORAGES=$(pvesm status -content images | awk 'NR>1 {print $1}')
 

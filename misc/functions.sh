@@ -83,6 +83,8 @@
 	vm_status() {
 		if [ "$STATUS" != "stopped" ]; then
 			echo -e "${NOTOK}${R}VM $VM_ID is $STATUS. Please SHUT DOWN FIRST!${X}"
+			echo "-------------------------"
+			echo "" 
 			exit 1
 		fi
 	}

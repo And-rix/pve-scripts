@@ -6,13 +6,6 @@
 		local total_width=50
 		local title_length=${#title}
 
-		if (( title_length >= total_width - 4 )); then 
-			echo -e "${W}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-			echo -e "${C}+${CONSOLE}${W} ${title} ${X}${CONSOLE}${C}+${X}"
-			echo -e "${W}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-			return
-		fi
-
 		local padding_needed=$(( total_width - title_length - 2 ))
 		local left_padding=$(( padding_needed / 2 ))
 		local right_padding=$(( padding_needed - left_padding ))

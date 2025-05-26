@@ -18,7 +18,7 @@
 		local right_plus=$(printf "+%.0s" $(seq 1 "$right_padding"))
 
 		echo -e "${C}${plus_line_top_bottom}${X}"
-		echo -e "${c}${left_plus}${tab}${emoji}${tab}${w} ${title} ${x}${tab}${emoji}${tab}${c}${right_plus}${x}"
+		echo -e "${C}${left_plus}${tab}${emoji}${tab}${W}${title}${X}${tab}${emoji}${tab}${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 

@@ -82,7 +82,8 @@
 # Function wget check & install
 	vm_status() {
 		if [ "$STATUS" != "stopped" ]; then
-			echo -e "${NOTOK}${R}VM $VM_ID is not shut down (Status: $STATUS). Please shut it down first.${X}"
+			echo -e "${NOTOK}${R}VM $VM_ID is RUNNING. Please SHUT DOWN FIRST!${X}"
+			echo -e "${NOTOK}${R}(Status: $STATUS)${X}"
 			exit 1
 		fi
 	}

@@ -23,9 +23,8 @@ echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
 
 # Continue Script?
-echo -e "${INFO}${Y}This tool can only update an existing vDSM Arc VM.${X}"
+echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
 echo "-----"
-echo -e "${C}This script download and extract the latest version from Arc${X}"
 echo -e "${Y}vDSM-Arc will be mapped as SATA0 > Do not change this!${X}"
 echo "-----"
 echo ""

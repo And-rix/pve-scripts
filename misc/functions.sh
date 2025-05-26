@@ -25,7 +25,7 @@
 # Function Pre-Check SATA Port
 	continue_script() {
 		echo -e "${START}${Y}Run script now? (y/Y)${X}"
-		read run_script
+		read -n 1 run_script
 		echo ""
 
 		if [[ "$run_script" =~ ^[Yy]$ ]]; then

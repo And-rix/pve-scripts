@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# Function Header
+	create_header() {
+		local title="$1"
+		local title_length=${#title}
+		local total_width=60 
+		local plus_count=$(( (total_width - title_length - 2) / 2 )) 
+
+		if [ "$title_length" -ge $((total_width - 2)) ]; then
+			plus_count=1 
+		fi
+
+		local plus_line=$(printf "+%.0s" $(seq 1 $plus_count))
+
+		echo -e "${C}${plus_line} ${title} ${plus_line}${X}"
+		echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}" 
+	}
+
 # Function Pre-Check SATA Port
 	continue_script() {
 		echo -e "${START}${Y}Run script now? (y/Y)${X}"

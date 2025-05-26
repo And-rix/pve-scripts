@@ -15,7 +15,7 @@
 		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
 
 		echo -e "${C}${plus_line_top_bottom}${X}"
-		echo -e "${C}${left_plus} ${CONSOLE}${W} ${title} ${X}${CONSOLE}${C} ${right_plus}${X}"
+		echo -e "${C}${left_plus} ${CONSOLE}${W} ${title} ${X}${CONSOLE} ${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 

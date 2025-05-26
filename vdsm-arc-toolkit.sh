@@ -19,6 +19,7 @@ clear
 create_header "vDSM-Arc-Toolkit"
 
 # Menu
+echo "-------------------------"
 echo -e "${CONSOLE}${C} -- Menu --${X}"
 echo "-------------------------"
 echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"

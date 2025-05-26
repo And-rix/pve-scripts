@@ -29,10 +29,12 @@
 		echo ""
 
 		if [[ "$run_script" =~ ^[Yy]$ ]]; then
+			echo ""
 			echo -e "${OK}${G}Running...${X}"
 			echo ""
 			echo ""
 		else
+			echo ""
 			echo -e "${NOTOK}${R}Stopping...${X}"
 			echo ""
 			echo ""

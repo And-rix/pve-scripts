@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v3.1.3 - 31.03.2025
+# Version: v3.2 - 26.05.2025
 # Creation: 18.02.2025 
 
 export LANG=en_US.UTF-8
@@ -28,7 +28,7 @@ echo "-----"
 echo -e "${C}CPU: 2x | Mem: 4096MB | NIC: vmbr0 | Storage: selectable${X}"
 echo -e "${Y}> can be changed after creation <${X}"
 echo "-----"
-echo -e "${R}vDSM-Arc will be mapped as SATA0 > Do NOT change this!${X}"
+echo -e "${C}vDSM.Arc will be mapped as SATA0${X}"
 echo -e "${R}> Do NOT change this! <${X}"
 echo "-----"
 echo ""

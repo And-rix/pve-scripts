@@ -2,7 +2,7 @@
 
 # Script Name: vm-disk-update.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v1.3.1 - 20.03.2025
+# Version: v1.4 - 26.05.2025
 # Creation: 26.02.2025
 
 export LANG=en_US.UTF-8

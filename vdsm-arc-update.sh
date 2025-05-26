@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc-update.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v1.1 - 25.05.2025
+# Version: v1.2 - 26.05.2025
 # Creation: 23.05.2025
 
 export LANG=en_US.UTF-8
@@ -25,8 +25,8 @@ echo ""
 # Continue Script?
 echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
 echo "-----"
-echo -e "${Y}vDSM-Arc will be mapped as SATA0${X}"
-echo -e "${Y}> Do NOT change this! <${X}"
+echo -e "${Y}vDSM.Arc will be mapped as SATA0${X}"
+echo -e "${R}> Do NOT change this! <${X}"
 echo "-----"
 echo ""
 echo -e "${START}${Y}Run script now? (y/Y)${X}"

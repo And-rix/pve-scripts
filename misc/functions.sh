@@ -19,7 +19,6 @@
 		echo -e "${C}${left_plus}${X} ${title} ${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 		echo ""
-		echo ""
 	}
 
 # Function Pre-Check SATA Port

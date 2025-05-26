@@ -7,7 +7,7 @@
 		local title_length=${#title}
 
 		if (( title_length >= total_width - 4 )); then 
-			echo -e "${W}-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
+			echo -e "${W}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 			echo -e "${C}+${CONSOLE}${W} ${title} ${X}${CONSOLE}${C}+${X}"
 			echo -e "${W}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 			return
@@ -22,7 +22,7 @@
 		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
 
 		echo -e "${C}${plus_line_top_bottom}${X}"
-		echo -e "${C}${left_plus} ${title} ${right_plus}${X}"
+		echo -e "${C}${CONSOLE}${W} ${title} ${X}${CONSOLE}${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 

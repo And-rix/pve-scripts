@@ -16,7 +16,7 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/ref
 
 ---
 
-## 📟 **vdsm-arc.sh**
+## 📟 **vdsm-arc-install.sh**
 
 An automated install script for **vDSM Arc Loader** from [AuxXxilium](https://github.com/AuxXxilium) on your PVE host.
 
@@ -29,7 +29,7 @@ An automated install script for **vDSM Arc Loader** from [AuxXxilium](https://gi
   `dir`, `btrfs`, `nfs`, `cifs`, `lvm`, `lvmthin`, `zfs`, `zfspool`   
   
 ```shell
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc.sh)"
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-install.sh)"
 ```
 
 ---

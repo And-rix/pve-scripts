@@ -46,12 +46,12 @@
 	}
 
 # Function to check if a VM exists
-	check_vm_exists() {
+	CHECK_VM_EXISTS() {
 		qm list | awk 'NR>1 {print $1}' | grep -q "^$1$"
 	}
 
 # Function to list all VMs
-	list_all_vms() {
+	LIST_ALL_VMS() {
 		qm list | awk 'NR>1 {print $2" - ID: "$1}'
 	}
 

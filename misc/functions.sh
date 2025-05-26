@@ -73,6 +73,14 @@
 		qm list | awk 'NR>1 {print $2" - ID: "$1}'
 	}
 
+# Function to check run as root
+	run_as_root() {
+		if [[ $EUID -ne 0 ]]; then
+			echo "${WARN}${R}This script must be run as root!${X}"
+			exit 1
+		fi
+	}	
+
 # Function arc release
 	arc_release_url() {
 		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)

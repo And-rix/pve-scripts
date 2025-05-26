@@ -22,7 +22,7 @@ echo -e "${C}+++++++++++++++++++++${X} VM-Disk-Update ${C}++++++++++++++++++++${
 echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
 
-# Continue Script?
+# Info
 echo -e "${INFO}${Y}This tool can only update an existing VM.${X}"
 echo "-----"
 echo -e "Virtual disk ${C}- Add more virtual Disks to a VM${X}"

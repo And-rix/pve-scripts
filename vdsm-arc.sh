@@ -22,7 +22,7 @@ echo -e "${C}++++++++++++++++++${X} vDSM.Arc-Installer ${C}+++++++++++++++++++${
 echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
 
-# Continue Script?
+# Info
 echo -e "${CONSOLE}vDSM.Arc ${C}default settings${X}"
 echo "-----"
 echo -e "${C}CPU: 2x | Mem: 4096MB | NIC: vmbr0 | Storage: selectable${X}"

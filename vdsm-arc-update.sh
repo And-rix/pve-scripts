@@ -22,7 +22,7 @@ echo -e "${C}++++++++++++++++++++${X} VDSM.Arc-Update ${C}++++++++++++++++++++${
 echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
 
-# Continue Script?
+# Info
 echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
 echo "-----"
 echo -e "${C}vDSM.Arc will be mapped as SATA0${X}"

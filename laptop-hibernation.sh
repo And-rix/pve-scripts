@@ -2,7 +2,7 @@
 
 # Script Name: laptop-hibernation.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v1.1 - 28.02.2025
+# Version: v1.2 - 26.05.2025
 # Creation: 17.02.2025
 
 export LANG=en_US.UTF-8
@@ -10,6 +10,7 @@ export LANG=en_US.UTF-8
 # Import Misc
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/colors.sh)
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/emojis.sh)
+source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/functions.sh)
 
 # Clearing screen
 clear
@@ -21,7 +22,7 @@ echo -e "${C}++++++++++++++++++${X} Laptop-Hibernation ${C}+++++++++++++++++++${
 echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
 echo ""
 
-# Ask for continue script
+# Info
 echo -e "This script will add the required lines into"
 echo "-----"
 echo -e "${R}'/etc/systemd/logind.conf'${X}"
@@ -31,10 +32,7 @@ echo ""
 continue_script
 
 # Ensure the script is run as root
-if [[ $EUID -ne 0 ]]; then
-    echo "${WARN}${R}This script must be run as root!${X}"
-    exit 1
-fi
+run_as_root
 
 echo -e "${G}Configuring Proxmox for laptop usage...${X}"
 

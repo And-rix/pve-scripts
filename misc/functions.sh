@@ -14,9 +14,12 @@
 		local left_plus=$(printf "+%.0s" $(seq 1 $left_padding))
 		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
 
-		echo -e "${R}${plus_line_top_bottom}${X}"
+		echo ""
+		echo -e "${C}${plus_line_top_bottom}${X}"
 		echo -e "${C}${left_plus}${X} ${title} ${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
+		echo ""
+		echo ""
 	}
 
 # Function Pre-Check SATA Port

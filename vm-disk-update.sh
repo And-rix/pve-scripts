@@ -16,11 +16,7 @@ source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/head
 clear
 
 # Post message
-echo ""
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo -e "${C}+++++++++++++++++++++${X} VM-Disk-Update ${C}++++++++++++++++++++${X}"
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo ""
+create_header "VM-Disk-Update"
 
 # Info
 echo -e "${INFO}${Y}This tool can only update an existing VM.${X}"

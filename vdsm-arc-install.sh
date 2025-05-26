@@ -17,9 +17,7 @@ clear
 
 # Post message
 echo ""
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo -e "${C}++++++++++++++++++${X} vDSM.Arc-Installer ${C}+++++++++++++++++++${X}"
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
+create_header "vDSM-Arc-Installer"
 echo ""
 
 # Info

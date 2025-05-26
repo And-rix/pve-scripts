@@ -16,13 +16,10 @@ source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/head
 clear
 
 # Post message
-echo ""
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo -e "${C}++++++++++++++++++++${X} vDSM.Arc-Toolkit ${C}+++++++++++++++++++${X}"
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo ""
-echo ""
-echo -e "${CONSOLE}${Y}Choose your option:${X}"
+create_header "vDSM-Arc-Toolkit"
+
+# Menu
+echo -e "${CONSOLE}${G} -- Menu --${X}"
 echo -e "${C}1)${X} CREATE ${C}new vDSM.Arc${X}"
 echo -e "${C}2)${X} UPDATE ${C}existing vDSM.Arc${X}"
 echo -e "${C}3)${X} ADD ${C}disks to a VM${X}"

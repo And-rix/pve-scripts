@@ -16,11 +16,7 @@ source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/head
 clear
 
 # Post message
-echo ""
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo -e "${C}++++++++++++++++++${X} Laptop-Hibernation ${C}+++++++++++++++++++${X}"
-echo -e "${C}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++${X}"
-echo ""
+create_header "Laptop-Hibernation"
 
 # Info
 echo -e "This script will add the required lines into"

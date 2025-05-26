@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script Name: vdsm-arc.sh
+# Script Name: vdsm-arc-install.sh
 # Author: And-rix (https://github.com/And-rix)
 # Version: v3.2 - 26.05.2025
 # Creation: 18.02.2025 

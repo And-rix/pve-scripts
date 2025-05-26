@@ -13,6 +13,7 @@
 		else
 			echo -e "${NOTOK}${R}Stopping...${X}"
 			echo ""
+			echo ""
 			exit 1
 		fi
 	}

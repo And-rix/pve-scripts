@@ -5,17 +5,18 @@
 		local title="$1"
 		local total_width=50
 		local title_length=${#title}
-
-		local padding_needed=$(( total_width - title_length - 2 ))
+		local emoji_width=2
+		local console_element_width=$(( ${#tab} + emoji_width + ${#tab} ))
+		local content_length=$(( title_length + 2 + 2 * console_element_width ))
+		local padding_needed=$(( total_width - content_length ))
 		local left_padding=$(( padding_needed / 2 ))
 		local right_padding=$(( padding_needed - left_padding ))
-
-		local plus_line_top_bottom=$(printf "+%.0s" $(seq 1 $total_width))
-		local left_plus=$(printf "+%.0s" $(seq 1 $left_padding))
-		local right_plus=$(printf "+%.0s" $(seq 1 $right_padding))
+		local plus_line_top_bottom=$(printf "+%.0s" $(seq 1 "$total_width"))
+		local left_plus=$(printf "+%.0s" $(seq 1 "$left_padding"))
+		local right_plus=$(printf "+%.0s" $(seq 1 "$right_padding"))
 
 		echo -e "${C}${plus_line_top_bottom}${X}"
-		echo -e "${W}${left_plus} ${title} ${right_plus}${X}"
+		echo -e "${C}${left_plus}${TAB}${CONSOLE}${TAB}${W} ${title} ${X}${TAB}${CONSOLE}${TAB}${C}${right_plus}${X}"
 		echo -e "${C}${plus_line_top_bottom}${X}"
 	}
 

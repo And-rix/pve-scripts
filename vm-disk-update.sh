@@ -133,7 +133,7 @@ while true; do
 			fi
 
 			echo ""
-			echo -e "${OK}${G}Disk created and assigned to $SATA_PORT: $DISK_PATH ${X}"
+			echo -e "${OK}${G}Disk created and assigned to $SATA_PORT: $DISK_NAME${X}"
 			;;
 		b) #Physical Disk
 			echo -e "${TAB}${C}Show Physical Hard Disk${X}"

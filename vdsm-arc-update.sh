@@ -39,7 +39,7 @@ while true; do
     # Ask for VM ID
     echo -e "${C}Please enter the VM ID (example: 101): ${X}"
     read -r VM_ID
-
+    echo "------"
     # Check VM exists
     if CHECK_VM_EXISTS "$VM_ID"; then
         echo ""

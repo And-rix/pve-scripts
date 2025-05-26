@@ -25,7 +25,7 @@ echo ""
 # Continue Script?
 echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
 echo "-----"
-echo -e "${Y}vDSM.Arc will be mapped as SATA0${X}"
+echo -e "${C}vDSM.Arc will be mapped as SATA0${X}"
 echo -e "${R}> Do NOT change this! <${X}"
 echo "-----"
 echo ""

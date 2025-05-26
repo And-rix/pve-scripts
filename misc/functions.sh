@@ -3,7 +3,7 @@
 # Function Header
 	create_header() {
 		local title="$1"
-		local total_width=50
+		local total_width=60
 		local title_length=${#title}
 
 		local padding_needed=$(( total_width - title_length - 2 ))

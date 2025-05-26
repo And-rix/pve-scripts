@@ -3,7 +3,7 @@
 # Function Header
 	create_header() {
 		local title="$1"
-		local total_width=70
+		local total_width=50
 		local title_length=${#title}
 
 		if (( title_length >= total_width - 4 )); then 

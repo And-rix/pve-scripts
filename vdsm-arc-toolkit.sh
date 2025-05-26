@@ -31,7 +31,7 @@ read -n 1 option
 
     case "$option" in
         1) #CREATE new vDSM.Arc
-            bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc.sh)"
+            bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-install.sh)"
 			;;
 		2) #UPDATE existing vDSM.Arc
             bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"

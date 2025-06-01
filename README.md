@@ -11,7 +11,7 @@ All-in-1 toolkit script for **vDSM Arc Loader** from [AuxXxilium](https://github
 - **ADD** disks to a VM
 
 ```shell
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-toolkit.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-toolkit.sh)"
 ```
 
 ---
@@ -29,7 +29,7 @@ An automated install script for **vDSM Arc Loader** from [AuxXxilium](https://gi
   `dir`, `btrfs`, `nfs`, `cifs`, `lvm`, `lvmthin`, `zfs`, `zfspool`   
   
 ```shell
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-install.sh)"
 ```
 
 ---
@@ -39,7 +39,7 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/ref
 An automated update script for **vDSM Arc Loader** on an existing VM 
   
 ```shell
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"
 ```
 
 ---
@@ -52,7 +52,7 @@ Add more virtual or physical disks to an existing VM on your PVE host
   `dir`, `btrfs`, `nfs`, `cifs`, `lvm`, `lvmthin`, `zfs`, `zfspool`   
   
 ```shell
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vm-disk-update.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vm-disk-update.sh)"
 ```
 
 ---
@@ -62,5 +62,5 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/ref
 This script disable any hibernation mode to run Proxmox VE on a laptop   
   
 ```shell
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/laptop-hibernation.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/laptop-hibernation.sh)"
 ```

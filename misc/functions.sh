@@ -21,7 +21,7 @@
 		echo ""
 	}
 
-# Function Pre-Check SATA Port
+# Function Continue Script
 	continue_script() {
 		echo -e "${START}${Y}Run script now? (y/Y)${X}"
 		read -n 1 run_script

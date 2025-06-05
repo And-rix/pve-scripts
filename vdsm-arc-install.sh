@@ -43,7 +43,8 @@ echo "-------------------------"
 echo -e "${DISK}${G}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
     if [ -n "$STORAGE" ]; then
-        echo -e "${G}You selected: $STORAGE${X}"
+        echo -e "${C}You selected:${X} $STORAGE"
+		echo "-------------------------"
         break
     else
         echo -e "${R}Invalid selection. Please try again.${G}"

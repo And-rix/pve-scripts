@@ -96,7 +96,7 @@ if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then
 	echo -e "${G}Skipping download...${X}"
 else
     echo -e "${G}Downloading the latest file ($LATEST_FILENAME)...${X}"
-    wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL"
+    wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL" --show-progress --quiet
 fi
 
 # Extract the file

@@ -108,13 +108,16 @@
 		STATUS=$(qm status $VM_ID | awk '{print $2}')
 	}
 
-# Function wget check & install
+# Function vm stopped or not
 	vm_status() {
 		if [ "$STATUS" != "stopped" ]; then
 			echo -e "${NOTOK}${R}VM $VM_ID is $STATUS. Please SHUT DOWN FIRST!${X}"
 			echo "-------------------------"
 			echo "" 
 			exit 1
+		else 
+			echo -e "${OK}${G}VM is stopped. Starting...${X}"
+			echo "-------------------------"
 		fi
 	}	
 

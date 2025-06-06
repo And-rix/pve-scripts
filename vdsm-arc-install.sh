@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc-install.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v3.2 - 26.05.2025
+# Version: v3.3 - 06.06.2025
 # Creation: 18.02.2025 
 
 export LANG=en_US.UTF-8
@@ -81,12 +81,7 @@ else
 fi
 
 # VM-ID and configuration
-VM_ID=$(pvesh get /cluster/nextid)
-VM_NAME="vDSM.Arc"
-STORAGE=$STORAGE
-CORES=2
-MEMORY=4096
-Q35_VERSION="q35"  
+arc_default_vm
 
 # Create the VM 
 qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"

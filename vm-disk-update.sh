@@ -2,7 +2,7 @@
 
 # Script Name: vm-disk-update.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v1.4 - 26.05.2025
+# Version: v1.5 - 06.06.2025
 # Creation: 26.02.2025
 
 export LANG=en_US.UTF-8
@@ -30,29 +30,8 @@ echo "-----"
 echo ""
 continue_script
 
-while true; do
-    # Display list of all VMs
-    echo ""
-    echo -e "${C}List of all VMs:${X}"
-    echo "-------------------------"
-    LIST_ALL_VMS
-    echo "-------------------------"
-    echo ""
-
-    # Ask for VM ID
-    echo -e "${C}Please enter the VM ID (example: 101): ${X}"
-    read -r VM_ID
-
-    # Check VM exists
-    if CHECK_VM_EXISTS "$VM_ID"; then
-        echo ""
-        echo -e "${OK}${G}The VM with ID $VM_ID exists. Starting precheck...${X}"
-        break
-    else
-        echo ""
-        echo -e "${NOTOK}${R}The VM with ID $VM_ID does not exist. Please try again.${X}"
-    fi
-done
+# VM list promt
+vm_list_promt
 
 # Selection menu / Precheck
 while true; do

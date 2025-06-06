@@ -78,6 +78,36 @@
 		done
 	}
 
+# Function to check VM status
+	vm_list_promt() {
+		while true; do
+			# Display list of all VMs
+			echo ""
+			echo -e "${C}List of all VMs:${X}"
+			echo "-------------------------"
+			vm_list_all
+			echo "-------------------------"
+			echo ""
+
+			# Ask for VM ID
+			echo -e "${C}Please enter the VM ID (example: 101): ${X}"
+			read -r VM_ID
+			echo "-------------------------"
+			# Check VM exists
+			if vm_check_exist "$VM_ID"; then
+				echo -e "${OK}${G}The VM with ID $VM_ID exists. Starting precheck...${X}"
+				break
+			else
+				echo -e "${NOTOK}${R}The VM with ID $VM_ID does not exist. Please try again.${X}"
+			fi
+		done
+	}	
+
+# Function to check VM status 
+	vm_check_status() {
+		STATUS=$(qm status $VM_ID | awk '{print $2}')
+	}
+
 # Function wget check & install
 	vm_status() {
 		if [ "$STATUS" != "stopped" ]; then
@@ -86,16 +116,16 @@
 			echo "" 
 			exit 1
 		fi
-	}
+	}	
 
-# Function to check if a VM exists
-	CHECK_VM_EXISTS() {
-		qm list | awk 'NR>1 {print $1}' | grep -q "^$1$"
-	}
-
-# Function to list all VMs
-	LIST_ALL_VMS() {
+# Function to list all VMs 
+	vm_list_all() {
 		qm list | awk 'NR>1 {print $2" - ID: "$1}'
+	}
+
+# Function to check if a VM exists 
+	vm_check_exist() {
+		qm list | awk 'NR>1 {print $1}' | grep -q "^$1$"
 	}
 
 # Function to check run as root
@@ -104,7 +134,17 @@
 			echo "${WARN}${R}This script must be run as root!${X}"
 			exit 1
 		fi
-	}	
+	}
+
+# Function vDSM.Arc default VM settings
+	arc_default_vm() {
+		VM_ID=$(pvesh get /cluster/nextid)
+		VM_NAME="vDSM.Arc"
+		STORAGE=$STORAGE
+		CORES=2
+		MEMORY=4096
+		Q35_VERSION="q35"
+	}		
 
 # Function arc release
 	arc_release_url() {

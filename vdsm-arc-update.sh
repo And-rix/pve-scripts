@@ -21,9 +21,8 @@ create_header "vDSM-Arc-Update"
 # Info
 echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
 echo "-------------------------"
-echo -e "${C}Boot image will be replaced. ${R}Loader re-build is required. ${X}"
-echo -e "${C}vDSM.Arc will be mapped as ${X}SATA0"
-echo -e "${R}> Do NOT change this! <${X}"
+echo -e "${C}Boot image will be replaced. ${R}> Loader re-build is required. ${X}"
+echo -e "${C}vDSM.Arc will be mapped as SATA0. ${R}> Do NOT CHANGE!${X}"
 echo "-------------------------"
 echo ""
 continue_script

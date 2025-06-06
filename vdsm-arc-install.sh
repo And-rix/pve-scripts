@@ -40,7 +40,7 @@ if [ -z "$STORAGES" ]; then
 fi
 echo "-------------------------"
 # Storage Options
-echo -e "${DISK}${G}Please select target Storage for Arc install (SATA0):${X}"
+echo -e "${DISK}${C}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
     if [ -n "$STORAGE" ]; then
         echo -e "${C}You selected:${X} $STORAGE"

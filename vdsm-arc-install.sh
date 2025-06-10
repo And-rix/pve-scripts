@@ -211,49 +211,7 @@ while true; do
 			echo -e "${OK}${G}Disk created and assigned to $SATA_PORT: $DISK_PATH ${X}"
 			;;
 		b) #Physical Disk
-			echo -e "${TAB}${C}Show Physical Hard Disk${X}"
-			echo ""
-			
-			SATA_PORT=$(find_available_sata_port)
-			DISKS=$(find /dev/disk/by-id/ -type l -print0 | xargs -0 ls -l | grep -v -E '[0-9]$' | awk -F' -> ' '{print $1}' | awk -F'/by-id/' '{print $2}')
-			DISK_ARRAY=($(echo "$DISKS"))
-
-			# Display the disk options with numbers
-			echo -e "${Y}Select a physical disk:${X}"
-			for i in "${!DISK_ARRAY[@]}"; do
-			  echo "$((i + 1))) ${DISK_ARRAY[i]}"
-			done
-			echo "0) Exit"
-
-			read -p "#? " SELECTION
-
-			# Input check
-			if ! [[ "$SELECTION" =~ ^[0-9]+$ ]]; then
-			  echo ""
-			  echo -e "${WARN}${Y}Invalid input. Please enter a number.${X}"
-			  continue 2
-			fi
-
-			# Validating
-			if [[ "$SELECTION" -eq 0 ]]; then
-			  echo ""
-			  echo -e "${OK}${G}Back 2 Menu...${X}"
-			  continue 2
-			elif [[ "$SELECTION" -ge 1 && "$SELECTION" -le "${#DISK_ARRAY[@]}" ]]; then
-			  SELECTED_DISK="${DISK_ARRAY[$((SELECTION - 1))]}"
-			else
-			  echo ""
-			  echo -e "${WARN}${Y}Invalid selection.${X}"
-			  continue 2
-			fi
-			
-			echo ""
-				echo -e "${Y}You have selected $SELECTED_DISK.${X}"
-				echo -e "${WARN}${Y}Copy & Paste this command into your PVE shell ${R}by your own risk!${X}"
-				echo "-------------------------"
-				echo -e "${TAB}${START}${C}qm set $VM_ID -$SATA_PORT /dev/disk/by-id/$SELECTED_DISK,backup=0${X}"
-				echo "-------------------------"
-				sleep 3
+			disk_byid_selection
 			;;
         c) # Exit
             echo ""

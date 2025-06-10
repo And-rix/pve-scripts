@@ -70,7 +70,7 @@
 	}
 
 # Function to generate disk path > block/file based
-	disk_path() {
+	disk_path_generate() {
 		if [[ "$VM_DISK_TYPE" == "dir" || "$VM_DISK_TYPE" == "btrfs" || "$VM_DISK_TYPE" == "nfs" || "$VM_DISK_TYPE" == "cifs" ]]; then
 			DISK_PATH="$VM_DISK:$DISK_SIZE,format=qcow2"  # File level storages 
 			sleep 1

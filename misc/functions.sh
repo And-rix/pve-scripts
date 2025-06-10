@@ -41,6 +41,11 @@
 		fi
 	}
 
+# Function Storage locations > support images
+	pve_storages() {
+		STORAGES=$(pvesm status -content images | awk 'NR>1 {print $1}')
+	}
+
 # Function Pre-Check SATA Port
 	precheck_sata_port() {
 		for PORT in {1..5}; do

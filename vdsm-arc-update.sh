@@ -36,8 +36,8 @@ vm_check_status
 # VM is turned on > exit
 vm_status
 
-# Storage locations > support images
-STORAGES=$(pvesm status -content images | awk 'NR>1 {print $1}')
+# Storage locations
+pve_storages
 
 # Check if storages exist
 if [ -z "$STORAGES" ]; then

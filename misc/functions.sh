@@ -69,6 +69,25 @@
 		echo -e "${R}No available SATA ports between SATA1 and SATA5${X}"
 	}
 
+# Function to generate disk path > block/file based
+	disk_path() {
+		if [[ "$VM_DISK_TYPE" == "dir" || "$VM_DISK_TYPE" == "btrfs" || "$VM_DISK_TYPE" == "nfs" || "$VM_DISK_TYPE" == "cifs" ]]; then
+			DISK_PATH="$VM_DISK:$DISK_SIZE,format=qcow2"  # File level storages 
+			sleep 1
+			qm set "$VM_ID" -$SATA_PORT "$DISK_PATH",backup=0 # Disable Backup
+		elif [[ "$VM_DISK_TYPE" == "pbs" || "$VM_DISK_TYPE" == "glusterfs" || "$VM_DISK_TYPE" == "cephfs" || "$VM_DISK_TYPE" == "iscsi" || "$VM_DISK_TYPE" == "iscsidirect" || "$VM_DISK_TYPE" == "rbd" ]]; then
+			echo ""
+			echo -e "${NOTOK}${R}Unsupported filesystem type: $VM_DISK_TYPE ${X}" # Disable untested storage types
+			echo -e "${DISK}${Y}Supported filesystem types:${X}"
+			echo -e "${TAB}${TAB}${C}dir, btrfs, nfs, cifs, lvm, lvmthin, zfs, zfspool${X}"
+			continue
+		else
+			DISK_PATH="$VM_DISK:$DISK_SIZE"  # Block level storages
+			sleep 1
+			qm set "$VM_ID" -$SATA_PORT "$DISK_PATH",backup=0 # Disable Backup
+		fi
+	}	
+
 # Function wget check & install
 	unzip_check_install() {
 		for pkg in unzip wget; do

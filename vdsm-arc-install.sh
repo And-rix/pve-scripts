@@ -156,10 +156,13 @@ while true; do
 	
     echo ""
     echo -e "${DISK}${Y}Choose your option:${X}"
+	echo -e "-------------------------"
     echo -e "${C}a) Create Virtual Hard Disk${X}"
     echo -e "${C}b) Show Physical Hard Disk${X}"
     echo -e "${R}c) Exit${X}"
-    read -n 1 option
+	echo -e "-------------------------"
+	echo -e ""
+	read -n 1 option
 
     case "$option" in
         a) #Virtual Disk
@@ -194,6 +197,7 @@ while true; do
 			echo "Storage type: $VM_DISK_TYPE"
 
 			# Ask for disk size (at least 32 GB)
+			echo -e "-------------------------"
 			read -p "Enter the disk size in GB (minimum 32 GB): " DISK_SIZE
 
 			if [[ ! "$DISK_SIZE" =~ ^[0-9]+$ ]] || [ "$DISK_SIZE" -lt 32 ]; then

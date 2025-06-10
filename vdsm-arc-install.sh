@@ -64,8 +64,7 @@ arc_release_url
 arc_release_download
 
 # Extract the file
-echo -e "${Y}Extracting $LATEST_FILENAME...${X}"
-unzip -o "$DOWNLOAD_PATH/$LATEST_FILENAME" -d "$ISO_STORAGE_PATH"
+unzip_img
 
 # Extract the version number from the filename
 VERSION=$(echo "$LATEST_FILENAME" | grep -oP "\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?")

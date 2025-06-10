@@ -171,3 +171,9 @@
 			wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL" --show-progress --quiet
 		fi
 	}	
+
+# Function unzip img.zip
+	unzip_img() {
+		echo -e "${Y}Extracting $LATEST_FILENAME...${X}"
+		unzip -o "$DOWNLOAD_PATH/$LATEST_FILENAME" -d "$ISO_STORAGE_PATH"
+	}	

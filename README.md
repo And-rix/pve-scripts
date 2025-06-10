@@ -36,7 +36,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ## 📟 **vdsm-arc-update.sh**
 
-An automated update script for **vDSM Arc Loader** on an existing VM 
+An automated update script for **vDSM Arc Loader** on an existing VM.
+- Boot image will be replaced **Loader re-build is required!**
+- vDSM.Arc will be mapped as SATA0
   
 ```shell
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"

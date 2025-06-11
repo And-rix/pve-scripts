@@ -82,7 +82,7 @@ fi
 arc_default_vm
 
 # Create the VM 
-qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
+qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu host --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
 
 # Set VirtIO-SCSI as the default controller
 qm set "$VM_ID" --scsihw virtio-scsi-single

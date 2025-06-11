@@ -169,6 +169,7 @@
 		VM_NAME="vDSM.Arc"
 		STORAGE=$STORAGE
 		CORES=2
+		CPU=host
 		MEMORY=4096
 		Q35_VERSION="q35"
 	}		

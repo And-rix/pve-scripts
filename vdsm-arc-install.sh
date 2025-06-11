@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc-install.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v3.3 - 06.06.2025
+# Version: v3.4 - 11.06.2025
 # Creation: 18.02.2025 
 
 export LANG=en_US.UTF-8
@@ -82,7 +82,7 @@ fi
 arc_default_vm
 
 # Create the VM 
-qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu host --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
+qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu "$CPU" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
 
 # Set VirtIO-SCSI as the default controller
 qm set "$VM_ID" --scsihw virtio-scsi-single

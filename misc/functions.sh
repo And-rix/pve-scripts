@@ -121,15 +121,15 @@
 			# Display list of all VMs
 			echo ""
 			echo -e "${C}List of all VMs:${X}"
-			echo "-------------------------"
+			line
 			vm_list_all
-			echo "-------------------------"
+			line
 			echo ""
 
 			# Ask for VM ID
 			echo -e "${C}Please enter the VM ID (example: 101): ${X}"
 			read -r VM_ID
-			echo "-------------------------"
+			line
 			# Check VM exists
 			if vm_check_exist "$VM_ID"; then
 				echo -e "${OK}${G}The VM with ID $VM_ID exists. Starting precheck...${X}"
@@ -149,12 +149,12 @@
 	vm_status() {
 		if [ "$STATUS" != "stopped" ]; then
 			echo -e "${NOTOK}${R}VM $VM_ID is $STATUS. Please SHUT DOWN FIRST!${X}"
-			echo "-------------------------"
+			line
 			echo "" 
 			exit 1
 		else 
 			echo -e "${OK}${G}VM is stopped. Starting...${X}"
-			echo "-------------------------"
+			line
 		fi
 	}	
 

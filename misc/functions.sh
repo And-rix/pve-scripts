@@ -21,6 +21,15 @@
 		echo ""
 	}
 
+# Function seperating line
+	line() {
+		local cols
+		cols=$(tput cols)  # Terminalbreite ermitteln
+
+		printf '%*s\n' "$cols" '' | tr ' ' '-'
+	}
+
+
 # Function Continue Script
 	continue_script() {
 		echo -e "${START}${Y}Run script now? (y/Y)${X}"

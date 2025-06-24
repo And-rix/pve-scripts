@@ -205,9 +205,11 @@
 	    local spinstr='|/-\'
 
 	    tput civis
+		printf "\n"
+
 	    while ps -p $pid &> /dev/null; do
 		local temp=${spinstr#?}
-		printf "\r[ %c ] Loading..." "$spinstr"
+		printf "\r[ %c ] ${C}Loading...${X}" "$spinstr"
 		spinstr=$temp${spinstr%"$temp"}
 		sleep $delay
 		printf "\b\b\b\b\b\b"

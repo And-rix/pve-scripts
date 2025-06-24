@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc-install.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v3.4 - 11.06.2025
+# Version: v3.5 - 24.06.2025
 # Creation: 18.02.2025 
 
 export LANG=en_US.UTF-8

@@ -197,3 +197,46 @@
 		echo -e "${Y}Extracting $LATEST_FILENAME...${X}"
 		unzip -o "$DOWNLOAD_PATH/$LATEST_FILENAME" -d "$ISO_STORAGE_PATH"
 	}	
+
+# Function Spinner
+	show_spinner() {
+	    local pid=$1
+	    local delay=0.1
+	    local spinstr='|/-\'
+
+	    tput civis
+	    while ps -p $pid &> /dev/null; do
+		local temp=${spinstr#?}
+		printf "\r[ %c ] Loading..." "$spinstr"
+		spinstr=$temp${spinstr%"$temp"}
+		sleep $delay
+		printf "\b\b\b\b\b\b"
+	    done
+	    tput cnorm
+	}
+
+# Function VM notes	
+	vm_notes_html() {
+    cat <<EOF
+<h2><center>vDSM.Arc</center></h2>
+<hr>
+<h3>🚀 Arc Loader</h3>
+<p>
+  <a href="https://github.com/AuxXxilium/arc/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/GitHub-AuxXxilium-24292e?logo=github&logoColor=white" alt="Arc GitHub">
+  </a>
+</p>
+<p>
+  <a href="https://discord.auxxxilium.tech/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Discord-AuxXxilium-5865F2?logo=discord&logoColor=white" alt="Discord Badge">
+  </a>
+</p>
+<hr>
+<h3>📟 PVE Scripts</h3>
+<p>
+  <a href="https://github.com/And-rix/pve-scripts" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/GitHub-And--rix-24292e?logo=github&logoColor=white" alt="PVE Scripts GitHub">
+  </a>
+</p>
+EOF
+}	

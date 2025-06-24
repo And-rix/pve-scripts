@@ -84,6 +84,9 @@ arc_default_vm
 # Create the VM 
 qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu "$CPU" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
 
+# Spinner group
+(
+
 # Set VirtIO-SCSI as the default controller
 qm set "$VM_ID" --scsihw virtio-scsi-single
 
@@ -120,6 +123,16 @@ qm set "$VM_ID" --net0 virtio,bridge=vmbr0
 qm set "$VM_ID" --cdrom none
 qm set "$VM_ID" --delete ide0
 qm set "$VM_ID" --delete ide2
+
+# Set notes to VM
+NOTES_HTML=$(vm_notes_html)
+qm set "$VM_ID" --description "$NOTES_HTML" > /dev/null 2>&1
+
+# Spinner group
+)> /dev/null 2>&1 &
+
+SPINNER_PID=$!
+show_spinner $SPINNER_PID
 
 clear
 

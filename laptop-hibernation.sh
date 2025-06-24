@@ -20,9 +20,9 @@ create_header "Laptop-Hibernation"
 
 # Info
 echo -e "This script will add the required lines into"
-echo "-------------------------"
+line
 echo -e "${R}'/etc/systemd/logind.conf'${X}"
-echo "-------------------------"
+line
 echo -e "to use a laptop as an PVE host"
 echo ""
 continue_script

@@ -241,11 +241,6 @@
     <img src="https://img.shields.io/badge/GitHub-AuxXxilium-24292e?logo=github&logoColor=white" alt="Arc GitHub">
   </a>
 </p>
-<p>
-  <a href="https://discord.auxxxilium.tech/" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Discord-AuxXxilium-5865F2?logo=discord&logoColor=white" alt="Discord Badge">
-  </a>
-</p>
 <hr>
 <h3>📟 PVE Scripts</h3>
 <p>

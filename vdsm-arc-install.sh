@@ -138,7 +138,8 @@ clear
 
 # Delete temp file?
 echo ""
-echo -e "${INFO}${Y}Do you want to delete the temp downloaded file ($LATEST_FILENAME) from $DOWNLOAD_PATH? (y/Y): ${X}"
+echo -e "${INFO}${Y}Do you want to delete the temp downloaded file${X}"
+echo -e "${TAB}${Y}($LATEST_FILENAME)${X} from ${Y}$DOWNLOAD_PATH? (y/Y): ${X}"
 read delete_answer
 echo ""
 

@@ -126,7 +126,7 @@ qm set "$VM_ID" --delete ide2
 
 # Set notes to VM
 NOTES_HTML=$(vm_notes_html)
-qm set "$VM_ID" --description "$NOTES_HTML" > /dev/null 2>&1
+qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Spinner group
 )> /dev/null 2>&1 &

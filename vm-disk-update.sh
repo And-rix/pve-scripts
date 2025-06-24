@@ -20,13 +20,13 @@ create_header "VM-Disk-Update"
 
 # Info
 echo -e "${INFO}${Y}This tool can only update an existing VM.${X}"
-echo "-----"
+line
 echo -e "Virtual disk ${C}- Add more virtual Disks to a VM${X}"
 echo -e "Physical disk ${C}- Show the command to paste in PVE shell${X}"
-echo "-----"
+line
 echo -e "${DISK}${Y}Supported filesystem types:${X}"
 echo -e "${TAB}${TAB}${C} dir, btrfs, nfs, cifs, lvm, lvmthin, zfs, zfspool${X}"
-echo "-----"
+line
 echo ""
 continue_script
 
@@ -46,11 +46,11 @@ while true; do
 	
     echo ""
     echo -e "${DISK}${Y}Choose your option:${X}"
-	echo -e "-------------------------"
+	line
     echo -e "${C}a) Create Virtual Hard Disk${X}"
     echo -e "${C}b) Show Physical Hard Disk${X}"
     echo -e "${R}c) Exit${X}"
-	echo -e "-------------------------"
+	line
 	echo -e ""
 	read -n 1 option
 
@@ -87,7 +87,7 @@ while true; do
 			echo "Storage type: $VM_DISK_TYPE"
 
 			# Ask for disk size (at least 32 GB)
-			echo -e "-------------------------"
+			line
 			read -p "Enter the disk size in GB (minimum 32 GB): " DISK_SIZE
 
 			if [[ ! "$DISK_SIZE" =~ ^[0-9]+$ ]] || [ "$DISK_SIZE" -lt 32 ]; then
@@ -144,9 +144,9 @@ while true; do
 			echo ""
 				echo -e "${Y}You have selected $SELECTED_DISK.${X}"
 				echo -e "${WARN}${Y}Copy & Paste this command into your PVE shell ${R}by your own risk!${X}"
-				echo "-------------------------"
+				line
 				echo -e "${TAB}${START}${C}qm set $VM_ID -$SATA_PORT /dev/disk/by-id/$SELECTED_DISK,backup=0${X}"
-				echo "-------------------------"
+				line
 				sleep 3
 			;;
         c) # Exit

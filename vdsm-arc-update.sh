@@ -20,10 +20,10 @@ create_header "vDSM-Arc-Update"
 
 # Info
 echo -e "${INFO}${C}This tool can only update an existing vDSM.Arc VM${X}"
-echo "-------------------------"
+line
 echo -e "${C}Boot image will be replaced. ${R}> Loader re-build is required. ${X}"
 echo -e "${C}vDSM.Arc will be mapped as SATA0. ${R}> Do NOT CHANGE!${X}"
-echo "-------------------------"
+line
 echo ""
 continue_script
 
@@ -50,7 +50,7 @@ echo -e "${DISK}${C}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
     if [ -n "$STORAGE" ]; then
         echo -e "${C}You selected:${X} $STORAGE"
-        echo "-------------------------"
+        line
         break
     else
         echo -e "${R}Invalid selection. Please try again.${G}"
@@ -126,11 +126,11 @@ else
 fi
 
 # Success message
-echo "-------------------------"
+line
 echo -e "${OK}${G}VM ID: $VM_ID has been successfully updated!${X}"
 echo -e "${OK}${G}Image: Imported image (${NEW_IMG_FILE})${X}"
 echo -e "${OK}${G}SATA0: Attached disk (${VOLUME_ID})${X}"
-echo "-------------------------"
+line
 echo -e "${WARN}${Y}Info: Please delete unused disks of the VM by your own!${X}"
 echo ""
 exit 0

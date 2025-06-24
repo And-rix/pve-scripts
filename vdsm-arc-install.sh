@@ -20,12 +20,12 @@ create_header "vDSM-Arc-Installer"
 
 # Info
 echo -e "${CONSOLE}vDSM.Arc ${C}default settings${X}"
-echo "-------------------------"
+line
 echo -e "${C}CPU: 2x | Mem: 4096MB | NIC: vmbr0 | Storage: selectable${X}"
 echo -e "${Y}> can be changed after creation <${X}"
-echo "-------------------------"
+line
 echo -e "${C}vDSM.Arc will be mapped as SATA0. ${R}> Do NOT CHANGE!${X}"
-echo "-------------------------"
+line
 echo ""
 continue_script
 
@@ -37,13 +37,13 @@ if [ -z "$STORAGES" ]; then
     echo -e "${NOTOK}${R}No storage locations found that support disk images.${X}"
     exit 1
 fi
-echo "-------------------------"
+line
 # Storage Options
 echo -e "${DISK}${C}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
     if [ -n "$STORAGE" ]; then
         echo -e "${C}You selected:${X} $STORAGE"
-		echo "-------------------------"
+		line
         break
     else
         echo -e "${R}Invalid selection. Please try again.${G}"
@@ -151,10 +151,10 @@ else
 fi
 
 # Success message
-echo "-------------------------"
+line
 echo -e "${OK}${G}VM $VM_NAME (ID: $VM_ID) has been successfully created!${X}"
 echo -e "${OK}${G}SATA0: Imported image (${NEW_IMG_FILE})${X}"
-echo "-------------------------"
+line
 
 # Selection menu / Precheck
 while true; do
@@ -169,11 +169,11 @@ while true; do
 	
     echo ""
     echo -e "${DISK}${Y}Choose your option:${X}"
-	echo -e "-------------------------"
+	line
     echo -e "${C}a) Create Virtual Hard Disk${X}"
     echo -e "${C}b) Show Physical Hard Disk${X}"
     echo -e "${R}c) Exit${X}"
-	echo -e "-------------------------"
+	line
 	echo -e ""
 	read -n 1 option
 
@@ -210,7 +210,7 @@ while true; do
 			echo "Storage type: $VM_DISK_TYPE"
 
 			# Ask for disk size (at least 32 GB)
-			echo -e "-------------------------"
+			line
 			read -p "Enter the disk size in GB (minimum 32 GB): " DISK_SIZE
 
 			if [[ ! "$DISK_SIZE" =~ ^[0-9]+$ ]] || [ "$DISK_SIZE" -lt 32 ]; then
@@ -267,9 +267,9 @@ while true; do
 			echo ""
 				echo -e "${Y}You have selected $SELECTED_DISK.${X}"
 				echo -e "${WARN}${Y}Copy & Paste this command into your PVE shell ${R}by your own risk!${X}"
-				echo "-------------------------"
+				line
 				echo -e "${TAB}${START}${C}qm set $VM_ID -$SATA_PORT /dev/disk/by-id/$SELECTED_DISK,backup=0${X}"
-				echo "-------------------------"
+				line
 				sleep 3
 			;;
         c) # Exit

@@ -24,7 +24,7 @@
 # Function seperating line
 #	line() {
 #		local cols
-#		cols=$(tput cols)  # Terminalbreite ermitteln
+#		cols=$(tput cols) 
 #
 #		printf '%*s\n' "$cols" '' | tr ' ' '-'
 #	}

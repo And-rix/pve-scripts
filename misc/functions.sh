@@ -22,12 +22,16 @@
 	}
 
 # Function seperating line
+#	line() {
+#		local cols
+#		cols=$(tput cols)  # Terminalbreite ermitteln
+#
+#		printf '%*s\n' "$cols" '' | tr ' ' '-'
+#	}
 	line() {
-		local cols
-		cols=$(tput cols)  # Terminalbreite ermitteln
-
-		printf '%*s\n' "$cols" '' | tr ' ' '-'
+		printf '%*s\n' 60 '' | tr ' ' '-'
 	}
+
 
 
 # Function Continue Script

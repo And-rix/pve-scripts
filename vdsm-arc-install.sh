@@ -146,15 +146,15 @@ echo ""
 if [[ "$delete_answer" =~ ^[Yy]$ ]]; then
     echo "Deleting the file..."
     rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
-    echo -e "${OK}${G}($LATEST_FILENAME) from '$DOWNLOAD_PATH' deleted.${X}"
+    echo -e "${OK}${G}($LATEST_FILENAME) deleted.${X}"
 else
-    echo -e "${NOTOK}${Y}($LATEST_FILENAME) from '$DOWNLOAD_PATH' was not deleted.${X}"
+    echo -e "${NOTOK}${Y}($LATEST_FILENAME) was not deleted.${X}"
 fi
 
 # Success message
 line
 echo -e "${OK}${G}VM $VM_NAME (ID: $VM_ID) has been successfully created!${X}"
-echo -e "${OK}${G}SATA0: Imported image (${NEW_IMG_FILE})${X}"
+echo -e "${OK}${G}SATA0: img (${NEW_IMG_FILE})${X}"
 line
 
 # Selection menu / Precheck

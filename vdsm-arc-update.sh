@@ -85,6 +85,9 @@ else
     exit 1
 fi
 
+# Spinner group
+(
+
 # Existing SATA0 deletion
 qm set $VM_ID -delete sata0
 
@@ -106,7 +109,12 @@ fi
 # Attach the imported disk to the VM at the specified bus (e.g., sata0)
 qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
-# echo -e "${G} Disk attached to VM $VM_ID as sata0.${X}"
+# Set notes to VM
+NOTES_HTML=$(vm_notes_html)
+qm set "$VM_ID" --description "$NOTES_HTML"
+
+# Spinner group
+)> /dev/null 2>&1 &
 
 clear
 

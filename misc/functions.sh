@@ -32,8 +32,6 @@
 		printf '%*s\n' 60 '' | tr ' ' '-'
 	}
 
-
-
 # Function Continue Script
 	continue_script() {
 		echo -e "${START}${Y}Run script now? (y/Y)${X}"

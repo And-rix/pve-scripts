@@ -187,8 +187,8 @@
 
 # Function arc release
 	arc_release_url() {
-	#	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
-		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/tags/2.5.9 | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+	#	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/tags/2.5.9 | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
 	}
 
 # Function arc download
@@ -246,6 +246,10 @@
   <a href="https://github.com/And-rix/pve-scripts" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/GitHub-And--rix-24292e?logo=github&logoColor=white" alt="PVE Scripts GitHub">
   </a>
+</p>
+<hr>
+<p>
+[arc-$VERSION] - $(date)
 </p>
 EOF
 }	

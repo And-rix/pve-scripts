@@ -241,7 +241,7 @@
   </a>
 </p>
 <hr>
-<h3>📟 PVE Scripts</h3>
+<h3>📟 pve-scripts</h3>
 <p>
   <a href="https://github.com/And-rix/pve-scripts" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/GitHub-And--rix-24292e?logo=github&logoColor=white" alt="PVE Scripts GitHub">

@@ -2,7 +2,7 @@
 
 # Script Name: vdsm-arc-install.sh
 # Author: And-rix (https://github.com/And-rix)
-# Version: v3.5 - 24.06.2025
+# Version: v3.6 - 02.07.2025
 # Creation: 18.02.2025 
 
 export LANG=en_US.UTF-8
@@ -42,11 +42,12 @@ line
 echo -e "${DISK}${C}Please select target Storage for Arc install (SATA0):${X}"
 select STORAGE in $STORAGES; do
     if [ -n "$STORAGE" ]; then
-        echo -e "${C}You selected:${X} $STORAGE"
+        echo ""
+		echo -e "${C}You selected:${X} $STORAGE"
 		line
         break
     else
-        echo -e "${R}Invalid selection. Please try again.${G}"
+        echo -e "${R}Invalid selection. Please try again.${X}"
     fi
 done
 
@@ -60,7 +61,7 @@ DOWNLOAD_PATH="/var/lib/vz/template/tmp"
 mkdir -p "$DOWNLOAD_PATH"
 
 # Latest .img.zip from GitHub
-arc_release_url
+arc_release_choice
 arc_release_download
 
 # Extract the file

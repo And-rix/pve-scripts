@@ -185,6 +185,35 @@
 		Q35_VERSION="q35"
 	}		
 
+# Function arc release choice
+	arc_release_choice() {
+		while true; do
+			echo ""
+			line
+			echo -e "${TOOL}${C}Please select release channel:${X}"
+			echo -e "1) Latest ${G}[Stable]${X} Release - recommended!"
+			echo -e "2) Latest ${R}[Beta]${X} Release"
+			read -p "#? " release_choice
+			echo ""
+
+			release_choice=${release_choice:-1}
+
+			if [[ "$release_choice" == "1" ]]; then
+				echo -e "${C}You selected: ${G}[Stable]${X}"
+				line
+				arc_release_url
+				break
+			elif [[ "$release_choice" == "2" ]]; then
+				echo -e "${C}You selected: ${R}[Beta]${X}"
+				line
+				arc_beta_url
+				break
+			else
+				echo -e "${R}Invalid selection. Please try again.${X}"
+			fi
+		done
+	}
+
 # Function arc stable release
 	arc_release_url() {
 		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)

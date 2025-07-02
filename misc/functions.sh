@@ -185,11 +185,15 @@
 		Q35_VERSION="q35"
 	}		
 
-# Function arc release
+# Function arc stable release
 	arc_release_url() {
 		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
-		LATEST_BETA_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
 	}
+
+# Function arc beta release
+	arc_beta_url() {
+		LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+	}	
 
 # Function arc download
 	arc_release_download() {

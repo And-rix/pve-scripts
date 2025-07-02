@@ -79,14 +79,14 @@ else
     exit 1
 fi
 
+# Spinner group
+(
+
 # VM-ID and configuration
 arc_default_vm
 
 # Create the VM 
 qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu "$CPU" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
-
-# Spinner group
-(
 
 # Set VirtIO-SCSI as the default controller
 qm set "$VM_ID" --scsihw virtio-scsi-single

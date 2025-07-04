@@ -80,7 +80,7 @@ else
 fi
 
 # Spinner group
-(
+{
 
 # VM-ID and configuration
 arc_default_vm
@@ -130,7 +130,7 @@ NOTES_HTML=$(vm_notes_html)
 qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Spinner group
-)> /dev/null 2>&1 &
+}> /dev/null 2>&1 &
 
 SPINNER_PID=$!
 show_spinner $SPINNER_PID

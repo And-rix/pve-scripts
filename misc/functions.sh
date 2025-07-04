@@ -215,8 +215,34 @@
 	}
 # Function release version
 	arc_version() {
-		arc_stable=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
-		arc_beta=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
+		ARC_STABLE=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
+		ARC_BETA=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
+
+		while true; do
+			echo ""
+			line
+			echo -e "${TOOL}${C}Please select latest release channel:${X}"
+			echo -e "1) Stable ${G}[$ARC_STABLE]${X} Release"
+			echo -e "2) Beta ${R}[$ARC_BETA]${X} Release"
+			read -p "#? " release_choice
+			echo ""
+
+			release_choice=${release_choice:-1}
+
+			if [[ "$release_choice" == "1" ]]; then
+				echo -e "${C}You selected: Stable ${G}[$ARC_STABLE]${X}"
+				line
+				arc_release_url
+				break
+			elif [[ "$release_choice" == "2" ]]; then
+				echo -e "${C}You selected: Beta ${R}[$ARC_BETA]${X}"
+				line
+				arc_beta_url
+				break
+			else
+				echo -e "${R}Invalid selection. Please try again.${X}"
+			fi
+		done
 	}
 
 # Function arc stable release

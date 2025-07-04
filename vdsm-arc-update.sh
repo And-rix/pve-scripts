@@ -141,7 +141,7 @@ fi
 line
 echo -e "${OK}${G}VM ID: $VM_ID has been successfully updated!${X}"
 echo -e "${OK}${G}Image: Imported image (${NEW_IMG_FILE})${X}"
-echo -e "${OK}${G}SATA0: Disk successfull attached${X}"
+echo -e "${OK}${G}SATA0: Disk successfully attached${X}"
 line
 echo -e "${WARN}${Y}Info: Please delete unused disks of the VM by your own!${X}"
 echo ""

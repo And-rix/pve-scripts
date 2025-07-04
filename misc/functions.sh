@@ -213,6 +213,11 @@
 			fi
 		done
 	}
+# Function release version
+	arc_version() {
+		arc_stable=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
+		arc_beta=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
+	}
 
 # Function arc stable release
 	arc_release_url() {

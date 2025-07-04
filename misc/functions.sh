@@ -213,6 +213,7 @@
 			fi
 		done
 	}
+	
 # Function release version
 	arc_version() {
 		ARC_STABLE=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep '"name":' | head -n 1 | sed -E 's/.*"name": ?"([^"]+)".*/\1/')
@@ -222,8 +223,8 @@
 			echo ""
 			line
 			echo -e "${TOOL}${C}Please select latest release channel:${X}"
-			echo -e "1) Stable ${G}[$ARC_STABLE]${X} Release"
-			echo -e "2) Beta ${R}[$ARC_BETA]${X} Release"
+			echo -e "1) Stable ${G}[$ARC_STABLE]${X} - Recommended!"
+			echo -e "2) Beta ${R}[$ARC_BETA]${X}"
 			read -p "#? " release_choice
 			echo ""
 

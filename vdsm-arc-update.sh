@@ -86,6 +86,9 @@ else
     exit 1
 fi
 
+# Spinner group
+{
+
 # Existing SATA0 deletion
 qm set $VM_ID -delete sata0
 
@@ -110,6 +113,12 @@ qm set "$VM_ID" --sata0 "$VOLUME_ID"
 # Set notes to VM
 NOTES_HTML=$(vm_notes_html)
 qm set "$VM_ID" --description "$NOTES_HTML"
+
+# Spinner group
+}> /dev/null 2>&1 &
+
+SPINNER_PID=$!
+show_spinner $SPINNER_PID
 
 clear
 

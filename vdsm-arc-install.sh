@@ -79,11 +79,12 @@ else
     exit 1
 fi
 
-# Spinner group
-{
 
 # VM-ID and configuration
 arc_default_vm
+
+# Spinner group
+{
 
 # Create the VM 
 qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu "$CPU" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
@@ -130,7 +131,7 @@ NOTES_HTML=$(vm_notes_html)
 qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Spinner group
-}> /dev/null 2>&1
+}> /dev/null 2>&1 &
 
 SPINNER_PID=$!
 show_spinner $SPINNER_PID

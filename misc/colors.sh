@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# MIT License
+# Copyright (c) 2025 And-rix
+# GitHub: https://github.com/And-rix
+# License: /LICENSE
+
 # Colors
 BK='\033[0;30m'  # Black
 R='\033[0;31m'  # Red

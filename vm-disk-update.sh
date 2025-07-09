@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script Name: vm-disk-update.sh
-# Author: And-rix (https://github.com/And-rix)
-# Version: v1.5 - 06.06.2025
-# Creation: 26.02.2025
+# MIT License
+# Copyright (c) 2025 And-rix
+# GitHub: https://github.com/And-rix
+# License: /LICENSE
 
 export LANG=en_US.UTF-8
 

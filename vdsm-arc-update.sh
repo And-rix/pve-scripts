@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script Name: vdsm-arc-update.sh
-# Author: And-rix (https://github.com/And-rix)
-# Version: v1.4 - 02.07.2025
-# Creation: 23.05.2025
+# MIT License
+# Copyright (c) 2025 And-rix
+# GitHub: https://github.com/And-rix
+# License: /LICENSE
 
 export LANG=en_US.UTF-8
 

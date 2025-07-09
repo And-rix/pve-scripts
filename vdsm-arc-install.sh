@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script Name: vdsm-arc-install.sh
-# Author: And-rix (https://github.com/And-rix)
-# Version: v3.6 - 02.07.2025
-# Creation: 18.02.2025 
+# MIT License
+# Copyright (c) 2025 And-rix
+# GitHub: https://github.com/And-rix
+# License: /LICENSE
 
 export LANG=en_US.UTF-8
 

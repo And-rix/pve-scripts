@@ -196,8 +196,8 @@
 			echo ""
 			line
 			echo -e "${TOOL}${C}Please select release channel:${X}"
-			echo -e "1) Latest ${G}[Stable]${X} Release - recommended!"
-			echo -e "2) Latest ${R}[Beta]${X} Release"
+			echo -e "1) Latest ${G}[Stable]${X} > recommended!"
+			echo -e "2) Latest ${R}[Beta]${X}"
 			read -p "#? " release_choice
 			echo ""
 

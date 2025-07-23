@@ -130,12 +130,11 @@ while ! validate_subnet "$SUBNET"; do
   read SUBNET
 done
 line
-echo -e "${R}Manual Tailscale login required:${X}"
 echo -e "Automatically running this command inside the container:"
 echo ""
 echo -e "${C}pct exec $CT_ID -- tailscale up --advertise-routes=$SUBNET --accept-routes${X}"
 echo ""
-echo -e "If the command fails or you want to login interactively later, run the above manually."
+echo -e "${Y}If the command fails or you want to login interactively later, run the above manually.${X}"
 line
 echo -e "${G}[OK]${X} Container $CT_ID is ready."
 line

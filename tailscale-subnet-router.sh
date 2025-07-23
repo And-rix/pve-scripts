@@ -73,8 +73,6 @@ echo -e "${C}Adjusting LXC configuration for Tailscale...${X}"
 line
 LXC_CONF="/etc/pve/lxc/${CT_ID}.conf"
 cat <<EOF >> $LXC_CONF
-
-# Tailscale settings
 lxc.cap.drop =
 lxc.apparmor.profile = unconfined
 lxc.cgroup.devices.allow = a

@@ -323,3 +323,34 @@
 </p>
 EOF
 }	
+
+
+##### LXC Tailscale functions #####
+
+# Validate if input is a valid IPv4 subnet in CIDR notation 
+validate_subnet() {
+  local ip=$1
+  if [[ $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$ ]]; then
+    IFS='/' read -r addr mask <<< "$ip"
+    IFS='.' read -r o1 o2 o3 o4 <<< "$addr"
+    if (( o1 <= 255 && o2 <= 255 && o3 <= 255 && o4 <= 255 && mask <= 32 )); then
+      return 0
+    fi
+  fi
+  return 1
+}
+
+# Function LXC notes (tailscale-subnet-router)
+	lxc_notes_html_tailscale() {
+    cat <<EOF
+<h2><center>Tailscale-Subnet-Router</center></h2>
+<hr>
+<h3>📟 pve-scripts</h3>
+<p>
+  <a href="https://github.com/And-rix/pve-scripts" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/GitHub-And--rix-24292e?logo=github&logoColor=white" alt="PVE Scripts GitHub">
+  </a>
+</p>
+<hr>
+EOF
+}	

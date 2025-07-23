@@ -121,7 +121,7 @@ echo -e "${G}[OK]${X} Updates and installation completed."
 # Final user instruction
 line
 echo ""
-echo -e "${C}Please enter the subnet for Tailscale ${Y}(e.g. 192.168.10.0/24):${X}"
+echo -e "${C}Please enter the subnet for Tailscale ${Y}(e.g. 192.168.178.0/24):${X}"
 read SUBNET
 while ! validate_subnet "$SUBNET"; do
   echo -e "${R}Invalid subnet format! Please enter again.${X}"

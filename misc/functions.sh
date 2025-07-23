@@ -325,9 +325,49 @@ EOF
 }	
 
 
+
+
 ##### LXC Tailscale functions #####
 
-# Validate if input is a valid IPv4 subnet in CIDR notation 
+# Function Download Ubuntu Template
+dl_template_ubuntu() {
+	if ! pveam list local | grep -q "ubuntu-22.04-standard_22.04-1_amd64"; then
+	echo -e "${C}Downloading Ubuntu template...${X}"
+	pveam download local ubuntu-22.04-standard_22.04-1_amd64.tar.zst
+	fi
+}
+
+# Function config Tailscale LXC
+config_tailscale_lxc() {
+	CT_ID=$(pvesh get /cluster/nextid)
+	echo -e "${C}Using container ID: $CT_ID${X}"
+	HOSTNAME="tailscale"
+	TEMPLATE="local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+	NET_IF="eth0"
+	BRIDGE="vmbr0"
+}
+
+# Function create Tailscale LXC
+create_tailscale_lxc() {
+	line
+	echo -e "${C}Creating LXC container $CT_ID...${X}"
+	line
+	pct create $CT_ID $TEMPLATE \
+	  	--hostname $HOSTNAME \
+  		--password $PASSWORD \
+  		--unprivileged 1 \
+  		--features nesting=1 \
+  		--net0 name=$NET_IF,bridge=$BRIDGE,ip=dhcp \
+  		--memory 1024 \
+  		--cores 1 \
+  		--rootfs local-lvm:10 \
+  		--start 1 
+
+	pct set $CT_ID --onboot 1
+	pct set $CT_ID --notes "$(lxc_notes_html_tailscale)"
+}
+
+# Function IP Validation 
 validate_subnet() {
   local ip=$1
   if [[ $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$ ]]; then

@@ -4,7 +4,7 @@
 
 ## 📟 **vdsm-arc-toolkit.sh**
 
-All-in-1 toolkit script for **vDSM Arc Loader** from [AuxXxilium](https://github.com/AuxXxilium) on your PVE host.
+All-in-one toolkit script for **vDSM Arc Loader** by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
 
 - **CREATE** new vDSM.Arc
 - **UPDATE** existing vDSM.Arc
@@ -18,7 +18,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ## 📟 **vdsm-arc-install.sh**
 
-An automated install script for **vDSM Arc Loader** from [AuxXxilium](https://github.com/AuxXxilium) on your PVE host.
+Automated installer for vDSM.Arc Loader by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
 
 - **Default settings**:  
   - **CPU**: 2 Cores  
@@ -36,10 +36,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ## 📟 **vdsm-arc-update.sh**
 
-An automated update script for **vDSM Arc Loader** on an existing VM.
-- Boot image will be replaced. **Loader re-build is required!**
-- vDSM.Arc will be mapped as SATA0
-- Backup: old boot disk as 'unused disk'
+Automated update script for vDSM Arc Loader on an existing VM.
+- Replaces boot image. Rebuild of loader required!
+- vDSM.Arc mapped as SATA0
+- Backs up old boot disk as 'unused disk'
   
 ```shell
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-update.sh)"
@@ -49,7 +49,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ## 📟 vm-disk-update.sh
 
-Add more virtual or physical disks to an existing VM on your PVE host   
+Add additional virtual or physical disks to an existing VM on your Proxmox VE host.  
 
 - **Supported filesystem types**:  
   `dir`, `btrfs`, `nfs`, `cifs`, `lvm`, `lvmthin`, `zfs`, `zfspool`   
@@ -60,9 +60,23 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ---
 
+## 📟 tailscale-subnet-router.sh
+
+Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and configures it as a **Tailscale subnet router**.
+
+- Just copy & paste the install command into your Proxmox shell.
+- Follow the prompts to set up your subnet router.
+- Once installed, you can access the entire subnet behind the LXC via Tailscale.
+  
+```shell
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/tailscale-subnet-router.sh)"
+```
+
+---
+
 ## 📟 laptop-hibernation.sh
 
-This script disable any hibernation mode to run Proxmox VE on a laptop   
+Disables all hibernation modes to run Proxmox VE smoothly on a laptop. 
   
 ```shell
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/laptop-hibernation.sh)"

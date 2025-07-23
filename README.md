@@ -2,7 +2,7 @@
 
 **Just copy & paste into your PVE shell 😎**
 
-## 📟 **vdsm-arc-toolkit.sh**
+## 🧰 **vdsm-arc-toolkit.sh**
 
 All-in-one toolkit script for **vDSM Arc Loader** by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
 
@@ -16,7 +16,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ---
 
-## 📟 **vdsm-arc-install.sh**
+## ⚙️ **vdsm-arc-install.sh**
 
 Automated installer for vDSM.Arc Loader by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
 
@@ -34,7 +34,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ---
 
-## 📟 **vdsm-arc-update.sh**
+## 🔄 **vdsm-arc-update.sh**
 
 Automated update script for vDSM Arc Loader on an existing VM.
 - Replaces boot image. Rebuild of loader required!
@@ -47,7 +47,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ---
 
-## 📟 vm-disk-update.sh
+## 💾 vm-disk-update.sh
 
 Add additional virtual or physical disks to an existing VM on your Proxmox VE host.  
 
@@ -60,7 +60,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ---
 
-## 📟 tailscale-subnet-router.sh
+## 🔗 tailscale-subnet-router.sh
 
 Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and configures it as a **Tailscale subnet router**.
 
@@ -74,7 +74,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 ---
 
-## 📟 laptop-hibernation.sh
+## 💻 laptop-hibernation.sh
 
 Disables all hibernation modes to run Proxmox VE smoothly on a laptop. 
   

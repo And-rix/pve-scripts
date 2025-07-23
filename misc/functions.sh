@@ -364,7 +364,6 @@ create_tailscale_lxc() {
   		--start 1 
 
 	pct set $CT_ID --onboot 1
-	pct set $CT_ID --notes "$(lxc_notes_html_tailscale)"
 }
 
 # Function IP Validation 
@@ -380,17 +379,3 @@ validate_subnet() {
   return 1
 }
 
-# Function LXC notes (tailscale-subnet-router)
-	lxc_notes_html_tailscale() {
-    cat <<EOF
-<h2><center>Tailscale-Subnet-Router</center></h2>
-<hr>
-<h3>📟 pve-scripts</h3>
-<p>
-  <a href="https://github.com/And-rix/pve-scripts" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/GitHub-And--rix-24292e?logo=github&logoColor=white" alt="PVE Scripts GitHub">
-  </a>
-</p>
-<hr>
-EOF
-}	

@@ -6,10 +6,10 @@
 
 ## 🧰 **vdsm-arc-toolkit.sh**
 
-All-in-one toolkit script for **vDSM.Arc Loader** by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
+All-in-one toolkit for **vDSM.Arc Loader** by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
 
 - **CREATE** new vDSM.Arc
-- **UPDATE** existing vDSM.Arc
+- **UPDATE** an existing vDSM.Arc
 - **ADD** disks to a VM
   
 
@@ -40,8 +40,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 ## 🔄 **vdsm-arc-update.sh**
 
 Automated update script for **vDSM.Arc Loader** on an existing VM.
-- Replaces boot image. Rebuild of loader required!
-- vDSM.Arc mapped as SATA0
+- Replaces boot image. Rebuild of loader is required!
+- vDSM.Arc is mapped as SATA0
 - Backs up old boot disk as 'unused disk'
   
 ```shell
@@ -67,9 +67,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 
 Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and configures it as a [Tailscale subnet router](https://tailscale.com/kb/1019/subnets).
 
-- Just copy & paste the install command into your Proxmox shell.
-- Follow the prompts to set up your subnet router.
+- Just copy & paste the install command into your Proxmox VE shell.
+- Follow the instructions to complete the setup.
 - Once installed, you can access the entire subnet behind the LXC via Tailscale.
+- **⚠️ Important:** You must approve the new subnet route manually in the [Tailscale Admin Panel](https://login.tailscale.com/admin/machines) after setup!
   
 ```shell
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/tailscale-subnet-router.sh)"

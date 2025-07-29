@@ -62,8 +62,8 @@ if ! grep -q "$BRIDGE" /etc/network/interfaces && ! brctl show | grep -q "$BRIDG
   exit 1
 fi
 
-dl_template_ubuntu
-create_tailscale_lxc
+dl_template_ubuntu > /dev/null 2>&1
+create_tailscale_lxc > /dev/null 2>&1
 
 clear
 
@@ -85,7 +85,7 @@ echo -e "${C}Restarting container...${X}"
 line
 pct stop $CT_ID
 sleep 2
-pct start $CT_ID
+pct start $CT_ID > /dev/null 2>&1
 sleep 5
 
 clear

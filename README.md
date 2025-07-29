@@ -4,21 +4,6 @@
 
 ---
 
-## 🧰 **vdsm-arc-toolkit.sh**
-
-All-in-one toolkit for **vDSM.Arc Loader** by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
-
-- **CREATE** new vDSM.Arc
-- **UPDATE** an existing vDSM.Arc
-- **ADD** disks to a VM
-  
-
-```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-toolkit.sh)"
-```
-
----
-
 ## 🔗 tailscale-subnet-router.sh
 
 Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and configures it as a [Tailscale subnet router](https://tailscale.com/kb/1019/subnets).
@@ -30,6 +15,21 @@ Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and 
   
 ```shell
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/tailscale-subnet-router.sh)"
+```
+
+---
+
+## 🧰 **vdsm-arc-toolkit.sh**
+
+All-in-one toolkit for **vDSM.Arc Loader** by [AuxXxilium](https://github.com/AuxXxilium) on your Proxmox VE host.
+
+- **CREATE** new vDSM.Arc
+- **UPDATE** an existing vDSM.Arc
+- **ADD** disks to a VM
+  
+
+```shell
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm-arc-toolkit.sh)"
 ```
 
 ---

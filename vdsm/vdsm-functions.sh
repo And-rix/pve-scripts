@@ -287,8 +287,12 @@ sata_disk_menu() {
 
       b)
         # Physical Disk
-        DISKS=$(find /dev/disk/by-id/ -type l -print0 | xargs -0 ls -l \
- 		 | grep -v -E '[0-9]+p[0-9]+$' | awk -F' -> ' '{print $1}' | awk -F'/by-id/' '{print $2}')
+        DISKS=$(find /dev/disk/by-id/ -type l \( -name 'ata-*' -o -name 'nvme-*' -o -name 'usb-*' \) -print0 \
+		| xargs -0 ls -l \
+		| grep -v -E '[0-9]+p[0-9]+$' \
+		| awk -F' -> ' '{print $1}' \
+		| awk -F'/by-id/' '{print $2}')
+
 
         DISK_ARRAY=()
         for d in $DISKS; do

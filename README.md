@@ -74,7 +74,7 @@ Add additional virtual or physical disks to an existing VM on your Proxmox VE ho
 - **Supported filesystem types**:  
   `dir`, `btrfs`, `nfs`, `cifs`, `lvm`, `lvmthin`, `zfs`, `zfspool`
 
-- **Supported disk types**:  
+- **Supported -physical- disk types**:  
   `sata`, `nvme`, `usb`
 - ℹ️ ***This script is also included in vdsm-arc-toolkit.sh***
     

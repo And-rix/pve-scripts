@@ -291,8 +291,8 @@ sata_disk_menu() {
 		| xargs -0 ls -l \
 		| grep -v -E '[0-9]+p[0-9]+$' \
 		| awk -F' -> ' '{print $1}' \
-		| awk -F'/by-id/' '{print $2}' \
-		| grep -v '^nvme-eui')
+		| grep -v '^nvme-eui' \
+  		| grep -v -E 'part[0-9]+$')
 
         DISK_ARRAY=()
         for d in $DISKS; do

@@ -277,7 +277,7 @@ sata_disk_menu() {
 
         SATA_PORT=$(find_available_sata_port)
         DISK_NAME="vm-$VM_ID-disk-$SATA_PORT"
-        VM_DISK_TYPE=$(pvesm status | awk -v s="$VM_DISK" '$1 == s {print $2}')
+        VM_DISK_TYPE=$(pvesm status 2>/dev/null | awk -v s="$VM_DISK" '$1 == s {print $2}')
 
         disk_path_generate
 

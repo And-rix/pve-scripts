@@ -243,11 +243,11 @@ sata_disk_menu() {
     case "$OPTION" in
       a)
         # Virtual Disk
-        VM_DISKS=$(pvesm status -content images | awk 'NR>1 {print $1}')
-        if [[ -z "$VM_DISKS" ]]; then
-        whiptail --title "No Storage" --msgbox "No storage locations found that support disk images." 8 60
-        continue
-        fi
+		VM_DISKS=$(pvesm status -content images 2>/dev/null | awk 'NR>1 {print $1}')
+		if [[ -z "$VM_DISKS" ]]; then
+			whiptail --title "No Storage" --msgbox "No storage locations found that support disk images." 8 60
+			continue
+		fi
 
         STORAGE_MENU=()
         for disk in $VM_DISKS; do
@@ -288,7 +288,7 @@ sata_disk_menu() {
       b)
         # Physical Disk
         DISKS=$(find /dev/disk/by-id/ -type l -print0 | xargs -0 ls -l \
-          | grep -v -E '[0-9]$' | awk -F' -> ' '{print $1}' | awk -F'/by-id/' '{print $2}')
+ 		 | grep -v -E '[0-9]+p[0-9]+$' | awk -F' -> ' '{print $1}' | awk -F'/by-id/' '{print $2}')
 
         DISK_ARRAY=()
         for d in $DISKS; do

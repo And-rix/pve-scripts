@@ -48,7 +48,7 @@ pve_storages() {
     mapfile -t STORAGES < <(pvesm status -content images | awk 'NR>1 {print $1}')
 
     if [[ ${#STORAGES[@]} -eq 0 ]]; then
-        echo -e "${R}[!] No storage locations found that support disk images.${X}"
+        echo -e "${R}[i] No storage locations found that support disk images.${X}"
         exit 1
     fi
 
@@ -179,7 +179,7 @@ confirm_delete_temp_file() {
         echo -e "${G}[OK] ${C}($LATEST_FILENAME) deleted.${X}"
     else
         echo ""
-        echo -e "${Y}[!] ${C}($LATEST_FILENAME) was not deleted.${X}"
+        echo -e "${Y}[i] ${C}($LATEST_FILENAME) was not deleted.${X}"
     fi
 }
 
@@ -213,7 +213,7 @@ disk_path_generate() {
 		qm set "$VM_ID" -$SATA_PORT "$DISK_PATH",backup=0 # Disable Backup
 	elif [[ "$VM_DISK_TYPE" == "pbs" || "$VM_DISK_TYPE" == "glusterfs" || "$VM_DISK_TYPE" == "cephfs" || "$VM_DISK_TYPE" == "iscsi" || "$VM_DISK_TYPE" == "iscsidirect" || "$VM_DISK_TYPE" == "rbd" ]]; then
 		echo ""
-		echo -e "${R}[!] Unsupported filesystem type: $VM_DISK_TYPE ${X}" # Disable untested storage types
+		echo -e "${R}[i] Unsupported filesystem type: $VM_DISK_TYPE ${X}" # Disable untested storage types
 		echo -e "${Y}Supported filesystem types:${X}"
 		echo -e "${TAB}${TAB}${C}dir, btrfs, nfs, cifs, lvm, lvmthin, zfs, zfspool${X}"
 		return
@@ -230,7 +230,7 @@ sata_disk_menu() {
     # Check available SATA port before proceeding
     PRE_SATA_PORT=$(precheck_sata_port)
     if [[ -z "$PRE_SATA_PORT" ]]; then
-      echo -e "${R}[!] No available SATA ports between SATA1 and SATA5. Exiting...${X}"
+      echo -e "${R}[i] No available SATA ports between SATA1 and SATA5. Exiting...${X}"
       exit 1
     fi
 
@@ -406,12 +406,12 @@ vm_check_status() {
 # vm_status
 vm_status() {
 	if [ "$STATUS" != "stopped" ]; then
-		echo -e "${R}[!] VM $VM_ID is $STATUS. Please SHUTDOWN FIRST!${X}"
+		echo -e "${R}[i] ${C}VM $VM_ID is $STATUS. ${R}Please SHUTDOWN FIRST!${X}"
 		line
 		echo "" 
 		exit 1
 	else 
-		echo -e "${G}[OK] VM is stopped. Continue update...${X}"
+		echo -e "${G}[OK] ${C}VM is stopped. Continue update...${X}"
 		line
 	fi
 }	

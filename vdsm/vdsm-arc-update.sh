@@ -91,6 +91,11 @@ fi
 # Attach the imported disk to the VM at the specified bus (e.g., sata0)
 qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
+# Set boot order to SATA0 only, disable all other devices
+qm set "$VM_ID" --boot order=sata0
+qm set "$VM_ID" --bootdisk sata0
+qm set "$VM_ID" --onboot 1
+
 # Set notes to VM
 # NOTES_HTML=$(vm_notes_html)
 # qm set "$VM_ID" --description "$NOTES_HTML"

@@ -92,8 +92,8 @@ fi
 qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
 # Set notes to VM
-NOTES_HTML=$(vm_notes_html)
-qm set "$VM_ID" --description "$NOTES_HTML"
+# NOTES_HTML=$(vm_notes_html)
+# qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Spinner group
 }> /dev/null 2>&1 &

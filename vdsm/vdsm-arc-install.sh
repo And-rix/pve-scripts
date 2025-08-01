@@ -7,19 +7,18 @@
 
 export LANG=en_US.UTF-8
 
-# Import Misc
+# Import misc functions
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/misc.sh)
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm/vdsm-functions.sh)
 
-# Post message
+# Header
 create_header "vDSM-Arc-Install"
-
-# Sleep
 sleep 1
 
-# Info
+# User confirmation
 ask_user_confirmation
 
+# Info message
 whiptail --title "vDSM-Arc default settings" --msgbox \
 "CPU: 2x | Mem: 4096MB | NIC: vmbr0 | Storage: selectable
 
@@ -27,31 +26,30 @@ whiptail --title "vDSM-Arc default settings" --msgbox \
 
 Can be changed after creation!" 12 60
 
-# Storage menu
+# Storage selection
 pve_storages
 echo -e "${C}You selected:${X} $STORAGE"
 line
 
-# Check for 'unzip' and 'wget' > install if not
+# Ensure unzip + wget are available
 unzip_check_install
- 
-# Target directories
+
+# Paths
 ISO_STORAGE_PATH="/var/lib/vz/template/iso"
 DOWNLOAD_PATH="/var/lib/vz/template/tmp"
-
 mkdir -p "$DOWNLOAD_PATH"
 
-# Latest .img.zip from GitHub
+# Download release from GitHub
 arc_release_choice
 arc_release_download
 
-# Extract the file
+# Extract .img
 unzip_img
 
-# Extract the version number from the filename
+# Get version
 VERSION=$(echo "$LATEST_FILENAME" | grep -oP "\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?")
 
-# Rename arc.img to arc-[VERSION].img
+# Rename extracted image
 if [ -f "$ISO_STORAGE_PATH/arc.img" ]; then
     NEW_IMG_FILE="$ISO_STORAGE_PATH/arc-${VERSION}.img"
     mv "$ISO_STORAGE_PATH/arc.img" "$NEW_IMG_FILE"
@@ -60,67 +58,59 @@ else
     exit 1
 fi
 
-
-# VM-ID and configuration
+# Define VM parameters
 arc_default_vm
 
 # Spinner group
 {
+    # Create VM
+    qm create "$VM_ID" \
+        --name "$VM_NAME" \
+        --memory "$MEMORY" \
+        --cores "$CORES" \
+        --cpu "$CPU" \
+        --net0 virtio,bridge=vmbr0 \
+        --machine "$Q35_VERSION" \
+        --scsihw virtio-scsi-single
 
-# Create the VM 
-qm create "$VM_ID" --name "$VM_NAME" --memory "$MEMORY" --cores "$CORES" --cpu "$CPU" --net0 virtio,bridge=vmbr0 --machine "$Q35_VERSION"
+    # Clean up default SCSI/IDE config if present
+    qm config "$VM_ID" | grep -q "^scsi0:" && qm set "$VM_ID" --delete scsi0
+    qm config "$VM_ID" | grep -q "^ide0:" && qm set "$VM_ID" --delete ide0
+    qm config "$VM_ID" | grep -q "^ide2:" && qm set "$VM_ID" --delete ide2
 
-# Set VirtIO-SCSI as the default controller
-qm set "$VM_ID" --scsihw virtio-scsi-single
+    # Import disk image
+    IMPORT_OUTPUT=$(qm importdisk "$VM_ID" "$NEW_IMG_FILE" "$STORAGE")
+    VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
 
-# Delete scsi0 if it exists
-if qm config "$VM_ID" | grep -q "scsi0"; then
-    qm set "$VM_ID" --delete scsi0
-fi
+    if [ -z "$VOLUME_ID" ]; then
+        echo -e "${R}[!] Failed to extract volume ID from import output.${X}"
+        echo -e "${R}Output: $IMPORT_OUTPUT${X}"
+        exit 1
+    fi
 
-# Import image
-qm importdisk "$VM_ID" "$NEW_IMG_FILE" "$STORAGE"
+    # Attach imported disk to SATA0
+    qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
-# Check storage type
-STORAGE_TYPE=$(pvesm status | awk -v s="$STORAGE" '$1 == s {print $2}')
-echo -e "$STORAGE_TYPE"
+    # Configure boot and QEMU agent
+    qm set "$VM_ID" \
+        --agent enabled=1 \
+        --boot order=sata0 \
+        --bootdisk sata0 \
+        --onboot 1
 
-# Disk format > block/file based
-if [[ "$STORAGE_TYPE" == "dir" || "$STORAGE_TYPE" == "nfs" || "$STORAGE_TYPE" == "cifs" || "$STORAGE_TYPE" == "btrfs" ]]; then
-    qm set "$VM_ID" --sata0 "$STORAGE:$VM_ID/vm-$VM_ID-disk-0.raw" # file-based 
-else
-	qm set "$VM_ID" --sata0 "$STORAGE:vm-${VM_ID}-disk-0" # block-based 
-fi
+    # VM description
+    NOTES_HTML=$(vm_notes_html)
+    qm set "$VM_ID" --description "$NOTES_HTML"
 
-# Enable QEMU Agent
-qm set "$VM_ID" --agent enabled=1
-
-# Set boot order to SATA0 only, disable all other devices
-qm set "$VM_ID" --boot order=sata0
-qm set "$VM_ID" --bootdisk sata0
-qm set "$VM_ID" --onboot 1
-
-# Disable all other boot devices
-qm set "$VM_ID" --ide0 none
-qm set "$VM_ID" --net0 virtio,bridge=vmbr0
-qm set "$VM_ID" --cdrom none
-qm set "$VM_ID" --delete ide0
-qm set "$VM_ID" --delete ide2
-
-# Set notes to VM
-NOTES_HTML=$(vm_notes_html)
-qm set "$VM_ID" --description "$NOTES_HTML"
-
-# Spinner group
-}> /dev/null 2>&1 &
+} > /dev/null 2>&1 &
 
 SPINNER_PID=$!
 show_spinner $SPINNER_PID
 
-# Step
+# Final step
 create_header "vDSM-Arc-Install"
 
-# Delete temp file?
+# Ask to delete temp file
 confirm_delete_temp_file
 line
 
@@ -129,5 +119,5 @@ echo -e "${G}[OK] ${C}$VM_NAME (ID: $VM_ID) has been successfully created!${X}"
 echo -e "${G}[OK] ${C}SATA0: img (${NEW_IMG_FILE})${X}"
 line
 
-# Storage selection
+# Optional: disk configuration menu
 sata_disk_menu

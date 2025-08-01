@@ -7,17 +7,15 @@
 
 export LANG=en_US.UTF-8
 
-# Import Misc
+# Import misc functions
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/misc.sh)
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm/vdsm-functions.sh)
 
-# Post message
+# Header
 create_header "VM-Disk-Update"
-
-# Sleep
 sleep 1
 
-# Info
+# User confirmation
 ask_user_confirmation
 
 whiptail --title "VM Disk Update" --msgbox \

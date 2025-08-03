@@ -9,7 +9,7 @@ export LANG=en_US.UTF-8
 
 # Import Misc
 source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/misc.sh)
-source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/tailscale/ts-functions.sh)
+source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/tailscale/tailscale-functions.sh)
 
 # Post message
 create_header "Tailscale-Subnet-Router"

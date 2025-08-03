@@ -411,7 +411,7 @@ vm_status() {
 		echo "" 
 		exit 1
 	else 
-		echo -e "${G}[OK] ${C}VM is stopped. Continue update...${X}"
+		echo -e "${G}[OK] ${C}$VM_ID is stopped. Continue update...${X}"
 		line
 	fi
 }	

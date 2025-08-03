@@ -18,6 +18,7 @@ sleep 1
 # User confirmation
 ask_user_confirmation
 
+# Info message
 whiptail --title "VM Disk Update" --msgbox \
 "Please select the VM in the next step.
 ---

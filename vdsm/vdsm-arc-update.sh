@@ -70,34 +70,33 @@ fi
 
 # Spinner group
 {
+    # Existing SATA0 deletion
+    qm set $VM_ID -delete sata0
 
-# Existing SATA0 deletion
-qm set $VM_ID -delete sata0
+    # Import the disk image to the specified storage
+    IMPORT_OUTPUT=$(qm importdisk "$VM_ID" "$NEW_IMG_FILE" "$STORAGE")
 
-# Import the disk image to the specified storage
-IMPORT_OUTPUT=$(qm importdisk "$VM_ID" "$NEW_IMG_FILE" "$STORAGE")
+    # Extract the volume ID from the output (e.g., local-lvm:vm-105-disk-2)
+    VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
 
-# Extract the volume ID from the output (e.g., local-lvm:vm-105-disk-2)
-VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
+    # Check if extraction was successful
+    if [ -z "$VOLUME_ID" ]; then
+      echo -e "${R}[!] Failed to extract volume ID from import output.${X}"
+      echo -e "${R}Output: $IMPORT_OUTPUT${X}"
+      exit 1
+    fi
 
-# Check if extraction was successful
-if [ -z "$VOLUME_ID" ]; then
-  echo -e "${R}[!] Failed to extract volume ID from import output.${X}"
-  echo -e "${R}Output: $IMPORT_OUTPUT${X}"
-  exit 1
-fi
+    # Attach the imported disk to the VM at the specified bus (e.g., sata0)
+    qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
-# Attach the imported disk to the VM at the specified bus (e.g., sata0)
-qm set "$VM_ID" --sata0 "$VOLUME_ID"
+    # Set boot order to SATA0 only, disable all other devices
+    qm set "$VM_ID" --boot order=sata0
+    qm set "$VM_ID" --bootdisk sata0
+    qm set "$VM_ID" --onboot 1
 
-# Set boot order to SATA0 only, disable all other devices
-qm set "$VM_ID" --boot order=sata0
-qm set "$VM_ID" --bootdisk sata0
-qm set "$VM_ID" --onboot 1
-
-# Set notes to VM
-# NOTES_HTML=$(vm_notes_html)
-# qm set "$VM_ID" --description "$NOTES_HTML"
+    # Set notes to VM
+    # NOTES_HTML=$(vm_notes_html)
+    # qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Spinner group
 }> /dev/null 2>&1 &

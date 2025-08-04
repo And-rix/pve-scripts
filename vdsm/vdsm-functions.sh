@@ -86,13 +86,13 @@ arc_release_choice() {
 
 		case "$release_choice" in
 			1)
-				echo -e "${C}You selected: ${G}[Stable]${X}"
+				echo -e "${C}Release: ${G}[Stable]${X}"
 				line
 				arc_release_url
 				break
 				;;
 			2)
-				echo -e "${C}You selected: ${R}[Beta]${X}"
+				echo -e "${C}Release: ${R}[Beta]${X}"
 				line
 				arc_beta_url
 				break
@@ -138,10 +138,10 @@ confirm_delete_temp_file() {
         echo ""
         echo "Deleting the file..."
         rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
-        echo -e "${G}[OK] ${C}($LATEST_FILENAME) deleted.${X}"
+        echo -e "${G}[OK] ${X}($LATEST_FILENAME) ${C}deleted.${X}"
     else
         echo ""
-        echo -e "${Y}[i] ${C}($LATEST_FILENAME) was not deleted.${X}"
+        echo -e "${Y}[i] ${X}($LATEST_FILENAME) ${C}was not deleted.${X}"
     fi
 }
 

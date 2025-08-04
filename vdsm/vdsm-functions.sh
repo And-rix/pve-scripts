@@ -22,6 +22,9 @@ pve_storages() {
     STORAGE=$(whiptail --title "Storage Selection" \
         --menu "Please select target storage for Arc install (SATA0):" 15 60 6 \
         "${MENU_OPTIONS[@]}" 3>&1 1>&2 2>&3) || exit 1
+
+	echo -e "${C}Storage:${X} $STORAGE"
+	line	
 }
 
 # Function unzip_check_install

@@ -28,8 +28,6 @@ Can be changed after creation!" 12 60
 
 # Storage selection
 pve_storages
-echo -e "${C}Storage:${X} $STORAGE"
-line
 
 # Ensure unzip + wget are available
 unzip_check_install

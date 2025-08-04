@@ -31,7 +31,7 @@ unzip_check_install() {
 			echo -e "${Y}'$pkg' is not installed. Installing...${X}"
 			apt-get update && apt-get install -y "$pkg"
 			if ! command -v "$pkg" &> /dev/null; then
-				echo -e "${R}[WARN] '$pkg' could not be installed. Exiting.${X}"
+				echo -e "${R}[i] '$pkg' could not be installed. Exiting.${X}"
 				exit 1
 			fi
 		fi
@@ -167,7 +167,7 @@ find_available_sata_port() {
 	echo -e "${R}[EXIT] No available SATA ports between SATA1 and SATA5${X}"
 }
 
-#Funkction disk_path_generate
+#Function disk_path_generate
 disk_path_generate() {
 	if [[ "$VM_DISK_TYPE" == "dir" || "$VM_DISK_TYPE" == "btrfs" || "$VM_DISK_TYPE" == "nfs" || "$VM_DISK_TYPE" == "cifs" ]]; then
 		DISK_PATH="$VM_DISK:$DISK_SIZE,format=qcow2"  # File level storages 

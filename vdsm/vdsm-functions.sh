@@ -68,8 +68,8 @@ show_spinner() {
     tput cnorm
 }
 
-# Function arc_release_url
-arc_release_url() {
+# Function arc_stable_url
+arc_stable_url() {
 	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
 }
 
@@ -78,26 +78,38 @@ arc_beta_url() {
 	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
 }
 
+# Function arc_beta_url
+arc_essential_url() {
+	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-essential/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+}
+
 # Function arc_release_choice
 arc_release_choice() {
 	while true; do
 		release_choice=$(whiptail --title "Arc Installer - Release Channel" \
-			--menu "Please select release channel:" 15 60 2 \
+			--menu "Please select release channel:" 15 60 3 \
 			"1" "Latest [Stable] – recommended!" \
 			"2" "Latest [Beta]" \
+			"3" "Latest [Essential]" \
 			3>&1 1>&2 2>&3) || exit 1
 
 		case "$release_choice" in
 			1)
 				echo -e "${C}Release: ${G}[Stable]${X}"
 				line
-				arc_release_url
+				arc_stable_url
 				break
 				;;
 			2)
 				echo -e "${C}Release: ${R}[Beta]${X}"
 				line
 				arc_beta_url
+				break
+				;;
+			3)
+				echo -e "${C}Release: ${R}[Essential]${X}"
+				line
+				arc_essential_url
 				break
 				;;
 			*)

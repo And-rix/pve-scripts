@@ -8,7 +8,7 @@
 export LANG=en_US.UTF-8
 
 # Import Misc
-source <(curl -s https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/misc/misc.sh)
+source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 
 # Post message
 create_header "PVE-Laptop-Hibernation"

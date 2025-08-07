@@ -341,7 +341,9 @@ vm_list_prompt() {
 		line
 		echo ""
 
-		read -n1 -rsp "$(echo -e "${Y}Press any key to continue to VM selection...${X}\n")"
+		echo -e "${Y}Press any key to continue to VM selection...${X}"
+		read -n1 -s
+		echo ""
         line
 
 		VM_ID=$(whiptail --title "Select VM" \

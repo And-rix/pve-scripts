@@ -14,7 +14,7 @@ Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and 
 - **⚠️ Important:** You must approve the new subnet route manually in the [Tailscale Admin Panel](https://login.tailscale.com/admin/machines) after setup!
   
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/tailscale/tailscale-subnet-router.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/tailscale/tailscale-subnet-router.sh)"
 ```
 
 ---
@@ -29,7 +29,7 @@ All-in-one toolkit for **vDSM.Arc Loader** by [AuxXxilium](https://github.com/Au
   
 
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm/vdsm-arc-toolkit.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vdsm-arc-toolkit.sh)"
 ```
 
 ---
@@ -48,7 +48,7 @@ Automated installer for **vDSM.Arc Loader** by [AuxXxilium](https://github.com/A
 - ℹ️ ***This script is also included in vdsm-arc-toolkit.sh***
   
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm/vdsm-arc-install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vdsm-arc-install.sh)"
 ```
 
 ---
@@ -62,7 +62,7 @@ Automated update script for **vDSM.Arc Loader** on an existing VM.
 - ℹ️ ***This script is also included in vdsm-arc-toolkit.sh***
   
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm/vdsm-arc-update.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vdsm-arc-update.sh)"
 ```
 
 ---
@@ -79,7 +79,7 @@ Add additional virtual or physical disks to an existing VM on your Proxmox VE ho
 - ℹ️ ***This script is also included in vdsm-arc-toolkit.sh***
     
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/vdsm/vm-disk-update.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vm-disk-update.sh)"
 ```
 
 ---
@@ -89,5 +89,5 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs
 Disables all hibernation modes to run Proxmox VE smoothly on a laptop. 
   
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/refs/heads/main/other/pve-laptop-hibernation.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/other/pve-laptop-hibernation.sh)"
 ```

@@ -4,6 +4,14 @@
 
 ---
 
+## ⚠️ Important Notice
+
+All scripts provided here have been tested on multiple Proxmox VE environments and scenarios. 
+
+However, every system is different — **please proceed with caution.**
+
+---
+
 ## 🔗 tailscale-subnet-router.sh
 
 Automatically creates an unprivileged Ubuntu 22.04 LXC container on Proxmox and configures it as a [Tailscale subnet router](https://tailscale.com/kb/1019/subnets).
@@ -87,6 +95,16 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main
 ## 💻 pve-laptop-hibernation.sh
 
 Disables all hibernation modes to run Proxmox VE smoothly on a laptop. 
+  
+```shell
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/other/pve-laptop-hibernation.sh)"
+```
+
+---
+
+## ♻️ pve8-to-pve9.sh
+
+This script automates the upgrade process from **Proxmox VE 8 (Debian Bookworm)** to **Proxmox VE 9 (Debian Trixie)** for systems using the **no-subscription** repository only.
   
 ```shell
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/other/pve-laptop-hibernation.sh)"

@@ -24,8 +24,18 @@ whiptail --title "Proxmox VE 9 Upgrade" --yesno \
 ⚠️  IMPORTANT:
 Ensure that the 'no-subscription' repository is active and reachable.
 
-Proceed with upgrade?" 14 70 || {
-    echo "Upgrade aborted by user..."
+🧪 RECOMMENDED:
+Run 'pve8to9' first to check for potential issues before upgrading.
+
+ℹ️  INFO:
+https://pve.proxmox.com/wiki/Upgrade_from_8_to_9
+
+Proceed with upgrade?" 18 70 || {
+    line
+    echo -e "${Y}[INFO]${X} Upgrade aborted by user."
+    echo -e "${Y}[INFO]${X} Run 'pve8to9' before starting the upgrade."
+    echo -e "${Y}[INFO]${X} More info: https://pve.proxmox.com/wiki/Upgrade_from_8_to_9"
+    line
     exit 1
 }
 

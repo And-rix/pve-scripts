@@ -24,7 +24,7 @@ whiptail --title "Proxmox VE 9 Upgrade" --yesno \
 ⚠️  IMPORTANT:
 Ensure that the 'no-subscription' repository is active and reachable.
 
-🧪 RECOMMENDED:
+🧪  RECOMMENDED:
 Run 'pve8to9' first to check for potential issues before upgrading.
 
 ℹ️  INFO:

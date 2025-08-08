@@ -7,7 +7,7 @@
 
 export LANG=en_US.UTF-8
 
-# Import Misc
+# Import misc functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/tailscale/tailscale-functions.sh)
 

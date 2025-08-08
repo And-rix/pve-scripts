@@ -18,24 +18,16 @@ sleep 1
 ask_user_confirmation
 
 # Info message
-if command -v whiptail >/dev/null 2>&1; then
-    if ! whiptail --title "Confirm Upgrade" --yesno \
-        "This will upgrade your system from Proxmox VE 8 (Debian Bookworm) to Proxmox VE 9 (Debian Trixie).\n\n⚠️ IMPORTANT:\nEnsure that the 'no-subscription' repository is active.\n\nProceed?" 14 70; then
-        echo -e "${C}Upgrade aborted by user...${X}"
-        line
-        exit 1
-    fi
-else
-    echo -e "This will upgrade your system from Proxmox VE 8 (Debian Bookworm) to Proxmox VE 9 (Debian Trixie)."
-    echo -e "⚠️  IMPORTANT: Ensure that the 'no-subscription' repository is enabled and reachable."
-    read -rp "Proceed with the upgrade to Proxmox VE 9? [y/N]: " confirm
-    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-        echo -e "${C}Upgrade aborted by user...${X}"
-        line
-        exit 1
-    fi
-fi
+whiptail --title "Proxmox VE 9 Upgrade" --yesno \
+"This will upgrade your system from Proxmox VE 8 (Debian Bookworm) to Proxmox VE 9 (Debian Trixie).
 
+⚠️  IMPORTANT:
+Ensure that the 'no-subscription' repository is active and reachable.
+
+Proceed with upgrade?" 14 70 || {
+    echo "Upgrade aborted by user..."
+    exit 1
+}
 
 # Root check
 if [ "$EUID" -ne 0 ]; then

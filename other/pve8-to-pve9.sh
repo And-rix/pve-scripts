@@ -30,11 +30,11 @@ Run 'pve8to9' first to check for potential issues before upgrading.
 ℹ️  INFO:
 https://pve.proxmox.com/wiki/Upgrade_from_8_to_9
 
-Proceed with upgrade?" 18 70 || {
+Proceed with upgrade?" 20 80 || {
     line
     echo -e "${Y}[INFO]${X} Upgrade aborted by user."
     echo -e "${Y}[INFO]${X} Run 'pve8to9' before starting the upgrade."
-    echo -e "${Y}[INFO]${X} More info: https://pve.proxmox.com/wiki/Upgrade_from_8_to_9"
+    echo -e "${Y}[INFO]${X} https://pve.proxmox.com/wiki/Upgrade_from_8_to_9"
     line
     exit 1
 }

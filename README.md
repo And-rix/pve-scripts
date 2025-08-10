@@ -107,5 +107,5 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main
 This script automates the upgrade process from **Proxmox VE 8 (Debian Bookworm)** to **Proxmox VE 9 (Debian Trixie)** for systems using the **no-subscription** repository only.
   
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/other/pve-laptop-hibernation.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/other/pve8-to-pve9.sh)"
 ```

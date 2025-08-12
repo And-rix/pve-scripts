@@ -135,22 +135,30 @@ line
 echo -e "${C}Backup completed.${X}"
 line
 
-# Step 4: Replace Debian sources with official Trixie entries
-echo -e "${C}Replacing Debian sources with Trixie (Debian 13) entries...${X}"
-line
-cat <<EOF > /etc/apt/sources.list
-deb http://deb.debian.org/debian trixie main contrib
-deb http://deb.debian.org/debian trixie-updates main contrib
-deb http://security.debian.org trixie-security main contrib
+# Step 4: Remove all old repos
+echo -e "${C}Removing old APT repository files...${X}"
+rm -f /etc/apt/sources.list
+rm -f /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources
+
+# Step 5: Create Debian 13 (Trixie)
+cat <<'EOF' > /etc/apt/sources.list.d/debian.sources
+Types: deb deb-src
+URIs: http://deb.debian.org/debian/
+Suites: trixie trixie-updates
+Components: main non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb deb-src
+URIs: http://security.debian.org/debian-security/
+Suites: trixie-security
+Components: main non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
-echo -e "${C}Debian sources replaced successfully.${X}"
+echo -e "${C}Debian sources configured in deb822 format.${X}"
 line
 
-# Step 5: Configure Proxmox VE 9 non-subscription repository
-echo -e "${C}Configuring Proxmox VE 9 non-subscription repository...${X}"
-line
-rm -f /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources
-cat <<EOF > /etc/apt/sources.list.d/proxmox.sources
+# Step 6: Create Proxmox VE 9 No-Subscription repo 
+cat <<'EOF' > /etc/apt/sources.list.d/proxmox.sources
 Types: deb
 URIs: http://download.proxmox.com/debian/pve
 Suites: trixie
@@ -158,14 +166,6 @@ Components: pve-no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 EOF
 echo -e "${C}Proxmox No-Subscription repository configured.${X}"
-line
-
-# Step 6: Remove enterprise and ceph sources
-echo -e "${C}Removing enterprise and Ceph repositories if present...${X}"
-line
-rm -f /etc/apt/sources.list.d/pve-enterprise.list
-rm -f /etc/apt/sources.list.d/ceph.list
-echo -e "${C}Repository cleanup done.${X}"
 line
 
 # Step 7: Update package lists

@@ -176,7 +176,7 @@ NAG_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
 if [ -f "$NAG_FILE" ]; then
     cp "$NAG_FILE" "${NAG_FILE}.bak"
     sed -i.bak "s/data.status !== 'Active'/false/" "$NAG_FILE"
-    echo -e "${Y}Subscription nag removed. Backup saved to ${NAG_FILE}.bak${X}"
+    echo -e "${Y}Subscription nag removed...${X}"
 else
     echo -e "${R}Subscription nag file not found — skipping.${X}"
 fi

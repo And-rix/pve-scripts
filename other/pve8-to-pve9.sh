@@ -139,6 +139,8 @@ line
 echo -e "${C}Removing old APT repository files...${X}"
 rm -f /etc/apt/sources.list
 rm -f /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources
+rm -f /etc/apt/sources.list.d/pve-enterprise.list
+rm -f /etc/apt/sources.list.d/ceph.list
 
 # Step 5: Create Debian 13 (Trixie)
 cat <<'EOF' > /etc/apt/sources.list.d/debian.sources
@@ -188,12 +190,11 @@ sleep 1
 echo -e "${C}The upgrade is complete. Please reboot your system:${X}"
 echo -e "${TAB}${Y}reboot${X}"
 line
-echo -e "${C}After reboot, verify your Proxmox version using:${X}"
-echo -e "${TAB}${Y}pveversion${X}"
-line
 echo -e "${C}APT source backups are stored at:${X}"
 echo -e "${TAB}${Y}/root/repo-backup/${X}"
 line
-echo -e "${Y}Check your Repositories after the reboot!${X}"
-echo -e "${TAB}${Y}enable or add 'no-subscription' again${X}"
+echo -e "${C}Debian Trixie Repo added:${X}"
+echo -e "${TAB}${Y}/etc/apt/sources.list.d/debian.sources${X}"
+echo -e "${C}pve-no-subscription added:${X}"
+echo -e "${TAB}${Y}/etc/apt/sources.list.d/proxmox.sources${X}"
 line

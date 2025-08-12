@@ -129,10 +129,14 @@ fi
 echo -e "${C}Backing up APT sources to /root/repo-backup/...${X}"
 line
 mkdir -p /root/repo-backup
-cp -v /etc/apt/sources.list /root/repo-backup/sources.list.bak
+cp -v /etc/apt/sources.list /root/repo-backup/sources.list.bak 2>/dev/null || true
 cp -v /etc/apt/sources.list.d/* /root/repo-backup/ 2>/dev/null || true
 line
 echo -e "${C}Backup completed.${X}"
+line
+echo -e "${C}Installing Debian & PVE keyrings...${X}"
+apt update
+apt install -y debian-archive-keyring proxmox-archive-keyring
 line
 
 # Step 4: Remove all old repos
@@ -156,6 +160,7 @@ Suites: trixie-security
 Components: main non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
+
 echo -e "${C}Debian sources configured in deb822 format.${X}"
 line
 

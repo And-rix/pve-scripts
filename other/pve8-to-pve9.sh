@@ -138,9 +138,9 @@ line
 # Step 4: Remove all old repos
 echo -e "${C}Removing old APT repository files...${X}"
 rm -f /etc/apt/sources.list
-rm -f /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources
-rm -f /etc/apt/sources.list.d/pve-enterprise.list
-rm -f /etc/apt/sources.list.d/ceph.list
+rm -f /etc/apt/sources.list.d/*.list
+rm -f /etc/apt/sources.list.d/*.sources
+line
 
 # Step 5: Create Debian 13 (Trixie)
 cat <<'EOF' > /etc/apt/sources.list.d/debian.sources
@@ -170,18 +170,6 @@ EOF
 echo -e "${C}Proxmox No-Subscription repository configured.${X}"
 line
 
-# Step 6.1: Remove Proxmox subscription nag
-echo -e "${C}Removing Proxmox subscription nag...${X}"
-NAG_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
-if [ -f "$NAG_FILE" ]; then
-    cp "$NAG_FILE" "${NAG_FILE}.bak"
-    sed -i.bak "s/data.status !== 'Active'/false/" "$NAG_FILE"
-    echo -e "${Y}Subscription nag removed...${X}"
-else
-    echo -e "${R}Subscription nag file not found — skipping.${X}"
-fi
-line
-
 # Step 7: Update package lists
 echo -e "${C}Refreshing APT package lists...${X}"
 line
@@ -194,6 +182,18 @@ line
 apt dist-upgrade -y
 line
 echo -e "${C}Upgrade process completed.${X}"
+line
+
+# Step 8.1: Remove Proxmox subscription nag
+echo -e "${C}Removing Proxmox subscription nag...${X}"
+NAG_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+if [ -f "$NAG_FILE" ]; then
+    cp "$NAG_FILE" "${NAG_FILE}.bak"
+    sed -i "s/data.status !== 'Active'/false/" "$NAG_FILE"
+    echo -e "${Y}Subscription nag removed...${X}"
+else
+    echo -e "${R}Subscription nag file not found — skipping.${X}"
+fi
 line
 
 # Step 9: Final message

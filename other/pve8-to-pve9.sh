@@ -148,8 +148,16 @@ line
 
 # Step 5: Configure Proxmox VE 9 non-subscription repository
 echo -e "${C}Configuring Proxmox VE 9 non-subscription repository...${X}"
-rm -f /etc/apt/sources.list.d/pve-no-subscription.list
-echo "deb http://download.proxmox.com/debian/pve trixie pve-no-subscription" > /etc/apt/sources.list.d/pve-no-subscription.list
+line
+rm -f /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources
+cat <<EOF > /etc/apt/sources.list.d/proxmox.sources
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+EOF
+echo -e "${C}Proxmox No-Subscription repository configured.${X}"
 line
 
 # Step 6: Remove enterprise and ceph sources

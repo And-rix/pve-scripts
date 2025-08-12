@@ -170,6 +170,18 @@ EOF
 echo -e "${C}Proxmox No-Subscription repository configured.${X}"
 line
 
+# Step 6.1: Remove Proxmox subscription nag
+echo -e "${C}Removing Proxmox subscription nag...${X}"
+NAG_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+if [ -f "$NAG_FILE" ]; then
+    cp "$NAG_FILE" "${NAG_FILE}.bak"
+    sed -i.bak "s/data.status !== 'Active'/false/" "$NAG_FILE"
+    echo -e "${Y}Subscription nag removed. Backup saved to ${NAG_FILE}.bak${X}"
+else
+    echo -e "${R}Subscription nag file not found — skipping.${X}"
+fi
+line
+
 # Step 7: Update package lists
 echo -e "${C}Refreshing APT package lists...${X}"
 line

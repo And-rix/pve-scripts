@@ -189,23 +189,19 @@ line
 echo -e "${C}Upgrade process completed.${X}"
 line
 
-# Step 8.1: Remove Proxmox subscription nag
-echo -e "${C}Removing Proxmox subscription nag...${X}"
-NAG_FILE="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
-if [ -f "$NAG_FILE" ]; then
-    cp "$NAG_FILE" "${NAG_FILE}.bak"
-    sed -i "s/data.status !== 'Active'/false/" "$NAG_FILE"
-    echo -e "${Y}Subscription nag removed...${X}"
-else
-    echo -e "${R}Subscription nag file not found — skipping.${X}"
-fi
-line
-
 # Step 9: Final message
 create_header "PVE8-to-PVE9"
 sleep 1
-echo -e "${C}The upgrade is complete. Please reboot your system:${X}"
-echo -e "${TAB}${Y}reboot${X}"
+
+if [[ "$CURRENT_VERSION" =~ ^8\. ]]; then
+    echo -e "${C}The major upgrade from PVE 8 to PVE 9 is complete.${X}"
+    echo -e "${C}Please reboot your system now:${X}"
+    echo -e "${TAB}${Y}reboot${X}"
+else
+    echo -e "${C}System updated — already running PVE 9.${X}"
+    echo -e "${C}No reboot required unless recommended by apt.${X}"
+fi
+
 line
 echo -e "${C}APT source backups are stored at:${X}"
 echo -e "${TAB}${Y}/root/repo-backup/${X}"

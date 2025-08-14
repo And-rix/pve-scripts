@@ -194,12 +194,12 @@ create_header "PVE8-to-PVE9"
 sleep 1
 
 if [[ "$CURRENT_VERSION" =~ ^8\. ]]; then
-    echo -e "${C}The major upgrade from PVE 8 to PVE 9 is complete.${X}"
+    echo -e "${G}[OK] ${C}Upgrade from PVE 8 to PVE 9 is complete...${X}"
     echo -e "${C}Please reboot your system now:${X}"
     echo -e "${TAB}${Y}reboot${X}"
 else
-    echo -e "${C}System updated — already running PVE 9.${X}"
-    echo -e "${C}No reboot required unless recommended by apt.${X}"
+    echo -e "${G}[OK] ${C}System updated — running PVE 9.${X}"
+    echo -e "${G}[OK] ${C}No reboot required unless recommended by apt.${X}"
 fi
 
 line

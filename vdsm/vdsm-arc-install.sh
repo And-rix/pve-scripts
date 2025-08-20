@@ -94,8 +94,7 @@ arc_default_vm
         --agent enabled=1 \
         --boot order=sata0 \
         --bootdisk sata0 \
-        --onboot 1 \
-        --balloon 0
+        --onboot 1 
 
     # VM description
     NOTES_HTML=$(vm_notes_html)

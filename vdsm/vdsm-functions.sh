@@ -323,10 +323,6 @@ vm_notes_html() {
     <img src="https://img.shields.io/badge/GitHub-And--rix-24292e?logo=github&logoColor=white" alt="PVE Scripts GitHub">
   </a>
 </p>
-<hr>
-<p>
-[arc-$VERSION] - $(date)
-</p>
 EOF
 }	
 

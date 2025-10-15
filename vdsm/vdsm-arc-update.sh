@@ -92,7 +92,7 @@ fi
     # Set boot order to SATA0 only, disable all other devices
     qm set "$VM_ID" --boot order=sata0
     qm set "$VM_ID" --bootdisk sata0
-    qm set "$VM_ID" --onboot 1
+    # qm set "$VM_ID" --onboot 1
 
     # Set notes to VM
     # NOTES_HTML=$(vm_notes_html)

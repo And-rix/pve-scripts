@@ -75,7 +75,7 @@ arc_stable_url() {
 
 # Function arc_beta_url
 arc_beta_url() {
-	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep "browser_download_url" | grep "evo.img.zip" | cut -d '"' -f 4)
 }
 
 # Function arc_beta_url

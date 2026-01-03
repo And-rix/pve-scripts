@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # MIT License
-# Copyright (c) 2025 And-rix
+# Copyright (c) 2026 And-rix
 # GitHub: https://github.com/And-rix
 # License: /LICENSE
 
@@ -70,17 +70,60 @@ show_spinner() {
 
 # Function arc_stable_url
 arc_stable_url() {
-	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+	local API_URL="https://api.github.com/repos/AuxXxilium/arc/releases/latest"
+
+	# 1. evo bevorzugen
+	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
+		| head -n1 \
+		| cut -d '"' -f 4)
+
+	# 2. Fallback ohne evo
+	if [ -z "$LATEST_RELEASE_URL" ]; then
+		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \
+			| head -n1 \
+			| cut -d '"' -f 4)
+	fi
 }
 
 # Function arc_beta_url
 arc_beta_url() {
-	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest | grep "browser_download_url" | grep "evo.img.zip" | cut -d '"' -f 4)
+	local API_URL="https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest"
+
+	# 1. evo bevorzugen
+	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
+		| head -n1 \
+		| cut -d '"' -f 4)
+
+	# 2. Fallback ohne evo
+	if [ -z "$LATEST_RELEASE_URL" ]; then
+		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \
+			| head -n1 \
+			| cut -d '"' -f 4)
+	fi
 }
 
-# Function arc_beta_url
+
+# Function arc_essential_url
 arc_essential_url() {
-	LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/AuxXxilium/arc-essential/releases/latest | grep "browser_download_url" | grep ".img.zip" | cut -d '"' -f 4)
+	local API_URL="https://api.github.com/repos/AuxXxilium/arc-essential/releases/latest"
+
+	# 1. evo bevorzugen
+	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
+		| head -n1 \
+		| cut -d '"' -f 4)
+
+	# 2. Fallback ohne evo
+	if [ -z "$LATEST_RELEASE_URL" ]; then
+		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \
+			| head -n1 \
+			| cut -d '"' -f 4)
+	fi
 }
 
 # Function arc_release_choice
@@ -123,16 +166,18 @@ arc_release_choice() {
 arc_release_download() {
 	LATEST_FILENAME=$(basename "$LATEST_RELEASE_URL")
 
+	# Falls Datei existiert → löschen
 	if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then
-		echo -e "${C}The latest file ${X}($LATEST_FILENAME) ${C}is already present.${X}"
-		echo -e "${G}Skipping download...${X}"
-        line
-	else
-		echo -e "${C}Downloading the latest file ${X}($LATEST_FILENAME)${C}...${X}"
-        line
-		wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL" --show-progress --quiet
+		echo -e "${C}Removing existing file ${X}($LATEST_FILENAME)${C}...${X}"
+		line
+		rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
 	fi
-}	
+
+	echo -e "${C}Downloading the latest file ${X}($LATEST_FILENAME)${C}...${X}"
+	line
+	wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL" --show-progress --quiet
+}
+
 
 # Function arc_default_vm
 arc_default_vm() {

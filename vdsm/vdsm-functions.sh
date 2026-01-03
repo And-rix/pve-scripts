@@ -72,13 +72,13 @@ show_spinner() {
 arc_stable_url() {
 	local API_URL="https://api.github.com/repos/AuxXxilium/arc/releases/latest"
 
-	# 1. evo bevorzugen
+	# 1. evo version?
 	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
 		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
 		| head -n1 \
 		| cut -d '"' -f 4)
 
-	# 2. Fallback ohne evo
+	# 2. Fallback
 	if [ -z "$LATEST_RELEASE_URL" ]; then
 		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
 			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \
@@ -91,13 +91,13 @@ arc_stable_url() {
 arc_beta_url() {
 	local API_URL="https://api.github.com/repos/AuxXxilium/arc-beta/releases/latest"
 
-	# 1. evo bevorzugen
+	# 1. evo version?
 	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
 		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
 		| head -n1 \
 		| cut -d '"' -f 4)
 
-	# 2. Fallback ohne evo
+	# 2. Fallback
 	if [ -z "$LATEST_RELEASE_URL" ]; then
 		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
 			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \
@@ -111,13 +111,13 @@ arc_beta_url() {
 arc_essential_url() {
 	local API_URL="https://api.github.com/repos/AuxXxilium/arc-essential/releases/latest"
 
-	# 1. evo bevorzugen
+	# 1. evo version?
 	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
 		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
 		| head -n1 \
 		| cut -d '"' -f 4)
 
-	# 2. Fallback ohne evo
+	# 2. Fallback
 	if [ -z "$LATEST_RELEASE_URL" ]; then
 		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
 			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \

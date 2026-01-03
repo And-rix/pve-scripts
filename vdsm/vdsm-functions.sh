@@ -166,7 +166,7 @@ arc_release_choice() {
 arc_release_download() {
 	LATEST_FILENAME=$(basename "$LATEST_RELEASE_URL")
 
-	# Falls Datei existiert → löschen
+	# If file exists -> Remove
 	if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then
 		echo -e "${C}Removing existing file ${X}($LATEST_FILENAME)${C}...${X}"
 		line

@@ -191,7 +191,7 @@ arc_default_vm() {
 }
 
 # Function confirm_delete_temp_file
-confirm_delete_temp_file() {
+confirm_delete_temp_file_old() {
     if whiptail --title "Delete Temporary File?" \
         --yesno "Do you want to delete the downloaded file:\n\n  $LATEST_FILENAME\n\nFrom:\n  $DOWNLOAD_PATH\n\nContinue?" 15 60; then
 
@@ -203,6 +203,14 @@ confirm_delete_temp_file() {
         echo ""
         echo -e "${Y}[i] ${X}($LATEST_FILENAME) ${C}was not deleted.${X}"
     fi
+}
+
+# Function confirm_delete_temp_file
+confirm_delete_temp_file() {
+    echo ""
+    echo "Deleting the file..."
+    rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
+    echo -e "${G}[OK] ${X}($LATEST_FILENAME) ${C}deleted.${X}"
 }
 
 # Function precheck_sata_port

@@ -208,7 +208,7 @@ confirm_delete_temp_file_old() {
 # Function confirm_delete_temp_file
 confirm_delete_temp_file() {
     echo ""
-    echo "Deleting the file..."
+    echo "Deleting the temp file..."
     rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
     echo -e "${G}[OK] ${X}($LATEST_FILENAME) ${C}deleted.${X}"
 }

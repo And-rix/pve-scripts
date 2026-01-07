@@ -113,4 +113,5 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main
 ```
 
 ## 👁️ Info
-![GitHub stars](https://img.shields.io/github/stars/And-rix/pve-scripts?style=social) ![HITS](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/And-rix/pve-scripts&title=HITS) ![GitHub license](https://img.shields.io/github/license/And-rix/pve-scripts)
+![GitHub stars](https://img.shields.io/github/stars/And-rix/pve-scripts?style=social) ![Hits](https://img.shields.io/endpoint?url=https://api.countapi.xyz/info/And-rix/pve-scripts/views&label=Hits&color=blue) ![GitHub license](https://img.shields.io/github/license/And-rix/pve-scripts)
+

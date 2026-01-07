@@ -114,6 +114,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main
 
 ## 👁️ Info
 
-⭐ Stars: ![GitHub stars](https://img.shields.io/github/stars/And-rix/pve-scripts?style=social)  
-👁️ Views: [![HitCount](https://hits.dwyl.com/And-rix/pve-scripts.svg)](https://hits.dwyl.com/And-rix/pve-scripts)  
-📄 License: ![GitHub license](https://img.shields.io/github/license/And-rix/pve-scripts)
+![GitHub stars](https://img.shields.io/github/stars/And-rix/pve-scripts?style=social) ::  
+[![HitCount](https://hits.dwyl.com/And-rix/pve-scripts.svg)](https://hits.dwyl.com/And-rix/pve-scripts) :: 
+![GitHub license](https://img.shields.io/github/license/And-rix/pve-scripts)

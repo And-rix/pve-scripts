@@ -112,6 +112,6 @@ Saves APT sources, installs keyrings, sets new repos and upgrades the system.
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/other/pve8-to-pve9.sh)"
 ```
 
-## ---
+---
 ![GitHub stars](https://img.shields.io/github/stars/And-rix/pve-scripts?style=social) ![GitHub license](https://img.shields.io/github/license/And-rix/pve-scripts)
 

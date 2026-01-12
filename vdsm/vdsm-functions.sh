@@ -32,6 +32,7 @@ unzip_check_install() {
 	for pkg in unzip wget; do
 		if ! command -v "$pkg" &> /dev/null; then
 			echo -e "${Y}'$pkg' is not installed. Installing...${X}"
+			line
 			apt-get update && apt-get install -y "$pkg"
 			line
 			if ! command -v "$pkg" &> /dev/null; then

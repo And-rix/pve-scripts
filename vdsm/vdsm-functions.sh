@@ -33,8 +33,10 @@ unzip_check_install() {
 		if ! command -v "$pkg" &> /dev/null; then
 			echo -e "${Y}'$pkg' is not installed. Installing...${X}"
 			apt-get update && apt-get install -y "$pkg"
+			line
 			if ! command -v "$pkg" &> /dev/null; then
 				echo -e "${R}[i] '$pkg' could not be installed. Exiting.${X}"
+				line
 				exit 1
 			fi
 		fi

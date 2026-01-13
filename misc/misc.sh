@@ -35,6 +35,10 @@ line() {
 	printf '%*s\n' 60 '' | tr ' ' '-'
 }
 
+line2() {
+	printf '%*s\n' 60 '' | tr ' ' '='
+}
+
 # Function ask_user_confirmation
 ask_user_confirmation() {
   if whiptail --title "Run Script?" --yesno "Do you want to execute the script?" 10 60; then

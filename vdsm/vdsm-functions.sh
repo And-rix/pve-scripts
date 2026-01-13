@@ -321,11 +321,11 @@ sata_disk_menu() {
       b)
         # Physical Disk
         DISKS=$(find /dev/disk/by-id/ -type l \( -name 'ata-*' -o -name 'nvme-*' -o -name 'usb-*' \) -print0 \
-		| xargs -0 ls -l \
-		| grep -v -E '[0-9]+p[0-9]+$' \
-		| awk -F' -> ' '{print $1}' \
-		| awk -F'/by-id/' '{print $2}' \
-		| grep -v '^nvme-eui')
+          	| xargs -0 ls -l \
+          	| grep -v -E '[0-9]+p[0-9]+$' \
+          	| awk -F' -> ' '{print $1}' \
+          	| awk -F'/by-id/' '{print $2}' \
+        	| grep -v '^nvme-eui')
 
         DISK_ARRAY=()
         for d in $DISKS; do
@@ -343,8 +343,21 @@ sata_disk_menu() {
 
         SATA_PORT=$(find_available_sata_port)
 
+        CMD="qm set $VM_ID -$SATA_PORT /dev/disk/by-id/$SELECTED_DISK,backup=0"
+
+        # Echo to shell; clean copy / paste
+        echo
+        line2
+        echo -e "${R}[!] COPY & PASTE THIS COMMAND IN PVE SHELL AT YOUR OWN RISK!${X}"
+        line
+        echo -e "${C}$CMD${X}"
+        line2
+        echo
+
+        # Warning dialog 
         whiptail --title "Warning" \
-          --msgbox "You selected:\n\n  $SELECTED_DISK\n\n Copy and paste this command in PVE shell **at your own risk**:\n\n  qm set $VM_ID -$SATA_PORT /dev/disk/by-id/$SELECTED_DISK,backup=0" 15 70
+			--msgbox "You selected:\n\n  $SELECTED_DISK\n\nCommand (line-wrapped, DO NOT COPY):\n\n$CMD\n\nThe full command has been printed to your shell.\nCopy / Paste / Execute at your own risk!" \
+			18 80
 
         sleep 1
         ;;

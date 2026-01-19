@@ -67,7 +67,7 @@ create_tailscale_lxc() {
 	  	--hostname $HOSTNAME \
   		--password $PASSWORD \
   		--unprivileged 1 \
-  		--features nesting=1 \
+  		--features nesting=1,keyctl=1 \
   		--net0 name=$NET_IF,bridge=$BRIDGE,ip=dhcp \
   		--memory 1024 \
 		--swap 0 \

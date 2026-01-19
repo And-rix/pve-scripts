@@ -70,6 +70,7 @@ create_tailscale_lxc() {
   		--features nesting=1 \
   		--net0 name=$NET_IF,bridge=$BRIDGE,ip=dhcp \
   		--memory 1024 \
+		--swap 0 \
   		--cores 1 \
   		--rootfs local-lvm:10 \
   		--start 1 

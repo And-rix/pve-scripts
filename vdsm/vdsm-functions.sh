@@ -96,14 +96,14 @@ arc_beta_url() {
 
 	# 1. evo version?
 	LATEST_RELEASE_URL=$(curl -s "$API_URL" \
-		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+-evo\.img\.zip' \
+		| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+([a-zA-Z0-9]+)?-evo\.img\.zip' \
 		| head -n1 \
 		| cut -d '"' -f 4)
 
 	# 2. Fallback
 	if [ -z "$LATEST_RELEASE_URL" ]; then
 		LATEST_RELEASE_URL=$(curl -s "$API_URL" \
-			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+\.img\.zip' \
+			| grep -E '"browser_download_url".*arc-[0-9]+\.[0-9]+\.[0-9]+([a-zA-Z0-9]+)?\.img\.zip' \
 			| head -n1 \
 			| cut -d '"' -f 4)
 	fi

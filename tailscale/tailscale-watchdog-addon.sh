@@ -13,12 +13,6 @@ export LANG=en_US.UTF-8
 # Import external functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 
-# ---------- Output & Color Helpers ----------
-C_GREEN='\033[0;32m'; C_YELLOW='\033[1;33m'; C_RED='\033[0;31m'; C_BLUE='\033[0;34m'; C_RESET='\033[0m'
-msg()  { echo -e "${C_GREEN}[+]${C_RESET} $1"; }
-warn() { echo -e "${C_YELLOW}[!]${C_RESET} $1"; }
-err()  { echo -e "${C_RED}[x]${C_RESET} $1" >&2; }
-
 # ---------- Spinner / Loading Helper ----------
 spinner_run() {
   local label="$1"

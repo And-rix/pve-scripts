@@ -1,75 +1,65 @@
 #!/bin/bash
-
+# ============================================================================
 # MIT License
 # Copyright (c) 2026 And-rix
 # GitHub: https://github.com/And-rix
 # License: /LICENSE
+# ============================================================================
+
+set -euo pipefail
 
 export LANG=en_US.UTF-8
 
-# Import misc functions
+# Load external functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/tailscale/tailscale-functions.sh)
 
+clear
 # Post message
 create_header "Tailscale-Subnet-Router"
 
-# Sleep
-sleep 1
-
-# Info
+# Confirmation & Password Setup
 ask_user_confirmation
-
-# Set LXC root Password
 prompt_password
-echo -e "${C}Password successfully set...${X}"
-line
+msg "Password successfully set."
 
-# LXC Config
-echo -e "${C}Configuring Proxmox environment...${X}"
-line
+step "Preparing Proxmox Environment"
 config_tailscale_lxc
+msg "Assigned Container ID: ${CT_ID}"
 
-# Check if bridge exists
-if ! grep -q "$BRIDGE" /etc/network/interfaces && ! brctl show | grep -q "$BRIDGE"; then
-  echo -e "${R}Network bridge '$BRIDGE' not found. Aborting.${X}"
+# Verify network bridge existence
+if ! grep -q "$BRIDGE" /etc/network/interfaces 2>/dev/null && ! brctl show 2>/dev/null | grep -q "$BRIDGE"; then
+  err "Network bridge '$BRIDGE' not found. Aborting."
   exit 1
 fi
 
-dl_template_ubuntu > /dev/null 2>&1
-create_tailscale_lxc > /dev/null 2>&1
+spinner_run "Checking/Downloading Ubuntu OS template" dl_template_ubuntu
+spinner_run "Creating Tailscale LXC Container (${CT_ID})" create_tailscale_lxc
 
-# Step
-create_header "Tailscale-Subnet-Router"
+step "Applying Tailscale Configurations"
 
-# Adjust LXC config for Tailscale and enable autostart
-echo -e "${C}Adjusting LXC configuration for Tailscale...${X}"
-line
-LXC_CONF="/etc/pve/lxc/${CT_ID}.conf"
-cat <<EOF >> $LXC_CONF
+spinner_run "Configuring LXC permissions & TUN device" bash -c "
+  LXC_CONF='/etc/pve/lxc/${CT_ID}.conf'
+  cat <<EOF >> \$LXC_CONF
 lxc.cap.drop =
 lxc.apparmor.profile = unconfined
 lxc.cgroup2.devices.allow = a
 lxc.mount.auto = proc:rw sys:rw
 lxc.mount.entry = /dev/net/tun dev/net/tun none bind,create=file
 EOF
+"
 
-# Restart container
-echo -e "${C}Restarting container...${X}"
-line
+spinner_run "Restarting container (${CT_ID})" bash -c "
+  pct stop ${CT_ID}
+  sleep 2
+  pct start ${CT_ID}
+  sleep 3
+"
 
-pct stop $CT_ID
-sleep 2
-pct start $CT_ID > /dev/null 2>&1
-sleep 5
-
-# Run post-setup commands inside container with spinner
-echo -e "${C}Running updates and Tailscale install...${X}"
-line
-
-pct exec $CT_ID -- bash -c "
-  apt update && apt upgrade -y
-  apt install -y curl
+spinner_run "Installing Tailscale & configuring network forwarding" pct exec "$CT_ID" -- bash -c "
+  set -e
+  apt-get update -y && apt-get upgrade -y
+  apt-get install -y curl
   curl -fsSL https://tailscale.com/install.sh | sh
 
   sed -i 's|#net.ipv4.ip_forward=1|net.ipv4.ip_forward=1|' /etc/sysctl.conf
@@ -79,25 +69,17 @@ pct exec $CT_ID -- bash -c "
   grep -q '^net.ipv6.conf.all.forwarding=1' /etc/sysctl.conf || echo 'net.ipv6.conf.all.forwarding=1' >> /etc/sysctl.conf
 
   sysctl -p
-" > /dev/null 2>&1 &
+"
 
-PID=$!
-show_spinner $PID
-wait $PID
+step "Subnet Configuration"
 
-# Step
-create_header "Tailscale-Subnet-Router"
-
-echo -e "${G}[OK]${C} Updates and installation completed.${X}"
-line
-
-# Enter Subnet for Tailscale
+# Prompt user for subnet via Whiptail
 while true; do
   SUBNET=$(whiptail --title "Tailscale Subnet" \
     --inputbox "Please enter the subnet (e.g. 192.168.178.0/24):" 10 60 3>&1 1>&2 2>&3) || exit 1
 
   if ! validate_subnet "$SUBNET"; then
-    whiptail --title "Invalid Subnet" --msgbox "Invalid subnet format! Please enter again." 8 60
+    whiptail --title "Invalid Format" --msgbox "Invalid subnet format! Please try again." 8 60
     continue
   fi
 
@@ -112,25 +94,28 @@ while true; do
   break
 done
 
-echo -e "${G}[OK]${C} Valid subnet entered:${X} $SUBNET"
-line
+msg "Valid subnet configured: ${SUBNET}"
+msg "Container ${CT_ID} is ready."
 
-echo -e "${G}[OK]${C} Container${X} $CT_ID ${C}is ready.${X}"
-line
+echo -e "\n${C_YELLOW}[!] Please authenticate with Tailscale (login link below):${C_RESET}\n"
 
-echo -e "${Y}[ATTENTION]${X} Login URL prompted in the console, now..."
-line
-
-# Run tailscale up command directly from host in container
+# Output Tailscale login URL directly in terminal
 pct exec "$CT_ID" -- tailscale up --advertise-routes="$SUBNET" --accept-routes | \
 grep -v "UDP GRO forwarding" | \
-grep -v "https://tailscale.com/s/ethtool-config-udp-gro"
-line 
+grep -v "https://tailscale.com/s/ethtool-config-udp-gro" || true
 
-whiptail --title "Finish" --msgbox "\
-You need to approve the subnet route in your Tailscale machines:
+whiptail --title "Setup Instructions" --msgbox "\
+You need to approve the subnet route in your Tailscale admin console:
 ---
 Machine (tailscale) > Settings (•••) > Edit route settings... > Approve
 ---
 https://login.tailscale.com/admin/machines
 " 12 80
+
+echo -e "\n${C_GREEN}============================================================${C_RESET}"
+echo -e "${C_GREEN} Tailscale Subnet Router installed successfully!${C_RESET}"
+echo -e "${C_GREEN}============================================================${C_RESET}"
+echo -e " Container ID:   ${CT_ID}"
+echo -e " Subnet Route:   ${SUBNET}"
+echo -e " Check status:   pct exec ${CT_ID} -- tailscale status"
+echo -e "${C_GREEN}============================================================${C_RESET}\n"

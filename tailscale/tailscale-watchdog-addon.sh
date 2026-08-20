@@ -1,87 +1,122 @@
 #!/bin/bash
-
+# ============================================================================
 # MIT License
 # Copyright (c) 2026 And-rix
 # GitHub: https://github.com/And-rix
 # License: /LICENSE
+# ============================================================================
+
+set -euo pipefail
 
 export LANG=en_US.UTF-8
 
-# Import misc functions
+# Import external functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
+
+# ---------- Output & Color Helpers ----------
+C_GREEN='\033[0;32m'; C_YELLOW='\033[1;33m'; C_RED='\033[0;31m'; C_BLUE='\033[0;34m'; C_RESET='\033[0m'
+msg()  { echo -e "${C_GREEN}[+]${C_RESET} $1"; }
+warn() { echo -e "${C_YELLOW}[!]${C_RESET} $1"; }
+err()  { echo -e "${C_RED}[x]${C_RESET} $1" >&2; }
+
+# ---------- Spinner / Loading Helper ----------
+spinner_run() {
+  local label="$1"
+  shift
+  local logfile
+  logfile=$(mktemp /tmp/watchdog-task-XXXXXX.log)
+
+  echo -ne "  ${C_BLUE}[-]${C_RESET} ${label} "
+
+  ( "$@" ) > "$logfile" 2>&1 &
+  local pid=$!
+  local spinstr='|/-\'
+  local delay=0.1
+
+  while kill -0 "$pid" 2>/dev/null; do
+    local temp=${spinstr#?}
+    printf "[%c]" "$spinstr"
+    spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    printf "\b\b\b"
+  done
+
+  wait "$pid"
+  local status=$?
+
+  if [ $status -eq 0 ]; then
+    printf "\r  ${C_GREEN}[✓]${C_RESET} ${label}\n"
+    rm -f "$logfile"
+  else
+    printf "\r  ${C_RED}[X]${C_RESET} ${label}\n"
+    err "Error executing: ${label}"
+    echo -e "${C_YELLOW}--- Log / Error Output ---${C_RESET}"
+    cat "$logfile" >&2
+    echo -e "${C_YELLOW}--------------------------${C_RESET}"
+    rm -f "$logfile"
+    exit $status
+  fi
+}
 
 # Post message
 create_header "Add-on: Tailscale-Watchdog"
 
-# Sleep
-sleep 1
-
-# Info
+# User confirmation
 ask_user_confirmation
 clear
 create_header "Add-on: Tailscale-Watchdog"
 
-# Safety check (LXC, tailscale)
-
-echo -e "${C}Running environment checks...${X}"
-line
+msg "Running environment checks..."
 
 # 1. Check if running inside an LXC container
-# In Proxmox LXCs, /proc/1/environ usually contains 'container=lxc' 
-# or the file /run/systemd/container exists.
 if [ ! -f /.dockerenv ] && [ ! -e /run/systemd/container ]; then
-    echo -e "${NOTOK}${R} ERROR: This script must be run inside an LXC container! ${X}"
-    echo -e "${INFO} Aborting to prevent accidental host modification. ${X}"
-    line
+    err "ERROR: This script must be executed inside an LXC container!"
+    err "Aborting to prevent host modification."
     exit 1
 fi
 
 # 2. Check if Tailscale is installed
 if ! command -v tailscale &> /dev/null; then
-    echo -e "${NOTOK}${R} ERROR: Tailscale is not installed in this container! ${X}"
-    echo -e "${INFO} Please install Tailscale before running this watchdog setup. ${X}"
-    line
+    err "ERROR: Tailscale is not installed in this container!"
+    err "Please install Tailscale before running this watchdog setup."
     exit 1
 fi
 
-echo -e "${OK}${G} Environment checks passed. ${X}"
-echo -e "${OK}${G} LXC detected & Tailscale installed. ${X}"
-line
+msg "Environment checks passed (LXC container & Tailscale verified)."
 
 # Update system and install dependencies
-echo -e "${C}Installing updates and dependencies (jq)... ${X}"
-line
-apt update && apt install -y jq
-line
+spinner_run "Installing dependencies (jq, cron)" bash -c "
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -y
+    apt-get install -y jq cron
+"
 
-# 2. Create the watchdog script
-echo -e "${C}Creating watchdog at /usr/local/bin/tailscale-watchdog.sh... ${X}"
-line
-
+# Create watchdog script
+spinner_run "Creating watchdog script (/usr/local/bin/tailscale-watchdog.sh)" bash -c "
 cat << 'EOF' > /usr/local/bin/tailscale-watchdog.sh
-#!/bin/bash
+#!/usr/bin/env bash
 
-LOGFILE="/var/log/tailscale-watchdog.log"
+LOGFILE=\"/var/log/tailscale-watchdog.log\"
 
-echo "$(date): Checking Tailscale peers..." >> "$LOGFILE"
+echo \"\$(date): Checking Tailscale peers...\" >> \"\$LOGFILE\"
 
 # Extract all online peers using jq
-PEERS=$(tailscale status --json | jq -r '.Peer[] | select(.Online==true) | .TailscaleIPs[0]' 2>/dev/null)
+PEERS=\$(tailscale status --json | jq -r '.Peer[] | select(.Online==true) | .TailscaleIPs[0]' 2>/dev/null)
 
 # Choose a random peer from the list
-RANDOM_PEER=$(echo "$PEERS" | shuf -n1)
+RANDOM_PEER=\$(echo \"\$PEERS\" | shuf -n1)
 
-if [ -z "$RANDOM_PEER" ]; then
-    echo "$(date): No online peers found in Tailnet!" >> "$LOGFILE"
+if [ -z \"\$RANDOM_PEER\" ]; then
+    echo \"\$(date): No online peers found in Tailnet!\" >> \"\$LOGFILE\"
     systemctl restart tailscaled
-    echo "$(date): Restart done." >> "$LOGFILE"
+    echo \"\$(date): Restart completed.\" >> \"\$LOGFILE\"
     exit 0
 fi
 
 # Connectivity check: 2 attempts with a short break
 SUCCESS=0
 for i in 1 2; do
-    if ping -c 2 -W 2 "$RANDOM_PEER" >/dev/null 2>&1; then
+    if ping -c 2 -W 2 \"\$RANDOM_PEER\" >/dev/null 2>&1; then
         SUCCESS=1
         break
     else
@@ -89,29 +124,33 @@ for i in 1 2; do
     fi
 done
 
-if [ "$SUCCESS" -eq 0 ]; then
-    echo "$(date): Peer $RANDOM_PEER not reachable. Restarting tailscaled..." >> "$LOGFILE"
+if [ \"\$SUCCESS\" -eq 0 ]; then
+    echo \"\$(date): Peer \$RANDOM_PEER not reachable. Restarting tailscaled...\" >> \"\$LOGFILE\"
     systemctl restart tailscaled
-    echo "$(date): Restart done." >> "$LOGFILE"
+    echo \"\$(date): Restart completed.\" >> \"\$LOGFILE\"
 else
-    echo "$(date): Peer $RANDOM_PEER reachable." >> "$LOGFILE"
+    echo \"\$(date): Peer \$RANDOM_PEER reachable.\" >> \"\$LOGFILE\"
 fi
 
 # Log rotation: Keep only the last 500 lines
-tail -n 500 "$LOGFILE" > "$LOGFILE.tmp" && mv "$LOGFILE.tmp" "$LOGFILE"
+tail -n 500 \"\$LOGFILE\" > \"\$LOGFILE.tmp\" && mv \"\$LOGFILE.tmp\" \"\$LOGFILE\"
 EOF
 
-# 3. Make the script executable
 chmod +x /usr/local/bin/tailscale-watchdog.sh
+"
 
-# 4. Set up the Cronjob
-CRON_JOB="*/10 * * * * /usr/local/bin/tailscale-watchdog.sh > /dev/null 2>&1"
-(crontab -l 2>/dev/null | grep -Fq "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+# Set up the Cronjob
+spinner_run "Scheduling cronjob (every 10 minutes)" bash -c "
+    systemctl enable --now cron 2>/dev/null || systemctl enable --now crond 2>/dev/null || true
+    CRON_JOB=\"*/10 * * * * /usr/local/bin/tailscale-watchdog.sh > /dev/null 2>&1\"
+    (crontab -l 2>/dev/null | grep -Fq \"\$CRON_JOB\") || (crontab -l 2>/dev/null; echo \"\$CRON_JOB\") | crontab -
+"
 
-echo -e "${OK}${G}Setup complete...${X}"
-echo -e "${OK}${G}Watchdog scheduled to run every 10 min.${X}"
-line
-echo -e "${INFO}${C}Logs: /var/log/tailscale-watchdog.log ${X}"
-echo -e "${INFO}${C}Script: /usr/local/bin/tailscale-watchdog.sh ${X}"
-echo -e "${INFO}${C}Cronjob: crontab -e ${X}"
-line
+echo -e "\n${C_GREEN}============================================================${C_RESET}"
+echo -e "${C_GREEN} Tailscale Watchdog installed successfully!${C_RESET}"
+echo -e "${C_GREEN}============================================================${C_RESET}"
+echo -e " Watchdog schedule: Every 10 minutes"
+echo -e " Script location:   /usr/local/bin/tailscale-watchdog.sh"
+echo -e " Log location:      /var/log/tailscale-watchdog.log"
+echo -e " Cron configuration: crontab -e"
+echo -e "${C_GREEN}============================================================${C_RESET}\n"

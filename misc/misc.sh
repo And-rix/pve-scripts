@@ -52,6 +52,15 @@ ask_user_confirmation() {
 }
 
 # -----------------------------
+# Output & Color Helpers 
+# -----------------------------
+C_GREEN='\033[0;32m'; C_YELLOW='\033[1;33m'; C_RED='\033[0;31m'; C_BLUE='\033[0;34m'; C_RESET='\033[0m'
+msg()  { echo -e "${C_GREEN}[+]${C_RESET} $1"; }
+warn() { echo -e "${C_YELLOW}[!]${C_RESET} $1"; }
+err()  { echo -e "${C_RED}[x]${C_RESET} $1" >&2; }
+step() { echo -e "\n${C_BLUE}==>${C_RESET} $1"; }
+
+# -----------------------------
 # Colors
 # -----------------------------
 BK='\033[0;30m' # Black

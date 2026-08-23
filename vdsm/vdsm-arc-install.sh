@@ -11,6 +11,15 @@ export LANG=en_US.UTF-8
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vdsm-functions.sh)
 
+if [[ $EUID -ne 0 ]]; then
+  err "Please run as root on the Proxmox host."
+  exit 1
+fi
+if ! command -v qm &>/dev/null; then
+  err "This script must be executed on a Proxmox VE host ('qm' command not found)."
+  exit 1
+fi
+
 # Header
 create_header "vDSM-Arc-Install"
 sleep 1
@@ -51,59 +60,62 @@ VERSION=$(echo "$LATEST_FILENAME" | grep -oP "\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?")
 if [ -f "$ISO_STORAGE_PATH/arc.img" ]; then
     NEW_IMG_FILE="$ISO_STORAGE_PATH/arc-${VERSION}.img"
     mv "$ISO_STORAGE_PATH/arc.img" "$NEW_IMG_FILE"
+    msg "Renamed image to $(basename "$NEW_IMG_FILE")"
 else
-    echo -e "${R}Error: No extracted arc.img found!${X}"
+    err "No extracted arc.img found!"
     exit 1
 fi
 
 # Define VM parameters
 arc_default_vm
 
-# Spinner group
-{
-    # Create VM
-    qm create "$VM_ID" \
-        --name "$VM_NAME" \
-        --memory "$MEMORY" \
-        --cores "$CORES" \
-        --cpu "$CPU" \
-        --net0 virtio,bridge=vmbr0 \
-        --machine "$Q35_VERSION" \
-        --scsihw virtio-scsi-single
+# ---------- Create VM ----------
+spinner_run "Creating virtual machine (${VM_NAME})" qm create "$VM_ID" \
+    --name "$VM_NAME" \
+    --memory "$MEMORY" \
+    --cores "$CORES" \
+    --cpu "$CPU" \
+    --net0 virtio,bridge=vmbr0 \
+    --machine "$Q35_VERSION" \
+    --scsihw virtio-scsi-single
 
-    # Clean up default SCSI/IDE config if present
-    qm config "$VM_ID" | grep -q "^scsi0:" && qm set "$VM_ID" --delete scsi0
-    qm config "$VM_ID" | grep -q "^ide0:" && qm set "$VM_ID" --delete ide0
-    qm config "$VM_ID" | grep -q "^ide2:" && qm set "$VM_ID" --delete ide2
+# Clean up default SCSI/IDE config if present
+spinner_run "Cleaning up default disk controllers" bash -c "
+    qm config '$VM_ID' | grep -q '^scsi0:' && qm set '$VM_ID' --delete scsi0
+    qm config '$VM_ID' | grep -q '^ide0:' && qm set '$VM_ID' --delete ide0
+    qm config '$VM_ID' | grep -q '^ide2:' && qm set '$VM_ID' --delete ide2
+    true
+"
 
-    # Import disk image
-    IMPORT_OUTPUT=$(qm importdisk "$VM_ID" "$NEW_IMG_FILE" "$STORAGE")
-    VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
+# ---------- Import disk image ----------
+IMPORT_LOG=$(mktemp /tmp/vdsm-import-XXXXXX.log)
+spinner_run "Importing disk image (${NEW_IMG_FILE})" bash -c "
+    set -o pipefail
+    qm importdisk '$VM_ID' '$NEW_IMG_FILE' '$STORAGE' | tee '$IMPORT_LOG'
+"
+IMPORT_OUTPUT=$(cat "$IMPORT_LOG")
+rm -f "$IMPORT_LOG"
+VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
 
-    if [ -z "$VOLUME_ID" ]; then
-        echo -e "${R}[!] Failed to extract volume ID from import output.${X}"
-        echo -e "${R}Output: $IMPORT_OUTPUT${X}"
-        exit 1
-    fi
+if [ -z "$VOLUME_ID" ]; then
+    err "Failed to extract volume ID from import output."
+    err "Output: $IMPORT_OUTPUT"
+    exit 1
+fi
 
-    # Attach imported disk to SATA0
-    qm set "$VM_ID" --sata0 "$VOLUME_ID"
+# Attach imported disk to SATA0
+spinner_run "Attaching imported disk to SATA0" qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
-    # Configure boot and QEMU agent
-    qm set "$VM_ID" \
-        --agent enabled=1 \
-        --boot order=sata0 \
-        --bootdisk sata0 \
-        --onboot 1 
+# Configure boot and QEMU agent
+spinner_run "Configuring boot options and QEMU agent" qm set "$VM_ID" \
+    --agent enabled=1 \
+    --boot order=sata0 \
+    --bootdisk sata0 \
+    --onboot 1
 
-    # VM description
-    NOTES_HTML=$(vm_notes_html)
-    qm set "$VM_ID" --description "$NOTES_HTML"
-
-} > /dev/null 2>&1 &
-
-SPINNER_PID=$!
-show_spinner $SPINNER_PID
+# VM description
+NOTES_HTML=$(vm_notes_html)
+spinner_run "Setting VM description" qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Final step
 create_header "vDSM-Arc-Install"
@@ -113,8 +125,8 @@ confirm_delete_temp_file
 line
 
 # Success message
-echo -e "${G}[OK] ${C}$VM_NAME (ID: $VM_ID) has been successfully created!${X}"
-echo -e "${G}[OK] ${C}SATA0: img (${NEW_IMG_FILE})${X}"
+msg "$VM_NAME (ID: $VM_ID) has been successfully created!"
+msg "SATA0: img (${NEW_IMG_FILE})"
 line
 
 # Optional: disk configuration menu

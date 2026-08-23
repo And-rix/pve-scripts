@@ -11,6 +11,15 @@ export LANG=en_US.UTF-8
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vdsm-functions.sh)
 
+if [[ $EUID -ne 0 ]]; then
+  err "Please run as root on the Proxmox host."
+  exit 1
+fi
+if ! command -v qm &>/dev/null; then
+  err "This script must be executed on a Proxmox VE host ('qm' command not found)."
+  exit 1
+fi
+
 # Header
 create_header "vDSM-Arc-Update"
 sleep 1
@@ -42,7 +51,7 @@ pve_storages
 
 # Check for 'unzip' and 'wget' > install if not
 unzip_check_install
- 
+
 # Target directories
 ISO_STORAGE_PATH="/var/lib/vz/template/iso"
 DOWNLOAD_PATH="/var/lib/vz/template/tmp"
@@ -63,46 +72,45 @@ VERSION=$(echo "$LATEST_FILENAME" | grep -oP "\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?")
 if [ -f "$ISO_STORAGE_PATH/arc.img" ]; then
     NEW_IMG_FILE="$ISO_STORAGE_PATH/arc-${VERSION}.img"
     mv "$ISO_STORAGE_PATH/arc.img" "$NEW_IMG_FILE"
+    msg "Renamed image to $(basename "$NEW_IMG_FILE")"
 else
-    echo -e "${R}Error: No extracted arc.img found!${X}"
+    err "No extracted arc.img found!"
     exit 1
 fi
 
-# Spinner group
-{
-    # Existing SATA0 deletion
-    qm set $VM_ID -delete sata0
+# ---------- Existing SATA0 deletion ----------
+spinner_run "Removing existing SATA0 disk" qm set "$VM_ID" -delete sata0
 
-    # Import the disk image to the specified storage
-    IMPORT_OUTPUT=$(qm importdisk "$VM_ID" "$NEW_IMG_FILE" "$STORAGE")
+# ---------- Import disk image ----------
+IMPORT_LOG=$(mktemp /tmp/vdsm-import-XXXXXX.log)
+spinner_run "Importing new disk image (${NEW_IMG_FILE})" bash -c "
+    set -o pipefail
+    qm importdisk '$VM_ID' '$NEW_IMG_FILE' '$STORAGE' | tee '$IMPORT_LOG'
+"
+IMPORT_OUTPUT=$(cat "$IMPORT_LOG")
+rm -f "$IMPORT_LOG"
 
-    # Extract the volume ID from the output (e.g., local-lvm:vm-105-disk-2)
-    VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
+# Extract the volume ID from the output (e.g., local-lvm:vm-105-disk-2)
+VOLUME_ID=$(echo "$IMPORT_OUTPUT" | grep -oP "(?<=successfully imported disk ')[^']+")
 
-    # Check if extraction was successful
-    if [ -z "$VOLUME_ID" ]; then
-      echo -e "${R}[!] Failed to extract volume ID from import output.${X}"
-      echo -e "${R}Output: $IMPORT_OUTPUT${X}"
-      exit 1
-    fi
+# Check if extraction was successful
+if [ -z "$VOLUME_ID" ]; then
+    err "Failed to extract volume ID from import output."
+    err "Output: $IMPORT_OUTPUT"
+    exit 1
+fi
 
-    # Attach the imported disk to the VM at the specified bus (e.g., sata0)
-    qm set "$VM_ID" --sata0 "$VOLUME_ID"
+# Attach the imported disk to the VM at the specified bus (e.g., sata0)
+spinner_run "Attaching imported disk to SATA0" qm set "$VM_ID" --sata0 "$VOLUME_ID"
 
-    # Set boot order to SATA0 only, disable all other devices
-    qm set "$VM_ID" --boot order=sata0
-    qm set "$VM_ID" --bootdisk sata0
-    # qm set "$VM_ID" --onboot 1
+# Set boot order to SATA0 only, disable all other devices
+spinner_run "Setting boot order to SATA0" qm set "$VM_ID" --boot order=sata0
+spinner_run "Setting boot disk to SATA0" qm set "$VM_ID" --bootdisk sata0
+# qm set "$VM_ID" --onboot 1
 
-    # Set notes to VM
-    # NOTES_HTML=$(vm_notes_html)
-    # qm set "$VM_ID" --description "$NOTES_HTML"
-
-# Spinner group
-}> /dev/null 2>&1 &
-
-SPINNER_PID=$!
-show_spinner $SPINNER_PID
+# Set notes to VM
+# NOTES_HTML=$(vm_notes_html)
+# qm set "$VM_ID" --description "$NOTES_HTML"
 
 # Step
 create_header "vDSM-Arc-Update"
@@ -112,7 +120,7 @@ confirm_delete_temp_file
 line
 
 # Success message
-echo -e "${G}[OK] ${C}(ID: $VM_ID) has been successfully updated!${X}"
-echo -e "${G}[OK] ${C}SATA0: img (${NEW_IMG_FILE})${X}"
-echo -e "${Y}[i] ${C}Please delete unused disks of the VM by your own!${X}"
+msg "(ID: $VM_ID) has been successfully updated!"
+msg "SATA0: img (${NEW_IMG_FILE})"
+warn "Please delete unused disks of the VM by your own!"
 line

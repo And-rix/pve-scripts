@@ -31,13 +31,10 @@ pve_storages() {
 unzip_check_install() {
 	for pkg in unzip wget; do
 		if ! command -v "$pkg" &> /dev/null; then
-			echo -e "${Y}'$pkg' is not installed. Installing...${X}"
-			line
-			apt-get update && apt-get install -y "$pkg"
-			line
+			warn "'$pkg' is not installed. Installing..."
+			spinner_run "Installing package: $pkg" bash -c "apt-get update && apt-get install -y $pkg"
 			if ! command -v "$pkg" &> /dev/null; then
-				echo -e "${R}[i] '$pkg' could not be installed. Exiting.${X}"
-				line
+				err "'$pkg' could not be installed. Exiting."
 				exit 1
 			fi
 		fi
@@ -46,30 +43,11 @@ unzip_check_install() {
 
 # Function unzip_img
 unzip_img() {
-	echo -e "${Y}Extracting $LATEST_FILENAME...${X}"
-    line
-	unzip -o "$DOWNLOAD_PATH/$LATEST_FILENAME" -d "$ISO_STORAGE_PATH"
-    line
+	spinner_run "Extracting $LATEST_FILENAME" unzip -o "$DOWNLOAD_PATH/$LATEST_FILENAME" -d "$ISO_STORAGE_PATH"
 }
 
-# Function show_spinner
-show_spinner() {
-    local pid=$1
-    local delay=0.1
-    local spinstr='|/-\'
-
-    tput civis
-	printf "\n"
-
-    while ps -p $pid &> /dev/null; do
-	local temp=${spinstr#?}
-	printf "\r[ %c ] ${C}Loading...${X}" "$spinstr"
-	spinstr=$temp${spinstr%"$temp"}
-	sleep $delay
-	printf "\b\b\b\b\b\b"
-    done
-    tput cnorm
-}
+# Note: the generic loading-spinner helper now lives in misc.sh as
+# spinner_run() and is shared by all scripts in this repo.
 
 # Function arc_stable_url
 arc_stable_url() {
@@ -141,20 +119,17 @@ arc_release_choice() {
 
 		case "$release_choice" in
 			1)
-				echo -e "${C}Release: ${G}[Stable]${X}"
-				line
+				msg "Release channel: Stable"
 				arc_stable_url
 				break
 				;;
 			2)
-				echo -e "${C}Release: ${R}[Beta]${X}"
-				line
+				msg "Release channel: Beta"
 				arc_beta_url
 				break
 				;;
 			3)
-				echo -e "${C}Release: ${R}[Essential]${X}"
-				line
+				msg "Release channel: Essential"
 				arc_essential_url
 				break
 				;;
@@ -171,14 +146,11 @@ arc_release_download() {
 
 	# If file exists -> Remove
 	if [ -f "$DOWNLOAD_PATH/$LATEST_FILENAME" ]; then
-		echo -e "${C}Removing existing file ${X}($LATEST_FILENAME)${C}...${X}"
-		line
+		warn "Removing existing file: $LATEST_FILENAME"
 		rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
 	fi
 
-	echo -e "${C}Downloading the latest file ${X}($LATEST_FILENAME)${C}...${X}"
-	line
-	wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL" --show-progress --quiet
+	spinner_run "Downloading release file ($LATEST_FILENAME)" wget -O "$DOWNLOAD_PATH/$LATEST_FILENAME" "$LATEST_RELEASE_URL" --quiet
 }
 
 
@@ -210,10 +182,7 @@ confirm_delete_temp_file_old() {
 
 # Function confirm_delete_temp_file
 confirm_delete_temp_file() {
-    echo ""
-    echo "Deleting the temp file..."
-    rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
-    echo -e "${G}[OK] ${X}($LATEST_FILENAME) ${C}deleted.${X}"
+    spinner_run "Deleting temporary file ($LATEST_FILENAME)" rm -f "$DOWNLOAD_PATH/$LATEST_FILENAME"
 }
 
 # Function precheck_sata_port
@@ -235,7 +204,7 @@ find_available_sata_port() {
 			return
 		fi
 	done
-	echo -e "${R}[EXIT] No available SATA ports between SATA1 and SATA5${X}"
+	err "No available SATA ports between SATA1 and SATA5"
 }
 
 #Function disk_path_generate
@@ -245,10 +214,8 @@ disk_path_generate() {
 		sleep 1
 		qm set "$VM_ID" -$SATA_PORT "$DISK_PATH",backup=0 # Disable Backup
 	elif [[ "$VM_DISK_TYPE" == "pbs" || "$VM_DISK_TYPE" == "glusterfs" || "$VM_DISK_TYPE" == "cephfs" || "$VM_DISK_TYPE" == "iscsi" || "$VM_DISK_TYPE" == "iscsidirect" || "$VM_DISK_TYPE" == "rbd" ]]; then
-		echo ""
-		echo -e "${R}[i] Unsupported filesystem type: $VM_DISK_TYPE ${X}" # Disable untested storage types
-		echo -e "${Y}Supported filesystem types:${X}"
-		echo -e "${TAB}${TAB}${C}dir, btrfs, nfs, cifs, lvm, lvmthin, zfs, zfspool${X}"
+		err "Unsupported filesystem type: $VM_DISK_TYPE" # Disable untested storage types
+		warn "Supported filesystem types: dir, btrfs, nfs, cifs, lvm, lvmthin, zfs, zfspool"
 		return
 	else
 		DISK_PATH="$VM_DISK:$DISK_SIZE"  # Block level storages
@@ -348,7 +315,7 @@ sata_disk_menu() {
         # Echo to shell; clean copy / paste
         echo
         line2
-        echo -e "${R}[!] COPY & PASTE THIS COMMAND IN PVE SHELL AT YOUR OWN RISK!${X}"
+        warn "COPY & PASTE THIS COMMAND IN PVE SHELL AT YOUR OWN RISK!"
         line
         echo -e "${C}$CMD${X}"
         line2
@@ -450,12 +417,9 @@ vm_check_status() {
 # vm_status
 vm_status() {
 	if [ "$STATUS" != "stopped" ]; then
-		echo -e "${R}[i] ${C}VM $VM_ID is $STATUS. ${R}Please SHUTDOWN FIRST!${X}"
-		line
-		echo "" 
+		err "VM $VM_ID is $STATUS. Please shut it down first!"
 		exit 1
-	else 
-		echo -e "${G}[OK] ${C}VM $VM_ID is $STATUS. Continue update...${X}"
-		line
+	else
+		msg "VM $VM_ID is $STATUS. Continuing update..."
 	fi
 }	

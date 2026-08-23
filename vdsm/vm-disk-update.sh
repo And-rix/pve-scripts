@@ -11,6 +11,15 @@ export LANG=en_US.UTF-8
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/vdsm/vdsm-functions.sh)
 
+if [[ $EUID -ne 0 ]]; then
+  err "Please run as root on the Proxmox host."
+  exit 1
+fi
+if ! command -v qm &>/dev/null; then
+  err "This script must be executed on a Proxmox VE host ('qm' command not found)."
+  exit 1
+fi
+
 # Header
 create_header "VM-Disk-Update"
 sleep 1

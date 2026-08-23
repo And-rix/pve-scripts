@@ -14,6 +14,15 @@ export LANG=en_US.UTF-8
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/tailscale/tailscale-functions.sh)
 
+if [[ $EUID -ne 0 ]]; then
+  err "Please run as root on the Proxmox host."
+  exit 1
+fi
+if ! command -v pct &>/dev/null; then
+  err "This script must be executed on a Proxmox VE host ('pct' command not found)."
+  exit 1
+fi
+
 clear
 # Post message
 create_header "Tailscale-Subnet-Router"
@@ -28,7 +37,7 @@ config_tailscale_lxc
 msg "Assigned Container ID: ${CT_ID}"
 
 # Verify network bridge existence
-if ! grep -q "$BRIDGE" /etc/network/interfaces 2>/dev/null && ! brctl show 2>/dev/null | grep -q "$BRIDGE"; then
+if ! ip link show "$BRIDGE" &>/dev/null; then
   err "Network bridge '$BRIDGE' not found. Aborting."
   exit 1
 fi
@@ -103,6 +112,12 @@ echo -e "\n${C_YELLOW}[!] Please authenticate with Tailscale (login link below):
 pct exec "$CT_ID" -- tailscale up --advertise-routes="$SUBNET" --accept-routes | \
 grep -v "UDP GRO forwarding" | \
 grep -v "https://tailscale.com/s/ethtool-config-udp-gro" || true
+
+# Verify Tailscale actually authenticated before declaring success
+if pct exec "$CT_ID" -- tailscale status 2>/dev/null | grep -qi "logged out\|needslogin"; then
+  warn "Tailscale does not appear to be authenticated yet."
+  warn "If needed, run: pct exec ${CT_ID} -- tailscale up --advertise-routes=${SUBNET} --accept-routes"
+fi
 
 whiptail --title "Setup Instructions" --msgbox "\
 You need to approve the subnet route in your Tailscale admin console:

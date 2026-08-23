@@ -13,44 +13,10 @@ export LANG=en_US.UTF-8
 # Import external functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 
-# ---------- Spinner / Loading Helper ----------
-spinner_run() {
-  local label="$1"
-  shift
-  local logfile
-  logfile=$(mktemp /tmp/watchdog-task-XXXXXX.log)
-
-  echo -ne "  ${C_BLUE}[-]${C_RESET} ${label} "
-
-  ( "$@" ) > "$logfile" 2>&1 &
-  local pid=$!
-  local spinstr='|/-\'
-  local delay=0.1
-
-  while kill -0 "$pid" 2>/dev/null; do
-    local temp=${spinstr#?}
-    printf "[%c]" "$spinstr"
-    spinstr=$temp${spinstr%"$temp"}
-    sleep $delay
-    printf "\b\b\b"
-  done
-
-  wait "$pid"
-  local status=$?
-
-  if [ $status -eq 0 ]; then
-    printf "\r  ${C_GREEN}[✓]${C_RESET} ${label}\n"
-    rm -f "$logfile"
-  else
-    printf "\r  ${C_RED}[X]${C_RESET} ${label}\n"
-    err "Error executing: ${label}"
-    echo -e "${C_YELLOW}--- Log / Error Output ---${C_RESET}"
-    cat "$logfile" >&2
-    echo -e "${C_YELLOW}--------------------------${C_RESET}"
-    rm -f "$logfile"
-    exit $status
-  fi
-}
+if [[ $EUID -ne 0 ]]; then
+  err "ERROR: This script must be run as root inside the container."
+  exit 1
+fi
 
 # Post message
 create_header "Add-on: Tailscale-Watchdog"

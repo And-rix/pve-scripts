@@ -6,45 +6,6 @@
 # License: /LICENSE
 # ============================================================================
 
-# ---------- Spinner / Loading Helper ----------
-spinner_run() {
-  local label="$1"
-  shift
-  local logfile
-  logfile=$(mktemp /tmp/tailscale-task-XXXXXX.log)
-
-  echo -ne "  ${C_BLUE}[-]${C_RESET} ${label} "
-
-  ( "$@" ) > "$logfile" 2>&1 &
-  local pid=$!
-  local spinstr='|/-\'
-  local delay=0.1
-
-  while kill -0 "$pid" 2>/dev/null; do
-    local temp=${spinstr#?}
-    printf "[%c]" "$spinstr"
-    spinstr=$temp${spinstr%"$temp"}
-    sleep $delay
-    printf "\b\b\b"
-  done
-
-  wait "$pid"
-  local status=$?
-
-  if [ $status -eq 0 ]; then
-    printf "\r  ${C_GREEN}[✓]${C_RESET} ${label}\n"
-    rm -f "$logfile"
-  else
-    printf "\r  ${C_RED}[X]${C_RESET} ${label}\n"
-    err "Error executing: ${label}"
-    echo -e "${C_YELLOW}--- Log / Error Output ---${C_RESET}"
-    cat "$logfile" >&2
-    echo -e "${C_YELLOW}--------------------------${C_RESET}"
-    rm -f "$logfile"
-    exit $status
-  fi
-}
-
 # Prompt for LXC container root password via Whiptail
 prompt_password() {
   while true; do
@@ -63,32 +24,47 @@ prompt_password() {
 
 # Download Ubuntu template if missing
 dl_template_ubuntu() {
-  if ! pveam list local 2>/dev/null | grep -q "ubuntu-22.04-standard_22.04-1_amd64"; then
-    pveam download local ubuntu-22.04-standard_22.04-1_amd64.tar.zst
+  local template_storage="${TEMPLATE_STORAGE:-local}"
+  if ! pveam list "$template_storage" 2>/dev/null | grep -q "ubuntu-22.04-standard_22.04-1_amd64"; then
+    pveam download "$template_storage" ubuntu-22.04-standard_22.04-1_amd64.tar.zst
   fi
 }
 
 # Set container variables
 config_tailscale_lxc() {
   CT_ID=$(pvesh get /cluster/nextid)
-  HOSTNAME="tailscale"
-  TEMPLATE="local:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
-  NET_IF="eth0"
-  BRIDGE="vmbr0"
+  HOSTNAME_CT="${HOSTNAME_CT:-tailscale}"
+  TEMPLATE_STORAGE="${TEMPLATE_STORAGE:-local}"
+  TEMPLATE="${TEMPLATE_STORAGE}:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+  NET_IF="${NET_IF:-eth0}"
+  BRIDGE="${BRIDGE:-vmbr0}"
+  CT_MEMORY="${CT_MEMORY:-1024}"
+  CT_SWAP="${CT_SWAP:-0}"
+  CT_CORES="${CT_CORES:-1}"
+  DISK_SIZE="${DISK_SIZE:-10}"
+
+  # Auto-detect a storage that supports container root filesystems, unless
+  # explicitly overridden. Falls back to 'local-lvm' if detection fails.
+  if [[ -z "${ROOTFS_STORAGE:-}" ]]; then
+    ROOTFS_STORAGE=$(pvesm status -content rootdir 2>/dev/null | awk 'NR==2{print $1}')
+    if [[ -z "$ROOTFS_STORAGE" ]]; then
+      ROOTFS_STORAGE="local-lvm"
+    fi
+  fi
 }
 
 # Create LXC container
 create_tailscale_lxc() {
   pct create "$CT_ID" "$TEMPLATE" \
-    --hostname "$HOSTNAME" \
+    --hostname "$HOSTNAME_CT" \
     --password "$PASSWORD" \
     --unprivileged 1 \
     --features nesting=1,keyctl=1 \
     --net0 name="$NET_IF",bridge="$BRIDGE",ip=dhcp \
-    --memory 1024 \
-    --swap 0 \
-    --cores 1 \
-    --rootfs local-lvm:10 \
+    --memory "$CT_MEMORY" \
+    --swap "$CT_SWAP" \
+    --cores "$CT_CORES" \
+    --rootfs "${ROOTFS_STORAGE}:${DISK_SIZE}" \
     --start 1
 
   pct set "$CT_ID" --onboot 1
@@ -100,7 +76,9 @@ validate_subnet() {
   if [[ $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$ ]]; then
     IFS='/' read -r addr mask <<< "$ip"
     IFS='.' read -r o1 o2 o3 o4 <<< "$addr"
-    if (( o1 <= 255 && o2 <= 255 && o3 <= 255 && o4 <= 255 && mask <= 32 )); then
+    # Force base-10 interpretation so octets with a leading zero (e.g. "008")
+    # aren't misread as invalid octal literals by bash's arithmetic evaluator.
+    if (( 10#$o1 <= 255 && 10#$o2 <= 255 && 10#$o3 <= 255 && 10#$o4 <= 255 && 10#$mask <= 32 )); then
       return 0
     fi
   fi

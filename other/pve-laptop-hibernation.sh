@@ -13,9 +13,6 @@ export LANG=en_US.UTF-8
 # Import external functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 
-# Note: the generic loading-spinner helper (spinner_run) lives in misc.sh
-# and is shared by all scripts in this repo.
-
 if [[ $EUID -ne 0 ]]; then
   err "Please run as root on the Proxmox host."
   exit 1

@@ -13,44 +13,13 @@ export LANG=en_US.UTF-8
 # Import external functions
 source <(curl -fsSL https://raw.githubusercontent.com/And-rix/pve-scripts/main/misc/misc.sh)
 
-# ---------- Spinner / Loading Helper ----------
-spinner_run() {
-  local label="$1"
-  shift
-  local logfile
-  logfile=$(mktemp /tmp/pve-laptop-task-XXXXXX.log)
+# Note: the generic loading-spinner helper (spinner_run) lives in misc.sh
+# and is shared by all scripts in this repo.
 
-  echo -ne "  ${C_BLUE}[-]${C_RESET} ${label} "
-
-  ( "$@" ) > "$logfile" 2>&1 &
-  local pid=$!
-  local spinstr='|/-\'
-  local delay=0.1
-
-  while kill -0 "$pid" 2>/dev/null; do
-    local temp=${spinstr#?}
-    printf "[%c]" "$spinstr"
-    spinstr=$temp${spinstr%"$temp"}
-    sleep $delay
-    printf "\b\b\b"
-  done
-
-  wait "$pid"
-  local status=$?
-
-  if [ $status -eq 0 ]; then
-    printf "\r  ${C_GREEN}[✓]${C_RESET} ${label}\n"
-    rm -f "$logfile"
-  else
-    printf "\r  ${C_RED}[X]${C_RESET} ${label}\n"
-    err "Error executing: ${label}"
-    echo -e "${C_YELLOW}--- Log / Error Output ---${C_RESET}"
-    cat "$logfile" >&2
-    echo -e "${C_YELLOW}--------------------------${C_RESET}"
-    rm -f "$logfile"
-    exit $status
-  fi
-}
+if [[ $EUID -ne 0 ]]; then
+  err "Please run as root on the Proxmox host."
+  exit 1
+fi
 
 # Post message
 create_header "PVE-Laptop-Hibernation"
@@ -75,8 +44,13 @@ msg "Configuring Proxmox VE for laptop usage..."
 spinner_run "Updating systemd logind configuration" bash -c "
   CONFIG_FILE='/etc/systemd/logind.conf'
 
-  # Backup original configuration
-  cp -f \"\$CONFIG_FILE\" \"\${CONFIG_FILE}.bak\"
+  # Ensure the config file exists (should always be shipped with systemd,
+  # but guard against an unusual/minimal system just in case)
+  [ -f \"\$CONFIG_FILE\" ] || touch \"\$CONFIG_FILE\"
+
+  # Back up the ORIGINAL configuration only once. On repeated runs, don't
+  # overwrite an existing backup with the already-modified file.
+  [ -f \"\${CONFIG_FILE}.bak\" ] || cp -f \"\$CONFIG_FILE\" \"\${CONFIG_FILE}.bak\"
 
   # Remove existing lid switch settings
   sed -i '/^HandleLidSwitch=/d' \"\$CONFIG_FILE\"

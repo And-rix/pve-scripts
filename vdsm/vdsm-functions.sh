@@ -131,21 +131,25 @@ arc_release_choice() {
             1)
                 msg "Release channel: [Arc]-Stable"
                 arc_stable_url
+				VM_NAME="vDSM.Arc"
                 break
                 ;;
             2)
                 msg "Release channel: [Arc]-Beta"
                 arc_beta_url
+				VM_NAME="vDSM.Arc"
                 break
                 ;;
             3)
                 msg "Release channel: [Arc]-Essential"
                 arc_essential_url
+				VM_NAME="vDSM.Arc"
                 break
                 ;;
             4)
                 msg "Release channel: [Arx]-Custom"
                 arx_latest_url
+				VM_NAME="vDSM.Arx"
                 break
                 ;;
             *)
@@ -172,7 +176,7 @@ arc_release_download() {
 # Function arc_default_vm
 arc_default_vm() {
 	VM_ID=$(pvesh get /cluster/nextid)
-	VM_NAME="vDSM.Arc"
+#	VM_NAME="vDSM.Arc"
 	STORAGE=$STORAGE
 	CORES=2
 	CPU=host

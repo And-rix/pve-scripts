@@ -111,25 +111,25 @@ arc_essential_url() {
 arc_release_choice() {
 	while true; do
 		release_choice=$(whiptail --title "Arc Installer - Release Channel" \
-			--menu "Please select release channel:" 15 60 3 \
-			"1" "Latest [Stable] – recommended!" \
-			"2" "Latest [Beta]" \
-			"3" "Latest [Essential]" \
+			--menu "Please select [LATEST] release channel:" 15 60 3 \
+			"1" "[Arc]-Stable – recommended!" \
+			"2" "[Arc]-Beta" \
+			"3" "[Arc]-Essential" \
 			3>&1 1>&2 2>&3) || exit 1
 
 		case "$release_choice" in
 			1)
-				msg "Release channel: Stable"
+				msg "Release channel: [Arc]-Stable"
 				arc_stable_url
 				break
 				;;
 			2)
-				msg "Release channel: Beta"
+				msg "Release channel: [Arc]-Beta"
 				arc_beta_url
 				break
 				;;
 			3)
-				msg "Release channel: Essential"
+				msg "Release channel: [Arc]-Essential"
 				arc_essential_url
 				break
 				;;

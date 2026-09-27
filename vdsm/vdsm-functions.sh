@@ -119,7 +119,7 @@ arx_latest_url() {
 # Function arc_release_choice
 arc_release_choice() {
     while true; do
-        release_choice=$(whiptail --title "Arc Installer - Release Channel" \
+        release_choice=$(whiptail --title "Installer - Release Channel" \
             --menu "Please select [LATEST] release channel:" 16 60 4 \
             "1" "[Arc]-Stable – recommended!" \
             "2" "[Arc]-Beta" \

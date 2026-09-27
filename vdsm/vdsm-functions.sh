@@ -87,7 +87,6 @@ arc_beta_url() {
 	fi
 }
 
-
 # Function arc_essential_url
 arc_essential_url() {
 	local API_URL="https://api.github.com/repos/AuxXxilium/arc-essential/releases/latest"
@@ -107,37 +106,53 @@ arc_essential_url() {
 	fi
 }
 
+# Function arx_url
+arx_latest_url() {
+    local API_URL="https://api.github.com/repos/AuxXxilium/arx/releases/latest"
+
+    LATEST_RELEASE_URL=$(curl -s "$API_URL" \
+        | grep -E '"browser_download_url":.*arx-.*\.img\.zip"' \
+        | head -n1 \
+        | cut -d '"' -f 4)
+}
+
 # Function arc_release_choice
 arc_release_choice() {
-	while true; do
-		release_choice=$(whiptail --title "Arc Installer - Release Channel" \
-			--menu "Please select [LATEST] release channel:" 15 60 3 \
-			"1" "[Arc]-Stable – recommended!" \
-			"2" "[Arc]-Beta" \
-			"3" "[Arc]-Essential" \
-			3>&1 1>&2 2>&3) || exit 1
+    while true; do
+        release_choice=$(whiptail --title "Arc Installer - Release Channel" \
+            --menu "Please select [LATEST] release channel:" 16 60 4 \
+            "1" "[Arc]-Stable – recommended!" \
+            "2" "[Arc]-Beta" \
+            "3" "[Arc]-Essential" \
+            "4" "[Arx]-Custom" \
+            3>&1 1>&2 2>&3) || exit 1
 
-		case "$release_choice" in
-			1)
-				msg "Release channel: [Arc]-Stable"
-				arc_stable_url
-				break
-				;;
-			2)
-				msg "Release channel: [Arc]-Beta"
-				arc_beta_url
-				break
-				;;
-			3)
-				msg "Release channel: [Arc]-Essential"
-				arc_essential_url
-				break
-				;;
-			*)
-				whiptail --title "Invalid Choice" --msgbox "Invalid selection. Please try again." 8 50
-				;;
-		esac
-	done
+        case "$release_choice" in
+            1)
+                msg "Release channel: [Arc]-Stable"
+                arc_stable_url
+                break
+                ;;
+            2)
+                msg "Release channel: [Arc]-Beta"
+                arc_beta_url
+                break
+                ;;
+            3)
+                msg "Release channel: [Arc]-Essential"
+                arc_essential_url
+                break
+                ;;
+            4)
+                msg "Release channel: [Arx]-Custom"
+                arx_latest_url
+                break
+                ;;
+            *)
+                whiptail --title "Invalid Choice" --msgbox "Invalid selection. Please try again." 8 50
+                ;;
+        esac
+    done
 }
 
 # Function arc_release_download

@@ -68,13 +68,17 @@ unzip_img
 # Extract the version number from the filename
 VERSION=$(echo "$LATEST_FILENAME" | grep -oP "\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?")
 
-# Rename arc.img to arc-[VERSION].img
+# Rename extracted image
 if [ -f "$ISO_STORAGE_PATH/arc.img" ]; then
     NEW_IMG_FILE="$ISO_STORAGE_PATH/arc-${VERSION}.img"
     mv "$ISO_STORAGE_PATH/arc.img" "$NEW_IMG_FILE"
     msg "Renamed image to $(basename "$NEW_IMG_FILE")"
+elif [ -f "$ISO_STORAGE_PATH/arx.img" ]; then
+    NEW_IMG_FILE="$ISO_STORAGE_PATH/arx-${VERSION}.img"
+    mv "$ISO_STORAGE_PATH/arx.img" "$NEW_IMG_FILE"
+    msg "Renamed image to $(basename "$NEW_IMG_FILE")"
 else
-    err "No extracted arc.img found!"
+    err "No extracted arc.img or arx.img found!"
     exit 1
 fi
 
